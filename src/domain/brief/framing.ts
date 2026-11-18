@@ -67,6 +67,9 @@ export const framedBriefSchema = z.object({
   steps: z.array(z.object({ capabilityId: nonEmptyText, reason: z.string() })),
 });
 
+/** A framer's answer before validation: what the local rules build and what a model is asked for. */
+export type RawBrief = z.input<typeof framedBriefSchema>;
+
 /**
  * Validates the shape, then repairs what a model typically gets wrong without making
  * the answer useless: capabilities it invented are dropped, dependencies it skipped are

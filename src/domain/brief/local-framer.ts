@@ -1,6 +1,6 @@
 import type { CapabilityCatalog } from '../capabilities/types';
 import { waitFor, type Wait } from '../providers/simulated-provider';
-import type { BriefFact, BriefFramer, BriefQuestion, FramedBrief } from './framing';
+import type { BriefFact, BriefFramer, BriefQuestion, RawBrief } from './framing';
 
 /*
  * Rule-based framing. It is the demo mode of the public preview and the fallback
@@ -99,7 +99,7 @@ function frameLocally(
   text: string,
   answers: Record<string, string>,
   segments: readonly string[],
-): FramedBrief {
+): RawBrief {
   const plain = withoutAccents(text);
   const intent = firstMatch(INTENTS, plain) ?? 'evaluate-idea';
   const slots: Record<SlotId, string | null> = {
