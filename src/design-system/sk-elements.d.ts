@@ -36,6 +36,12 @@ declare module 'react' {
         'auto-resize'?: boolean;
         disabled?: boolean;
       }>;
+      'sk-input-text': SkElement<{
+        label?: string;
+        value?: string;
+        'help-text'?: string;
+        'error-message'?: string;
+      }>;
       'sk-card': SkElement<{ header?: string; subheader?: string }>;
       'sk-alert': SkElement<{
         type?: SkFeedbackTone;

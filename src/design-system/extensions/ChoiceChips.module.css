@@ -1,0 +1,37 @@
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sk-space-xs);
+}
+
+.chip {
+  min-height: 40px;
+  padding: var(--sk-space-xs) var(--sk-space-m);
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-xl);
+  background: var(--sk-color-surface);
+  color: var(--sk-color-text);
+  font: var(--sk-font-weight-medium) 14px/22px var(--sk-font-body);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--sk-motion-duration-fast) var(--sk-motion-ease-standard),
+    background-color var(--sk-motion-duration-fast) var(--sk-motion-ease-standard);
+}
+
+.chip:hover {
+  border-color: var(--sk-color-border-hover);
+  background: var(--sk-color-tertiary-hover-bg);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--sk-color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Selection uses the soft green with dark text: white on the brand green fails contrast at this size. */
+.chip[aria-pressed='true'] {
+  border-color: var(--sk-color-primary-active);
+  background: var(--sk-color-secondary-hover-bg);
+  font-weight: var(--sk-font-weight-bold);
+}

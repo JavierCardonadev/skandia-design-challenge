@@ -10,6 +10,10 @@ export interface SkButtonProps {
   iconPosition?: 'left' | 'right';
   disabled?: boolean;
   loading?: boolean;
+  /** Accessible name when the visible label needs context, e.g. "Quitar Estrategia". */
+  ariaLabel?: string;
+  /** Buttons fill their container by default; set to false to size to the label. */
+  fullWidth?: boolean;
   onClick?: () => void;
 }
 
@@ -21,6 +25,8 @@ export function SkButton({
   iconPosition,
   disabled = false,
   loading = false,
+  ariaLabel,
+  fullWidth = true,
   onClick,
 }: SkButtonProps) {
   const ref = useRef<HTMLElement>(null);
@@ -36,6 +42,8 @@ export function SkButton({
       icon-pos={iconPosition}
       disabled={disabled}
       loading={loading}
+      aria-label={ariaLabel}
+      data-width={fullWidth ? undefined : 'auto'}
     />
   );
 }
