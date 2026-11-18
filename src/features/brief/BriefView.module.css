@@ -1,0 +1,164 @@
+.view {
+  display: grid;
+  gap: var(--sk-space-l);
+}
+
+.stack {
+  display: grid;
+  gap: var(--sk-space-m);
+}
+
+.stack :is(h1, h2, h3, h4, p),
+.step :is(h3, h4, p) {
+  margin: 0;
+}
+
+.samples {
+  display: grid;
+  gap: var(--sk-space-xs);
+}
+
+.meta {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.hint {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.progress {
+  margin: 0;
+  padding: var(--sk-space-m);
+  border-radius: var(--bordes-m);
+  background: var(--background-info-light);
+  animation: appear var(--sk-motion-duration-base) var(--sk-motion-ease-emphasized);
+}
+
+/* The exact text the platform keeps working with, set apart like a quotation. */
+.redacted {
+  margin: 0;
+  padding: var(--sk-space-m);
+  border-left: 4px solid var(--sk-color-info);
+  background: var(--sk-color-surface);
+}
+
+.redacted figcaption {
+  margin-bottom: var(--sk-space-xs);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.redacted blockquote {
+  margin: 0;
+}
+
+.facts {
+  display: grid;
+  gap: var(--sk-space-s);
+  margin: 0;
+}
+
+.fact {
+  display: grid;
+  gap: var(--sk-space-xxs);
+}
+
+.fact dt {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.fact dd {
+  margin: 0;
+  font-weight: var(--sk-font-weight-bold);
+}
+
+@media (min-width: 768px) {
+  .fact {
+    grid-template-columns: 200px 1fr;
+    gap: var(--sk-space-m);
+  }
+}
+
+.question {
+  display: grid;
+  gap: var(--sk-space-xs);
+}
+
+.steps {
+  display: grid;
+  gap: var(--sk-space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sk-space-s) var(--sk-space-m);
+  align-items: start;
+  padding: var(--sk-space-m);
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-m);
+  background: var(--sk-color-surface);
+  animation: appear var(--sk-motion-duration-base) var(--sk-motion-ease-emphasized);
+}
+
+/* Without a number (steps that can be added) the body takes the first column too. */
+.step > .stepBody:first-child {
+  grid-column: 1 / -1;
+}
+
+.step > sk-button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+@media (min-width: 768px) {
+  .step {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .step > .stepBody:first-child {
+    grid-column: 1 / 3;
+  }
+
+  .step > sk-button {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+.stepNumber {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sk-color-success-light);
+  color: var(--sk-color-text);
+  font: var(--sk-font-weight-bold) 14px/22px var(--sk-font-title);
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--sk-space-xxs);
+}
+
+.reason {
+  font-style: italic;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
