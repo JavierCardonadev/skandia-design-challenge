@@ -1,0 +1,9 @@
+.stage {
+  display: grid;
+  gap: var(--sk-space-l);
+}
+
+/* A display value would otherwise override the hidden attribute. */
+.stage[hidden] {
+  display: none;
+}

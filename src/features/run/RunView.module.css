@@ -1,0 +1,207 @@
+.view {
+  display: grid;
+  gap: var(--sk-space-l);
+}
+
+.stack {
+  display: grid;
+  gap: var(--sk-space-m);
+}
+
+.stack :is(h1, p),
+.stepBody :is(h2, p) {
+  margin: 0;
+}
+
+/* Side by side on wide screens; stacked on mobile with the main action (the last one) on top. */
+.actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--sk-space-s);
+}
+
+@media (max-width: 767.98px) {
+  .actions {
+    grid-auto-flow: row;
+  }
+
+  .actions > :last-child {
+    order: -1;
+  }
+}
+
+/* The line of steps */
+
+.steps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: var(--sk-space-m);
+  padding-bottom: var(--sk-space-l);
+}
+
+/* The connector between one marker and the next. */
+.step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  background: var(--sk-color-border);
+}
+
+.step[data-status='done']:not(:last-child)::before {
+  background: var(--sk-color-success);
+}
+
+.marker {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--sk-color-border);
+  border-radius: 50%;
+  background: var(--sk-color-surface);
+  color: var(--sk-color-text-muted);
+  font: var(--sk-font-weight-bold) 14px/22px var(--sk-font-title);
+  transition:
+    border-color var(--sk-motion-duration-base) var(--sk-motion-ease-standard),
+    background-color var(--sk-motion-duration-base) var(--sk-motion-ease-standard);
+}
+
+.step:is([data-status='running'], [data-status='awaiting-review']) .marker {
+  border-color: var(--sk-color-primary-active);
+  color: var(--sk-color-text);
+}
+
+.step[data-status='done'] .marker {
+  border-color: var(--sk-color-success);
+  background: var(--sk-color-success-light);
+  color: var(--sk-color-text);
+}
+
+.step[data-status='failed'] .marker {
+  border-color: var(--sk-color-error);
+  color: var(--sk-color-text);
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--sk-space-s);
+  padding: var(--sk-space-m);
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-m);
+  background: var(--sk-color-surface);
+  box-shadow: var(--sk-shadow-surface);
+}
+
+.step:is([data-status='pending'], [data-status='skipped']) .stepBody {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* The step that needs the person stands out from the rest. */
+.step:is([data-status='awaiting-review'], [data-status='failed']) .stepBody {
+  border-color: var(--sk-color-text);
+  box-shadow: var(--sk-shadow-raised);
+}
+
+.stepName {
+  font: var(--sk-font-weight-bold) 20px/28px var(--sk-font-title);
+}
+
+.status {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.note {
+  padding-left: var(--sk-space-s);
+  border-left: 4px solid var(--sk-color-border);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* Indeterminate activity: real durations are minutes, so no fake percentage is shown. */
+.activity {
+  position: relative;
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--bordes-s);
+  background: var(--sk-color-success-light);
+}
+
+.activity::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: inherit;
+  background: var(--sk-color-primary-active);
+  animation: slide 1.6s var(--sk-motion-ease-standard) infinite;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+.reviewPrompt {
+  font-weight: var(--sk-font-weight-bold);
+}
+
+.warnings {
+  padding: var(--sk-space-m);
+  border-radius: var(--bordes-m);
+  background: var(--background-warning-light);
+}
+
+.warnings ul {
+  margin: 0;
+  padding-left: var(--sk-space-l);
+}
+
+.warningsTitle {
+  font-weight: var(--sk-font-weight-bold);
+}
+
+.delivered > summary {
+  cursor: pointer;
+  font-weight: var(--sk-font-weight-bold);
+}
+
+.delivered > summary:focus-visible {
+  outline: 2px solid var(--sk-color-border-focus);
+  outline-offset: 2px;
+}
+
+.delivered[open] > summary {
+  margin-bottom: var(--sk-space-m);
+}
+
+.failure {
+  display: grid;
+  gap: var(--sk-space-s);
+  padding: var(--sk-space-m);
+  border-radius: var(--bordes-m);
+  background: var(--background-error-light);
+}
+
+.failureTitle {
+  font-weight: var(--sk-font-weight-bold);
+}
