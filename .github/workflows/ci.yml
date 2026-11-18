@@ -25,7 +25,8 @@ jobs:
       - run: npm run typecheck
       - run: npm run test:coverage
       - run: npm run duplication
-      - run: npm run build
+      - run: npm run build:vercel
+      - run: npm run smoke:function
       - uses: actions/upload-artifact@v4
         with:
           name: dist

@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig([
   globalIgnores(['dist', 'coverage', 'docs']),
   {
-    files: ['src/**/*.{ts,tsx}', 'api/**/*.ts', 'scripts/**/*.ts', 'vite.config.ts'],
+    files: ['src/**/*.{ts,tsx}', 'scripts/**/*.ts', 'vite.config.ts'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
