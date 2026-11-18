@@ -1,0 +1,854 @@
+REGISTRO DE LA SESIÓN DE IA · Prueba Design Engineer · Skandia
+Herramienta: Claude Code (aplicación de escritorio), modelo Claude Fable 5.2.
+Sesión única del 18 de noviembre de 2026. Exportada desde la propia herramienta.
+
+Qué contiene: todos los mensajes de Javier y todas las respuestas visibles de Claude,
+en orden, más una línea por cada acción que Claude ejecutó (comandos, archivos, navegador).
+Qué se omitió: la salida completa de las herramientas, las imágenes adjuntas, el
+razonamiento interno del modelo y el contexto privado de la máquina de Javier.
+Qué se editó: un correo personal, el nombre de un equipo de Vercel y los nombres de dos
+equipos de la red de Javier, reemplazados por etiquetas entre corchetes. Nada más se reescribió.
+
+==============================================================================
+JAVIER  ·  2026-11-18 19:31 UTC  ·  (2 imagen(es) adjunta(s), no incluidas)
+==============================================================================
+Para una oferta de trabajo me llega esto
+
+<pasted_content id="c06b">
+Saltar al contenido
+Design Challenge · Design Engineer
+En esta página
+Reglas
+Problema
+Reto
+Alcance
+Entrega y evaluación
+Sustentación
+Checklist
+Descargas y contacto
+Entrega: en la fecha y hora que indica tu correo de invitación.
+
+¿Dudas?
+jdguevara@skandia.com.co y jaleman@skandia.com.co
+
+Prueba técnica · Equipo UX de Skandia
+Convierte cinco capacidades de IA en una plataforma
+Diseña y construye la primera versión de una plataforma donde cualquier persona de Skandia, sin saber de UX ni de IA, llegue con una necesidad y salga con un resultado útil.
+
+Máximo 3 vistas
+6 estados obligatorios
+Al menos 1 capacidad con un LLM real
+El kit es un punto de partida
+Sustentación y entrevista con el equipo
+La fecha y la hora límite de entrega están en tu correo de invitación. Envía tu entrega a jdguevara@skandia.com.co, ivargas@skandia.com.co y jaleman@skandia.com.co.
+
+Esta página y el kit traen lo que necesitas para empezar. Si algo no está, decide, documenta tu supuesto en DECISIONES.md y sigue: también evaluamos esas decisiones.
+
+Descargar el kit
+Descargar la prueba
+Ver la checklist de entrega
+El kit es un archivo .zip. La prueba es un archivo Markdown (.md).
+
+El kit es confidencial. No lo publiques ni lo compartas.
+
+Lo que aplica desde el primer minuto
+Usar IA es obligatorio y debes declararlo.
+No usarla es una señal negativa, y usarla sin criterio también.
+
+El trabajo es tuyo.
+Skandia no usará tu entrega para construir la plataforma real sin un acuerdo explícito contigo.
+
+El kit es un punto de partida, no un límite.
+Te entregamos componentes, tokens y lineamientos para que no empieces de cero, pero tienes libertad para proponer más allá de ellos. Queremos ver tu propuesta de diseño: cómo entiendes el problema, qué alternativas exploras y qué decides. La parte técnica sigue siendo muy importante; esperamos, además, un proceso de diseño sólido detrás de lo que construyes.
+
+Si el tiempo no te alcanza
+No necesitas entregar todo con el mismo nivel de acabado. Si no te alcanza, recorta en este orden y anota en DECISIONES.md qué dejaste fuera.
+
+Simular estados con datos fijos en vez de construir su lógica completa, siempre que los seis se vean.
+La profundidad de las vistas secundarias. Prioriza el flujo de la persona A.
+Lo que no se recorta: el flujo completo de la persona A, la capacidad real con salida validada, tu propuesta de diseño, DECISIONES.md y el log de IA.
+
+El kit es confidencial
+No lo publiques ni lo compartas.
+Si algo no está en la página ni en el kit, decide, documenta tu supuesto en DECISIONES.md y sigue: también evaluamos esas decisiones.
+Cinco capacidades de IA, una sola puerta
+En el último año, el equipo UX de Skandia construyó cinco capacidades con IA que usa en su trabajo diario. Hoy cada una funciona como un agente separado: una persona del equipo decide cuál usar, pasa el resultado de una a la siguiente, revisa la calidad y decide cuándo seguir.
+
+Por eso producto, comercial, mercadeo y cumplimiento solo pueden usarlas pidiéndoselas al equipo UX, que se volvió un cuello de botella.
+
+Mike, agente de investigación
+Investigación: ver qué recibe y qué entrega
+Hoy: Mike
+Cruza investigación cualitativa, datos cuantitativos y benchmarking externo.
+
+Kiki, agente de contenido
+Contenido: ver qué recibe y qué entrega
+Hoy: Kiki
+Define la arquitectura de mensajes y el microcopy según la guía de voz.
+
+Harvey, agente de estrategia
+Estrategia: ver qué recibe y qué entrega
+Hoy: Harvey
+Clasifica el riesgo, define la arquitectura de información y la estructura del flujo.
+
+Rachel, agente de prototipado
+Prototipado: ver qué recibe y qué entrega
+Hoy: Rachel
+Construye pantallas con el Design System.
+
+
+Equipo de test sintéticos: ver qué recibe y qué entrega
+Hoy: 5 perfiles sintéticos
+Simula la reacción de 5 perfiles de cliente de un segmento.
+
+El kit no incluye los agentes. Las cinco capacidades ya existen y tu plataforma debe ponerlas al alcance de cualquier persona de Skandia.
+
+Para construirla, el kit trae el contrato de cada capacidad (entradas, salidas, duración típica y si necesita revisión humana) y respuestas de ejemplo para simularlas. La capacidad que conectes a un LLM real la implementas tú, con tu propia cuenta. Los componentes y lineamientos del kit son una base: puedes extenderlos o proponer algo distinto si lo justificas.
+
+Ver qué recibe y qué entrega cada capacidad
+La plataforma asume el trabajo que hoy hace el equipo UX
+Un botón por agente deja a quien llega con la misma pregunta de hoy: cuál usar y qué hacer con lo que sale. La plataforma responde esa pregunta con los tres trabajos que hoy hace alguien del equipo UX.
+
+1 · Encuadrar
+Convierte una necesidad vaga en un encargo claro y pregunta lo que falta en vez de adivinar.
+
+2 · Orquestar
+Propone qué capacidades encadenar y en qué orden, y pasa el contexto de una a otra.
+
+3 · Controlar
+Sabe cuándo una salida necesita revisión humana antes de seguir, y deja claro qué es evidencia real y qué es generado o sintético.
+
+Un flujo completo para A, una explicación para B y C
+Construye el flujo completo para la persona A. Para B y C, explica en DECISIONES.md cómo los atendería tu plataforma con las mismas vistas. Si concluyes que necesitan pantallas nuevas, también es válido: justifícalo ahí mismo.
+
+Persona A · Product Owner de un producto de inversión
+"Quiero saber si vale la pena un simulador de aportes antes de pedirle un sprint a desarrollo."
+No sabe qué es un PRD ni cómo se valida un concepto.
+
+Persona B · Ejecutivo comercial
+"Necesito explicarle un producto nuevo a clientes que están por pensionarse."
+No sabe qué capacidad usar ni qué es un segmento.
+
+Persona C · Analista de cumplimiento
+"Tengo que revisar que un flujo comunique bien los riesgos antes de que salga."
+Necesita saber de dónde sale cada afirmación.
+
+Tres vistas, seis estados y al menos un LLM real
+Máximo tres vistas
+Encargo
+La persona describe su necesidad, la plataforma pide lo que falta y propone un plan de capacidades que la persona puede editar.
+
+Ejecución
+El avance del plan, las salidas intermedias y al menos un punto de revisión humana: aprobar, ajustar o rehacer.
+
+Resultado
+El entregable consolidado, con trazabilidad (qué capacidad produjo qué, con qué evidencia y qué es sintético) y el siguiente paso sugerido.
+
+Seis estados que no pueden faltar
+Necesidad ambigua
+La plataforma pide precisión en vez de adivinar.
+Datos sensibles
+El encargo trae datos sensibles de clientes (por ejemplo, una cédula o un nombre con su saldo): la plataforma los detecta y no los envía.
+Falla o demora
+Una capacidad falla o se demora más de lo esperado.
+Ajuste pedido
+La persona rechaza una salida intermedia y pide un ajuste.
+Evidencia débil
+El resultado tiene pocas fuentes o solo usuarios sintéticos, y se comunica sin esconderlo.
+Éxito
+El flujo llega al resultado.
+Al menos una capacidad conectada a un LLM real
+Conéctala de punta a punta. Tú eliges cuál y lo justificas. El encuadre (necesidad → encargo y plan) es donde más se nota la inteligencia de la plataforma, pero no es obligatorio.
+
+Su salida es estructurada y validada: un esquema que tu interfaz consume, en lugar de texto pegado en pantalla.
+
+Las demás capacidades pueden usar las respuestas simuladas del kit.
+
+Usa el proveedor y el modelo que quieras, con tu propia cuenta. Evaluamos cómo lo integras, cómo lo diriges y qué haces cuando falla.
+
+Tres cuidados con los datos y las llaves
+Nunca subas tu llave de API al repositorio.
+Usa solo los datos sintéticos del kit. No pongas datos reales de Skandia ni de clientes en ningún servicio de IA externo.
+La URL desplegada puede correr en modo simulado. La capacidad real la muestras en la sustentación o en un video de máximo 3 minutos.
+Cuatro piezas obligatorias, cinco criterios: evaluamos tu criterio de diseño y tu criterio técnico
+Tu entrega
+Envíala a jdguevara@skandia.com.co, ivargas@skandia.com.co y jaleman@skandia.com.co antes de la fecha y hora límite de tu correo de invitación. En el correo incluye el enlace a tu URL de preview y el enlace a tu repositorio, con DECISIONES.md y el log de IA dentro del repositorio o adjuntos.
+
+La implementación funcionando y una URL de preview desplegada (Vercel, Netlify o StackBlitz).
+
+El repositorio privado, con un historial de commits legible, compartido con jdguevara@skandia.com.co y jaleman@skandia.com.co. El kit y sus respuestas simuladas no pueden quedar en un repositorio público. La URL de preview sí puede ser pública porque solo usa datos sintéticos.
+
+DECISIONES.md, de máximo una página, con las cinco secciones de abajo.
+
+El log o la transcripción de tus sesiones de IA.
+
+Las cinco secciones de DECISIONES.md
+Tu proceso de diseño: qué alternativas exploraste, qué descartaste y por qué. Puedes apoyarte en capturas, bocetos o enlaces.
+Cómo modelaste las capacidades (el contrato que usa tu interfaz) y qué extendiste del Design System: token, variante o componente nuevo, y por qué.
+Dónde se equivocó la IA, tanto la que usaste para construir como la capacidad real dentro del producto, y qué corregiste. Incluye al menos una falla real del LLM que viste (la entrada, la salida incorrecta y cómo la maneja tu interfaz). La mostrarás en la sustentación.
+Cómo atendería la plataforma a las personas B y C.
+Qué dejaste fuera y qué harías con más tiempo.
+Los supuestos que tomaste donde la página y el kit no decían nada también van en DECISIONES.md.
+
+Cinco criterios con pesos distintos
+Con IA, cumplir la lista es relativamente rápido; lo difícil es hacerlo con criterio. Por eso DECISIONES.md pesa 40%: ahí se ve tu proceso de diseño y tus decisiones.
+
+Criterios de evaluación y su peso
+Peso	Criterio	Qué miramos
+10%	Craft de interacción y pulido	Transiciones entre pasos, streaming, estados de carga y error, el punto de revisión.
+20%	Criterio dirigiendo la IA	Tu log de IA y la capacidad real: prompt, esquema, validación y manejo de fallas.
+15%	Pensamiento de sistemas y Design System	Cómo modelaste las capacidades y qué extendiste del Design System.
+15%	Confianza y control para no expertos	Trazabilidad, señal de evidencia, manejo de datos sensibles y lenguaje sin jerga.
+40%	DECISIONES.md, comunicación y ambigüedad	DECISIONES.md y tu proceso de diseño, cómo resolviste B y C, y la sustentación.
+Cómo se ve cada nivel
+Para que sepas qué distingue una entrega de otra, esta es la referencia que usamos en cada criterio.
+
+Craft de interacción y pulido · 10%
+Criterio dirigiendo la IA · 20%
+Pensamiento de sistemas y Design System · 15%
+Confianza y control para no expertos · 15%
+DECISIONES.md, comunicación y ambigüedad · 40%
+Lo que no evaluamos
+La calidad del modelo o del proveedor que elijas.
+
+Usar un modelo pequeño, local o gratuito. Una capa gratuita o un modelo local son válidos.
+
+Que la URL desplegada corra en modo simulado.
+
+Sustentación y entrevista con el equipo
+Después de tu entrega tendrás un espacio con el equipo para sustentar tu prueba y conversar en una entrevista. La fecha y los detalles te los compartimos por correo.
+
+Ten listos tu entorno de desarrollo y tus herramientas de IA.
+
+Revisa esto antes de enviar tu entrega
+Es la misma lista que trae la prueba descargable. Marcarla aquí no envía nada ni guarda tu avance en ningún lado.
+
+Lo que construiste
+0 de 5
+Los seis estados
+0 de 6
+La IA y los datos
+0 de 8
+Tu entrega
+0 de 7
+Llévate la prueba y el kit
+La prueba completa
+Todo lo de esta página en un documento, con la lista para revisar antes de entregar.
+
+Descargar la prueba(documento .md)
+El kit
+Catálogo de capacidades con respuestas simuladas, encargos de ejemplo, fichas de las personas, componentes del Design System y guía de voz.
+
+Descargar el kit(archivo .zip)
+El kit es confidencial. No lo publiques ni lo compartas.
+
+¿Tienes una duda que la página y el kit no resuelven? Escríbenos a jdguevara@skandia.com.co y jaleman@skandia.com.co.
+
+Equipo UX · Skandia
+</pasted_content id="c06b">
+
+https://skandia-design-challenge.lovable.app/ revisar todo y cual es el plan de hacerlo? el archivo que dice de descargar ya estan ambos en la carpeta de JC//development/independiente/kit-plataforma, la idea es que todo lo desarrollado, commit y todo tenga codigo limpio, buenas practicas etc asi como desarrollamois aca en el server y que sea en ingles, los commits tambien en ingles y claros en lo que se hizo asi como dice la pagina de requerimientos, darme el plan.
+    [herramienta: Bash] Locate the kit folder and list its contents
+    [herramienta: Bash] List kit files with sizes
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/README.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/capacidades.json
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/encargos-de-ejemplo.json
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/guia-voz-y-tono.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/design-system/componentes.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/design-system/tokens.css
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/personas/persona-a-product-owner.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/personas/persona-b-ejecutivo-comercial.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/personas/persona-c-analista-cumplimiento.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/prueba-design-engineer.md
+    [herramienta: Read] /Volumes/JC/development/independiente/kit-plataforma/design-system/plantilla.html
+
+--- CLAUDE  ·  2026-11-18 19:32 UTC ---
+Leí el kit completo (contrato de capacidades, encargos, personas, Design System, guía de voz) y la prueba en `.md`. De la página usé el texto que pegaste; no la abrí aparte.
+
+## Lo que decide la nota
+
+- **`DECISIONES.md` y la sustentación pesan 40 %.** Evalúan el proceso de diseño (alternativas y descartes), no solo que funcione.
+- **El log de IA pesa dentro del 20 %.** Buscan ver cuándo y por qué corregiste a la IA, así que las decisiones de diseño las tomas tú y yo ejecuto; esta sesión es parte del log.
+- **"Sobresaliente" en sistemas es que agregar una capacidad sea cambiar datos**, no programar otra pantalla.
+
+## Propuesta técnica
+
+- **Stack:** Vite + React + TypeScript estricto, Zod para esquemas, Vitest, despliegue en Vercel con una función de servidor que guarda la llave.
+- **Capacidades como datos:** un registro leído de `capacidades.json`, validado con Zod, con un adaptador que traduce las llaves en español del kit a tipos en inglés.
+- **Orquestador:** una máquina de estados única que respeta `dependeDe` y `requiereRevisionHumana`, con dos proveedores intercambiables, simulado y real.
+- **Capacidad real:** el encuadre (necesidad → preguntas que faltan → encargo y plan editable). Salida validada con esquema, un reintento si no valida y una salida de respaldo si vuelve a fallar.
+- **Datos sensibles:** detector determinista en el navegador, antes de cualquier llamada (cédula, celular, correo, saldo, nombre junto a esos datos). Muestra qué ocultó y envía el texto enmascarado; no puede depender del LLM.
+- **Evidencia:** el nivel del resultado es el del eslabón más débil y lo sintético siempre va marcado. El resultado abre con el veredicto que pide la persona A: hacerlo, no hacerlo o validarlo primero.
+- **Design System:** envoltorios finos de los `sk-*` y componentes nuevos solo donde el kit no llega (señal de evidencia, línea de pasos del plan, cita de fuente, panel de revisión).
+- **Los seis estados visibles en la URL pública:** los encargos E1–E4 como ejemplos y un control discreto de demostración para forzar falla, demora y evidencia débil.
+
+## Fases
+
+1. **Diseño antes de código:** dos o tres alternativas del flujo en bocetos rápidos (chat, formulario guiado, híbrido), eliges una y guardamos capturas para `DECISIONES.md`.
+2. **Base:** repo privado en JavierCardonadev, CI con lint, tipos, pruebas y cobertura, tokens y envoltorios `sk-*`.
+3. **Dominio:** esquemas, registro de capacidades, orquestador, proveedor simulado y detector de datos sensibles, todo con pruebas.
+4. **Vista Encargo:** preguntas de precisión, aviso de datos sensibles y plan editable.
+5. **Vista Ejecución:** avance, salidas intermedias, revisión (aprobar, ajustar, rehacer), falla y demora.
+6. **Vista Resultado:** entregable, trazabilidad por afirmación, señal de evidencia y siguiente paso.
+7. **LLM real:** función de servidor, prompt, validación y captura de al menos una falla real para documentarla.
+8. **Pulido:** transiciones, streaming, accesibilidad, móvil y revisión del microcopy contra la guía de voz.
+9. **Entrega:** `DECISIONES.md` de una página, log de IA exportado, preview en Vercel, invitar a los dos correos al repo y video de máximo 3 minutos si la URL queda simulada.
+
+## Idioma y commits
+
+- Código, nombres, pruebas, README y commits en inglés, con commits pequeños tipo `feat(orchestrator): gate steps on human review`.
+- La interfaz va en español, porque la guía de voz exige "tú" y lenguaje sin jerga; `DECISIONES.md` también, porque lo lee el equipo de Skandia.
+- Los commits van sin atribución a Claude, como siempre; el uso de IA se declara en `DECISIONES.md` y con el log.
+
+## Lo que necesito de ti
+
+1. **Fecha y hora límite** del correo de invitación, para ajustar cuánto se recorta.
+2. **Proveedor del LLM y su llave:** cualquiera sirve, incluso gratuito; la llave va en el Llavero y en Vercel, nunca en el repo.
+3. **Excepción a "nada .md en los repos":** `DECISIONES.md` es obligatorio; recomiendo permitir también el README y el log de IA dentro del repo.
+4. **Dónde verificar:** por la regla de no probar en [equipo principal], propongo CI de GitHub más los previews de Vercel.
+
+==============================================================================
+JAVIER  ·  2026-11-18 19:38 UTC
+==============================================================================
+Sí, fase 0
+    [herramienta: show_widget] 
+
+--- CLAUDE  ·  2026-11-18 19:38 UTC ---
+Arriba están los tres bocetos de la vista Encargo, que es la que más cambia entre alternativas; Ejecución y Resultado se derivan de la que elijas.
+
+Recomiendo la C por tres razones:
+
+- **Cubre el estado "necesidad ambigua" sin interrogatorio:** muestra qué entendió y solo pregunta lo que falta, que es justo lo que frustra a la persona B (formularios largos, repetir lo que necesita).
+- **El plan es un objeto, no un mensaje:** quitar o reordenar pasos es directo, y el aviso de datos sensibles tiene un lugar fijo junto al texto.
+- **Sirve a B y C sin pantallas nuevas:** cambia el encargo y el plan, no la interfaz.
+
+Su costo es que depende de que el LLM extraiga bien el encargo; por eso lleva validación de esquema y una salida de respaldo que degrada a preguntas fijas, parecidas a la B.
+
+Además de la alternativa, necesito tu decisión en tres puntos, cada uno con mi recomendación:
+
+1. **Nombres de los agentes (Mike, Kiki, Harvey, Rachel):** ocultarlos y nombrar cada paso por lo que hace ("Reunir lo que se sabe"). El nombre del agente aparecería solo en la trazabilidad del resultado.
+2. **Vista Ejecución:** una línea de pasos vertical donde cada paso se abre en su lugar y la revisión ocurre ahí mismo, en vez de un panel dividido (plan a la izquierda, salida a la derecha), que no funciona en el celular de la persona B.
+3. **Vista Resultado:** abrir con el veredicto (hacerlo, no hacerlo o validarlo primero) y qué tan confiable es, y dejar el documento completo debajo.
+
+Los bocetos todavía no están en disco: los guardo como archivo cuando creemos el repo, para enlazarlos desde `DECISIONES.md`.
+
+==============================================================================
+JAVIER  ·  2026-11-18 19:41 UTC
+==============================================================================
+C, caja única
+    [herramienta: Bash] Read working-rule notes and check local tooling
+    [herramienta: Bash] Check latest package versions, existing repos, and [equipo secundario] availability
+
+--- CLAUDE  ·  2026-11-18 19:42 UTC ---
+Reglas y herramientas revisadas; [equipo secundario] no responde ahora, así que la verificación irá por la CI de GitHub. Compruebo compatibilidad de versiones y creo el repo.
+    [herramienta: Bash] Check peer dependency compatibility of the toolchain
+    [herramienta: Bash] Create the project folder, init git, and copy the kit tokens
+    [herramienta: Write] package.json
+    [herramienta: Write] tsconfig.json
+    [herramienta: Write] vite.config.ts
+    [herramienta: Write] eslint.config.js
+    [herramienta: Write] .prettierrc.json
+    [herramienta: Write] .prettierignore
+    [herramienta: Write] .gitignore
+    [herramienta: Write] .github/workflows/ci.yml
+    [herramienta: Write] index.html
+    [herramienta: Write] src/styles/global.css
+    [herramienta: Write] src/main.tsx
+    [herramienta: Write] src/test/setup.ts
+    [herramienta: Write] src/design-system/sk-elements.d.ts
+    [herramienta: Write] src/design-system/useCustomEvent.ts
+    [herramienta: Write] src/design-system/SkButton.tsx
+    [herramienta: Write] src/design-system/SkTextarea.tsx
+    [herramienta: Write] src/design-system/SkCard.tsx
+    [herramienta: Write] src/design-system/SkAlert.tsx
+    [herramienta: Write] src/design-system/SkTag.tsx
+    [herramienta: Write] src/design-system/SkLogo.tsx
+    [herramienta: Write] src/design-system/index.ts
+    [herramienta: Write] src/design-system/DesignSystemGate.tsx
+    [herramienta: Write] src/design-system/DesignSystemGate.module.css
+    [herramienta: Write] src/app/App.tsx
+    [herramienta: Write] src/app/AppShell.tsx
+    [herramienta: Write] src/app/AppShell.module.css
+
+--- CLAUDE  ·  2026-11-18 19:44 UTC ---
+Base del proyecto y envoltorios escritos; ahora las pruebas, los bocetos en disco y el primer push para que corra la CI.
+    [herramienta: Write] src/design-system/SkButton.test.tsx
+    [herramienta: Write] src/design-system/SkTextarea.test.tsx
+    [herramienta: Write] src/design-system/SkAlert.test.tsx
+    [herramienta: Write] src/design-system/static-wrappers.test.tsx
+    [herramienta: Write] src/design-system/DesignSystemGate.test.tsx
+    [herramienta: Write] src/app/App.test.tsx
+    [herramienta: Write] docs/design-exploration/brief-view-alternatives.html
+    [herramienta: Bash] Generate the lockfile without installing and format the sources
+    [herramienta: Bash] Commit in four steps, create the private GitHub repo, and push
+    [herramienta: Bash] Wait for the CI run and show its result
+
+--- CLAUDE  ·  2026-11-18 19:47 UTC ---
+Quedó elegida la alternativa C y la base del proyecto está subida: el repo privado [JavierCardonadev/skandia-design-challenge](https://github.com/JavierCardonadev/skandia-design-challenge) tiene cuatro commits en inglés y la CI pasó completa en el primer intento (formato, lint, tipos, pruebas con cobertura, duplicidad y build).
+
+Lo que no está verificado: no lo he abierto en un navegador, así que los componentes reales de Skandia (que se cargan desde internet) aún no se han visto funcionando con React. Las pruebas usan elementos de reemplazo. No levanté servidor en [equipo principal] por la regla, y [equipo secundario] no respondió por SSH; lo natural es verlo en el primer preview de Vercel.
+
+Lo que hay en el repo, en `/Volumes/JC/development/independiente/skandia-design-challenge`:
+
+- **Bocetos:** las tres alternativas con el motivo de cada descarte, en `docs/design-exploration/brief-view-alternatives.html`, listos para enlazar desde `DECISIONES.md`.
+- **Herramientas:** Vite 8, React 19, TypeScript 6 estricto, ESLint con tipos, Prettier y Vitest con umbral de cobertura 90 % (85 % en ramas) y duplicidad máxima 5 %.
+- **Design System:** los tokens del kit y envoltorios tipados para botón, área de texto, tarjeta, aviso, etiqueta y logo.
+- **Carga de componentes:** la app espera a que el paquete de Skandia esté listo y, si no carga, muestra un mensaje con reintento. Es un hallazgo para `DECISIONES.md`: el paquete es remoto y sin versión.
+
+Tres cosas que decidí y puedes cambiar:
+
+- **TypeScript 6 en vez de 7:** el linter con tipos aún no soporta la 7.
+- **Sin enrutador:** el flujo es lineal y la vista saldrá del estado del encargo, no de la URL.
+- **`main.tsx` fuera de la cobertura:** solo monta la app; todo lo demás cuenta.
+
+Sigo necesitando de ti:
+
+1. **Fecha y hora límite** de la entrega.
+2. **Proveedor del LLM** para el encuadre.
+3. **Excepción para `.md`:** `DECISIONES.md` es obligatorio; hasta que confirmes no creo ninguno.
+4. **Las tres decisiones de diseño** (nombres de agentes ocultos, línea de pasos vertical, resultado que abre con el veredicto): si no dices otra cosa, sigo con mis recomendaciones.
+5. **Cuenta de Vercel:** no hay CLI instalada aquí; conectar el repo desde tu cuenta de Vercel da previews en cada push.
+
+==============================================================================
+JAVIER  ·  2026-11-18 19:51 UTC
+==============================================================================
+Sí, el dominio
+    [herramienta: Bash] Copy kit data into the repo, add zod, and refresh the lockfile
+
+--- CLAUDE  ·  2026-11-18 19:54 UTC ---
+Datos del kit copiados al repo y `zod` agregado. Escribo ahora el dominio: capacidades, plan, ejecución, evidencia, proveedor simulado y detector.
+    [herramienta: Write] src/domain/capabilities/types.ts
+    [herramienta: Write] src/domain/capabilities/content-shape.ts
+    [herramienta: Write] src/domain/capabilities/zod-issues.ts
+    [herramienta: Write] src/domain/capabilities/result.ts
+    [herramienta: Write] src/domain/capabilities/catalog.ts
+    [herramienta: Write] src/domain/capabilities/kit-catalog.ts
+    [herramienta: Write] src/domain/plan/plan.ts
+    [herramienta: Write] src/domain/run/run.ts
+    [herramienta: Write] src/domain/evidence/evidence.ts
+    [herramienta: Write] src/domain/providers/provider.ts
+    [herramienta: Write] src/domain/providers/simulated-provider.ts
+    [herramienta: Write] src/domain/sensitive-data/sensitive-data.ts
+    [herramienta: Bash] Sanity-check the sensitive data detector against the kit's sample briefs
+    [herramienta: Write] src/test/fixtures.ts
+    [herramienta: Write] src/domain/capabilities/content-shape.test.ts
+    [herramienta: Write] src/domain/capabilities/result.test.ts
+    [herramienta: Write] src/domain/capabilities/catalog.test.ts
+    [herramienta: Write] src/domain/plan/plan.test.ts
+    [herramienta: Write] src/domain/run/run.test.ts
+    [herramienta: Write] src/domain/evidence/evidence.test.ts
+    [herramienta: Write] src/domain/providers/provider.test.ts
+    [herramienta: Write] src/domain/providers/simulated-provider.test.ts
+    [herramienta: Write] src/domain/sensitive-data/sensitive-data.test.ts
+
+--- CLAUDE  ·  2026-11-18 19:59 UTC ---
+Pruebas del dominio escritas; corrijo dos detalles, formateo, hago los commits y subo para que la CI lo verifique.
+    [herramienta: Bash] Fix two test files, format, commit the domain in five steps, push, and watch CI
+    [herramienta: Bash] Get the CI conclusion and any failing log lines
+    [herramienta: Bash] Read coverage, test count, and duplication figures from the CI log
+
+--- CLAUDE  ·  2026-11-18 20:00 UTC ---
+El dominio está subido en cinco commits y la CI pasó completa: 106 pruebas, 99,6 % de cobertura de líneas y 95 % de ramas, con el límite de duplicidad cumplido. Todavía no hay interfaz que lo use ni LLM real; eso son las fases siguientes.
+
+Lo que quedó hecho:
+
+- **Capacidades como datos:** el catálogo del kit se valida al arrancar y el contenido de cada capacidad se valida contra su propio descriptor de salida. Agregar una sexta capacidad es agregar un bloque al JSON; hay una prueba que lo demuestra.
+- **Plan:** una lista propuesta se convierte en un plan ejecutable: descarta capacidades que no existen, añade las dependencias que falten y las ordena. Quitar un paso quita también los que dependen de él.
+- **Ejecución:** una máquina de estados pura cubre la revisión (aprobar, ajustar con nota, rehacer), la demora, la falla, el reintento y saltar un paso fallido junto con sus dependientes.
+- **Proveedores:** toda respuesta, simulada o de un modelo real, pasa por la misma validación; si el proveedor falla o responde fuera del contrato, se convierte en una falla reintentable.
+- **Datos sensibles:** detector determinista de cédula, celular, correo, saldo y nombre junto a esos datos. Con los encargos del kit, E3 y E4 quedan enmascarados y E1, E2, E5 y E6 pasan intactos.
+
+Decisión para ti (pesa en `DECISIONES.md`): cómo se calcula la señal de evidencia del resultado.
+
+- **Lo que implementé:** el nivel es el más débil entre los pasos que tienen al menos una fuente real; la validación con clientes simulados no lo baja, se cuenta y se marca aparte. Con el flujo normal del kit da "media, 5 fuentes reales, 1 sintética".
+- **La alternativa:** el eslabón más débil de todos los pasos. Es más simple de explicar, pero como la validación sintética siempre es "baja", el camino de éxito se vería igual que el de evidencia débil.
+- **Supuesto que tomé:** menos de dos fuentes reales cuenta como evidencia débil ("pocas fuentes"). El kit no da un umbral.
+
+Límites del detector que conviene declarar: no detecta nombres sueltos sin otro dato personal en la misma frase ni nombres en minúscula, y prefiere ocultar de más (un número largo con puntos se trata como cédula).
+
+Dos cosas más:
+
+- **Datos del kit en el repo:** `capacidades.json` y los encargos de ejemplo están copiados tal cual en `src/data/kit`, excluidos del formateador y del control de duplicidad. El repo es privado, como exige el kit.
+- **Detector comprobado en local:** corrí una vez el archivo del detector con Node contra los seis encargos, sin instalar nada ni lanzar pruebas en [equipo principal]; el resto se verificó en la CI.
+
+Siguen pendientes de tu parte la fecha límite, el proveedor del LLM, la excepción para `DECISIONES.md` y la cuenta de Vercel.
+
+==============================================================================
+JAVIER  ·  2026-11-18 20:07 UTC
+==============================================================================
+Sí, vista Encargo
+    [herramienta: Write] src/domain/brief/framing.ts
+    [herramienta: Write] src/domain/brief/local-framer.ts
+
+--- CLAUDE  ·  2026-11-18 20:09 UTC ---
+Contrato del encuadre y encuadre local escritos; ajusto un detalle y sigo con los componentes de la vista.
+    [herramienta: Bash] Simplify how the local framer builds its facts
+    [herramienta: Bash] Tidy the summary helper and review the resulting code
+    [herramienta: Bash] Reword the local framer summaries so they read naturally
+    [herramienta: Write] src/design-system/SkInputText.tsx
+    [herramienta: Write] src/design-system/extensions/ChoiceChips.tsx
+    [herramienta: Write] src/design-system/extensions/ChoiceChips.module.css
+    [herramienta: Write] src/features/brief/brief-session.ts
+    [herramienta: Write] src/features/brief/useBriefFraming.ts
+    [herramienta: Write] src/features/brief/format.ts
+    [herramienta: Write] src/features/brief/SensitiveDataNotice.tsx
+    [herramienta: Write] src/features/brief/UnderstoodPanel.tsx
+    [herramienta: Write] src/features/brief/QuestionList.tsx
+    [herramienta: Write] src/features/brief/PlanEditor.tsx
+    [herramienta: Write] src/features/brief/SampleBriefs.tsx
+    [herramienta: Write] src/features/brief/BriefView.tsx
+    [herramienta: Write] src/features/brief/BriefView.module.css
+
+--- CLAUDE  ·  2026-11-18 20:11 UTC ---
+Componentes de la vista escritos. Falta conectarla en la app, ajustar el botón y escribir las pruebas antes de subir.
+    [herramienta: Bash] Extend the button wrapper, typings, and CI artifact; tidy the framing hook
+    [herramienta: Write] src/app/App.tsx
+    [herramienta: Write] src/test/sk.ts
+    [herramienta: Write] src/domain/brief/framing.test.ts
+    [herramienta: Write] src/domain/brief/local-framer.test.ts
+    [herramienta: Write] src/features/brief/format.test.ts
+    [herramienta: Write] src/design-system/form-wrappers.test.tsx
+    [herramienta: Write] src/features/brief/BriefView.test.tsx
+    [herramienta: Write] src/features/brief/brief-session.test.ts
+    [herramienta: Write] src/app/App.test.tsx
+
+--- CLAUDE  ·  2026-11-18 20:14 UTC ---
+Pruebas escritas. Corrijo cuatro detalles que detecté al repasarlas, formateo y subo.
+    [herramienta: Bash] Fix test details, format, commit in three steps, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 20:15 UTC ---
+CI en verde. Descargo el build que generó la CI y lo sirvo como archivos estáticos para ver la vista con los componentes reales.
+    [herramienta: Bash] Download the CI build artifact and check the preview configuration
+    [herramienta: Bash] Register a static preview of the downloaded build
+    [herramienta: preview_start] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+
+--- CLAUDE  ·  2026-11-18 20:16 UTC ---
+La vista Encargo está hecha en modo simulado, subida en tres commits y con la CI en verde. Esta vez sí la vi funcionando con los componentes reales de Skandia: la CI publica el build como artefacto, lo descargué y lo serví como archivos estáticos, sin compilar nada en [equipo principal]. Está abierta en el panel del navegador, en `http://localhost:4179`.
+
+Lo que comprobé en el navegador:
+
+- **Encargo claro (E1):** muestra lo que entendió, marca "Lo supusimos" en el grupo de clientes que nadie mencionó y propone los cinco pasos con su duración y la etiqueta "Tú revisas el resultado".
+- **Datos sensibles (E3):** avisa "Encontramos 1 nombre, 1 cédula y 1 saldo", muestra el texto con las etiquetas y sigue solo con esa versión. Como falta el producto, pregunta en vez de adivinar.
+- **Edición del plan:** al quitar Estrategia se quita también Prototipado, y ambos pasan a "Pasos que puedes agregar".
+- **Celular (375 px):** sin desplazamiento horizontal y sin errores en consola.
+
+No probé a mano en el navegador la necesidad ambigua (E2), el fallo del encuadre con reintento ni los encargos de B y C; esos caminos están cubiertos por las pruebas automáticas.
+
+Decisiones que tomé y son tuyas de confirmar:
+
+- **El orden del plan no se edita.** Sale de lo que cada paso necesita del anterior; solo se quitan o agregan pasos, y la interfaz explica el efecto antes.
+- **Los pasos usan el nombre del kit** ("Investigación", "Validación sintética") con su descripción en lenguaje llano debajo. Los nombres de los agentes no aparecen. Si prefieres títulos más llanos, habría que añadir un campo al contrato.
+- **Máximo tres preguntas** por encuadre; más que eso ya es un formulario.
+- **Los ejemplos del kit están a un toque** bajo la caja de texto, para que quien evalúe llegue a cada estado.
+- **Componente nuevo: chips de opción.** El kit no tiene ningún elemento seleccionable.
+
+Dos cosas que vi y sirven para `DECISIONES.md`:
+
+- **Contraste del botón terciario:** el "Quitar" verde sobre blanco se lee poco. Es el estilo propio del Design System; conviene cuestionarlo o cambiarlo por el secundario.
+- **El encuadre local es limitado a propósito:** reconoce el vocabulario del kit y nada más. Es el modo demo y el respaldo; la inteligencia real llega con el LLM.
+
+Al pulsar "Empezar con este plan" hoy solo aparece un aviso provisional: la vista Ejecución es el siguiente paso. Siguen pendientes de tu parte la fecha límite, el proveedor del LLM, la excepción para `DECISIONES.md` y la cuenta de Vercel.
+
+==============================================================================
+JAVIER  ·  2026-11-18 20:31 UTC
+==============================================================================
+Si, dejar DECISIONES.md, el correo de Vercel es [correo personal], sobre el LLM se puede probar con Antrhopic? sobre la fecha limite de que?
+
+--- CLAUDE  ·  2026-11-18 20:31 UTC ---
+**`DECISIONES.md`:** anotado, lo dejo en el repo. Lo escribo al final, cuando estén las tres vistas y la falla real del LLM, pero voy guardando los insumos (bocetos, supuestos, hallazgos del Design System).
+
+**Fecha límite:** la de entrega de la prueba. La página dice que la fecha y la hora están en tu correo de invitación de Skandia, no en la página ni en el kit. La necesito para decidir cuánto pulir y qué recortar; si es en pocos días, priorizo Ejecución, Resultado, el LLM y `DECISIONES.md` sobre el acabado.
+
+**Anthropic para el LLM:** sí, sirve; la prueba deja elegir cualquier proveedor y no evalúa el modelo. Usaría un modelo pequeño y barato de Claude para el encuadre: cuesta centavos y es más fácil que falle de verdad alguna vez, que es justo lo que piden documentar. Necesitas:
+
+1. Una llave de API creada en console.anthropic.com. Es aparte de tu suscripción de Claude y requiere saldo prepagado; con unos pocos dólares sobra.
+2. Guardarla en el Llavero tú mismo, sin pegarla en el chat. Este comando te pide la llave al ejecutarlo:
+
+```bash
+security add-generic-password -a javier -s skandia-anthropic -T /usr/bin/security -U -w
+```
+
+La llave nunca va al repo ni al navegador: la usa una función de servidor.
+
+**Vercel:** yo no puedo iniciar sesión por ti, así que este paso es tuyo:
+
+1. Entra a vercel.com con ese correo y elige "Add New → Project".
+2. Importa `JavierCardonadev/skandia-design-challenge`. Como el repo es privado, Vercel te pedirá darle acceso a ese repo en GitHub.
+3. Deja la configuración que detecta (Vite) y despliega.
+
+Con eso cada push genera un preview. La URL pública puede quedarse en modo simulado, como permite la prueba; si luego quieres que use el LLM real, se agrega la llave como variable de entorno en Vercel.
+
+Mientras haces eso, lo siguiente por mi lado es la vista Ejecución, que no depende de nada de lo anterior. Dime si arranco.
+
+==============================================================================
+JAVIER  ·  2026-11-18 20:35 UTC  ·  (1 imagen(es) adjunta(s), no incluidas)
+==============================================================================
+Cual uso?
+
+--- CLAUDE  ·  2026-11-18 20:35 UTC ---
+**"Somewhere else"** (la de la llave). Es la única que te da una llave de API, y es lo que necesita la función de servidor en Vercel y la demo en tu máquina para la sustentación.
+
+Las otras tres no sirven para este caso: "Your own machine" inicia sesión con una herramienta de línea de comandos y no deja una llave que Vercel pueda usar, y las de nube y CI son para otros entornos. No conozco ese diálogo en detalle, así que me guío por lo que dice cada tarjeta.
+
+Cuando te muestre la llave, cópiala una sola vez y guárdala con el comando del Llavero que te pasé; no la pegues aquí en el chat.
+
+==============================================================================
+JAVIER  ·  2026-11-18 20:48 UTC  ·  (1 imagen(es) adjunta(s), no incluidas)
+==============================================================================
+Listo, sigue con la vista Ejecución
+    [herramienta: Bash] Move the formatting helpers to a shared folder for reuse by the run view
+
+--- CLAUDE  ·  2026-11-18 20:50 UTC ---
+Empiezo la vista Ejecución: primero el motor que corre el plan y los escenarios de demostración, luego los componentes.
+    [herramienta: Write] src/features/run/useRunExecution.ts
+    [herramienta: Write] src/features/demo/scenarios.ts
+    [herramienta: Write] src/features/demo/DemoScenarioPicker.tsx
+    [herramienta: Write] src/features/demo/DemoScenarioPicker.module.css
+    [herramienta: Write] src/features/shared/evidence-labels.ts
+    [herramienta: Write] src/features/shared/EvidencePanel.tsx
+    [herramienta: Write] src/features/shared/ContentView.tsx
+    [herramienta: Write] src/features/shared/shared.module.css
+    [herramienta: Write] src/features/run/failure-messages.ts
+    [herramienta: Write] src/features/run/ReviewActions.tsx
+    [herramienta: Write] src/features/run/StepOutput.tsx
+    [herramienta: Write] src/features/run/StepCard.tsx
+    [herramienta: Write] src/features/run/RunView.tsx
+    [herramienta: Write] src/features/run/RunView.module.css
+    [herramienta: Write] src/app/StageNav.tsx
+    [herramienta: Write] src/app/StageNav.module.css
+    [herramienta: Write] src/app/AppShell.tsx
+    [herramienta: Write] src/app/App.tsx
+
+--- CLAUDE  ·  2026-11-18 20:52 UTC ---
+Vista y motor escritos. Ajusto la app para reiniciar cada ejecución y escribo las pruebas.
+    [herramienta: Bash] Restart each run cleanly and style the stage wrapper
+    [herramienta: Write] src/features/run/RunView.test.tsx
+    [herramienta: Write] src/features/shared/presentation.test.tsx
+    [herramienta: Write] src/features/demo/demo.test.tsx
+    [herramienta: Write] src/app/App.test.tsx
+    [herramienta: Bash] Fix test details, format, commit in three steps, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 20:55 UTC ---
+CI en verde a la primera. Descargo el build nuevo y pruebo la vista Ejecución en el navegador.
+    [herramienta: Bash] Replace the served build with the latest CI artifact
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+
+--- CLAUDE  ·  2026-11-18 20:57 UTC ---
+El flujo completo llegó al final con los cinco pasos en "listo". Reviso cómo se ven el cierre y el escenario de falla.
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Fix focus and scroll on stage change, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 20:59 UTC ---
+CI en verde con el arreglo de foco. Compruebo ese arreglo en el navegador y cierro.
+    [herramienta: Bash] Replace the served build with the latest CI artifact
+    [herramienta: browser_batch] 
+
+--- CLAUDE  ·  2026-11-18 20:59 UTC ---
+La vista Ejecución está hecha en modo simulado, subida en cuatro commits y con la CI en verde (99 % de cobertura). La probé en el navegador con los componentes reales; sigue abierta en `http://localhost:4179`.
+
+## Antes de seguir: el proyecto de Vercel
+
+En tu captura el despliegue quedó en el equipo **"[equipo de Vercel]"**, no en tu cuenta personal. Tengo anotado [equipo de Vercel] como un cliente tuyo. Si es así, cualquier miembro de ese equipo puede ver el proyecto, y esto es una prueba para otra empresa con un kit confidencial. Te recomiendo borrarlo de ahí y volver a importarlo en tu cuenta personal (plan Hobby). Los equipos también suelen pedir inicio de sesión para ver los previews, y la prueba exige que la URL abra sin iniciar sesión.
+
+## Lo que comprobé en el navegador
+
+- **Flujo completo:** los cinco pasos llegan a "listo"; se detiene solo en los tres que requieren revisión.
+- **Punto de revisión:** muestra la evidencia en palabras ("Evidencia sólida"), cada fuente con su etiqueta "Fuente real", y las acciones aprobar, pedir un ajuste y rehacer.
+- **Falla:** mensaje en lenguaje llano, sin el texto técnico del kit, con "Intentar de nuevo" y "Seguir sin este paso" y el aviso de qué otros pasos se pierden.
+- **Demora:** "Está tardando más de lo habitual. Seguimos en ello; no necesitas hacer nada."
+- **Cambio de etapa:** al empezar el plan desde el final de la página, la vista nueva arranca arriba y con el foco. Lo encontré fallando al probar y lo corregí.
+
+No probé a mano enviar un ajuste con texto, el escenario de poca evidencia ni saltar un paso fallido; están cubiertos por las pruebas automáticas.
+
+## Decisiones tuyas de confirmar
+
+- **Modo demostración visible:** un recuadro punteado bajo el encargo deja elegir "Todo sale bien", "Hay poca evidencia", "Un paso falla" o "Un paso se demora". Sin eso, quien evalúe no puede llegar a esos estados en la URL pública.
+- **Sin porcentaje de avance:** las capacidades reales tardan minutos, así que muestro una barra indeterminada y la duración típica, no un porcentaje inventado.
+- **"Cambiar el plan" descarta el avance** de la ejecución sin pedir confirmación. Conserva lo escrito en el encargo.
+- **El ajuste en modo simulado devuelve la misma respuesta del kit.** Se registra tu indicación y se rehace el paso, pero el contenido no cambia; hay que declararlo.
+
+## Dos cosas para `DECISIONES.md`
+
+- **Contenido genérico:** cada salida se dibuja desde su esquema, sin componente propio por capacidad. Funciona con las cinco, pero se lee como ficha ("Id: H1, Enunciado: …") y no como documento. Es el costo de que agregar una capacidad sea solo datos.
+- **Hallazgo del Design System:** React pasa los valores a los componentes `sk-*` como propiedades, no como atributos, así que la regla CSS del kit que estira los botones (`sk-button[label]`) no aplica. Los botones quedan del ancho de su texto.
+
+Pendientes tuyos: la fecha límite del correo de invitación y la llave de Anthropic en el Llavero.
+
+==============================================================================
+JAVIER  ·  2026-11-18 21:05 UTC
+==============================================================================
+Sí, Resultado
+    [herramienta: Write] src/domain/result/deliverable.ts
+    [herramienta: Write] src/features/result/result-copy.ts
+    [herramienta: Write] src/features/result/ResultView.tsx
+    [herramienta: Write] src/features/result/ResultView.module.css
+
+--- CLAUDE  ·  2026-11-18 21:06 UTC ---
+Entregable y vista Resultado escritos; conecto la tercera etapa en la app y escribo las pruebas.
+    [herramienta: Bash] Pass the finished run to the result stage and add print styles
+    [herramienta: Write] src/app/App.tsx
+    [herramienta: Write] src/domain/result/deliverable.test.ts
+    [herramienta: Write] src/features/result/ResultView.test.tsx
+    [herramienta: Write] src/app/App.test.tsx
+    [herramienta: Bash] Fix two test details, commit the result stage, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 21:09 UTC ---
+CI en verde. Descargo el build y recorro el flujo completo hasta el Resultado en el navegador.
+    [herramienta: Bash] Replace the served build with the latest CI artifact
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+
+--- CLAUDE  ·  2026-11-18 21:10 UTC ---
+Las tres vistas funcionan de punta a punta en modo simulado. La vista Resultado está subida en dos commits con la CI en verde, y recorrí el flujo completo en el navegador: encargo, cinco pasos con tres revisiones y resultado. Sigue abierta en `http://localhost:4179`.
+
+## Qué muestra el Resultado
+
+- **Abre con lo que puedes hacer y cuánto confiar:** "Tienes respaldo para dar el siguiente paso", con la etiqueta de evidencia y el desglose "5 fuentes reales, 1 simulada y 3 elaboradas por IA".
+- **Qué produjo cada paso:** quién lo elaboró ("el agente Mike con IA") y si lo revisaste tú. Aquí sí aparecen los nombres de los agentes, solo como trazabilidad.
+- **De dónde sale cada cosa:** una tabla con cada fuente, su origen (real, simulada o elaborada por IA) y los pasos que se apoyan en ella. Es la pieza pensada para la persona C.
+- **Advertencias reunidas** con el paso del que vienen.
+- **Acciones:** guardar o imprimir, volver al plan y empezar otro encargo.
+
+En el navegador comprobé el camino normal, la tabla de fuentes y el ancho de celular sin desplazamiento horizontal. Los resultados con evidencia débil, incompleto y sin ningún paso completado están cubiertos solo por pruebas automáticas.
+
+## Decisión tuya: el veredicto
+
+La plataforma no decide "hacerlo o no hacerlo": dice qué te permite la evidencia. Hay tres aperturas posibles:
+
+- **"Tienes respaldo para dar el siguiente paso"** cuando hay al menos dos fuentes reales y la evidencia no es baja.
+- **"Aún falta respaldo para decidir con confianza"** cuando la evidencia es débil o todo viene de clientes simulados.
+- **"Tu resultado quedó incompleto"** cuando algún paso del plan no se ejecutó.
+
+La ficha de la persona A pide "hacerlo, no hacerlo o validarlo primero". No lo hice así porque en modo simulado sería una regla inventando una decisión de negocio; la alternativa honesta es que ese veredicto lo redacte el LLM a partir de los resultados, con su propio esquema. Dime si lo quieres así y lo sumo cuando conecte el LLM; cuesta una segunda llamada y más validación.
+
+## Estado frente a la prueba
+
+Los seis estados obligatorios ya se pueden alcanzar en la interfaz. Falta lo que no se recorta:
+
+1. **LLM real en el encuadre**, con su falla real documentada.
+2. **`DECISIONES.md`** de una página.
+3. **Log de IA** exportado al repo.
+4. **Vercel en tu cuenta personal**, no en el equipo "[equipo de Vercel]", y compartir el repo con los dos correos de Skandia.
+
+Sigo sin la fecha límite de tu correo de invitación.
+
+==============================================================================
+JAVIER  ·  2026-11-18 21:22 UTC
+==============================================================================
+Sí, conecta el LLM
+    [herramienta: Skill] claude-api
+    [herramienta: Bash] Check the Keychain entry exists (without reading it) and the SDK version
+    [herramienta: Bash] Locate the TypeScript SDK docs for structured outputs
+    [herramienta: Bash] Read the structured outputs, client setup, and Haiku 5.5 notes
+    [herramienta: Bash] Add the Anthropic SDK dependency and refresh the lockfile
+
+--- CLAUDE  ·  2026-11-18 21:24 UTC ---
+La llave está en el Llavero y el SDK admite Zod 4. Escribo ahora la función de servidor del encuadre: prompt, esquema y manejo de fallas.
+    [herramienta: Write] src/server/framing-prompt.ts
+    [herramienta: Write] src/server/frame-need.ts
+    [herramienta: Write] src/server/anthropic-generator.ts
+    [herramienta: Write] src/server/http.ts
+    [herramienta: Write] api/frame.ts
+    [herramienta: Write] scripts/try-framing.ts
+    [herramienta: Bash] Install dependencies and run the real model on two sample briefs
+    [herramienta: Bash] Run the real model on all six sample briefs and summarise its answers
+    [herramienta: Bash] Revise the prompt and rerun the real model on all sample briefs
+    [herramienta: Write] src/domain/brief/framing.ts
+    [herramienta: Write] src/domain/brief/remote-framer.ts
+    [herramienta: Write] src/app/framers.ts
+    [herramienta: Write] src/vite-env.d.ts
+    [herramienta: Bash] Review the current hook, session, and config before editing
+    [herramienta: Bash] Wire the model with local fallback into the hook, view, app, and dev server
+    [herramienta: Bash] Update existing tests for the fallback and the added-step notice
+    [herramienta: Bash] Extend the framing tests for repairs and fallback
+    [herramienta: Write] src/domain/brief/remote-framer.test.ts
+    [herramienta: Write] src/server/frame-need.test.ts
+    [herramienta: Write] src/server/anthropic-generator.test.ts
+    [herramienta: Write] src/server/http.test.ts
+    [herramienta: Write] src/app/framers.test.ts
+
+--- CLAUDE  ·  2026-11-18 21:29 UTC ---
+Pruebas del encuadre real escritas. Corrijo tres detalles de lint que detecté al repasar y subo.
+    [herramienta: Bash] Fix lint details, commit the live framing work in four steps, push, and report CI
+    [herramienta: Bash] Fix the type error, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 21:32 UTC ---
+CI en verde. Ahora pruebo el flujo real de punta a punta en el navegador, con el servidor de desarrollo leyendo la llave del Llavero.
+    [herramienta: Bash] Make the live dev script runnable from anywhere and register its preview
+    [herramienta: preview_start] 
+    [herramienta: Bash] Launch the live dev script through the shell
+    [herramienta: preview_start] 
+    [herramienta: Bash] Start the live dev server in the background
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Stop the dev server, save the evidence of real model failures, and push
+    [herramienta: Bash] Confirm CI on the final commit and read coverage
+
+--- CLAUDE  ·  2026-11-18 21:35 UTC ---
+El encuadre ya funciona con un modelo real de Claude, de punta a punta: la persona escribe, el servidor le pide al modelo un encargo estructurado y la interfaz lo valida antes de mostrarlo. Está subido con la CI en verde (99,8 % de cobertura) y lo probé en el navegador con la llave del Llavero.
+
+## Cómo quedó
+
+- **Modelo:** `claude-haiku-5-5`, el pequeño que te propuse. Responde en 2 a 3 segundos y la prueba completa costó centavos. Se cambia con la variable `ANTHROPIC_MODEL`, sin tocar código.
+- **Llave:** solo la lee el servidor. No está en el repo ni llega al navegador.
+- **Salida estructurada:** el modelo solo puede elegir capacidades que existen en el catálogo. La interfaz vuelve a validar la respuesta con su propio esquema.
+- **Datos sensibles:** se ocultan en el navegador y otra vez en el servidor, por si alguien llama a la función sin pasar por la interfaz.
+- **Si el modelo falla** (cuota, red, respuesta fuera de contrato): la plataforma lee la necesidad con las reglas locales y lo dice: "Leímos tu necesidad con el modo básico", con un botón para reintentar con IA.
+- **La URL pública sigue en modo simulado:** sin llave no hay costo ni nadie puede gastar tu saldo. El modo real se enciende con dos variables de entorno.
+
+## Fallas reales del modelo, ya documentadas
+
+Quedaron en `docs/llm-observations/` con las salidas completas y una captura:
+
+1. **Preguntaba en vez de planear.** Con el primer prompt, los seis encargos del kit recibieron preguntas y ninguno un plan, incluido el "claro". Todas las respuestas pasaban la validación del esquema. Lo corregí en el prompt.
+2. **Hechos que no eran hechos**, como "Producto: no se indica el producto exacto". También corregido en el prompt.
+3. **Plan que se salta pasos necesarios.** Propuso Investigación, Prototipado y Validación, sin Contenido ni Estrategia, que Prototipado necesita. La interfaz los agrega en orden y los marca: "Lo agregamos al plan porque un paso siguiente lo necesita". Esta es la que recomiendo mostrar en la sustentación; la vi en vivo en el navegador.
+4. **Sigue preguntando por el grupo de clientes a veces**, contra la regla del prompt. La interfaz lo absorbe con opciones de un toque y no deja que repita una pregunta ya respondida.
+
+## Lo que no probé
+
+El respaldo local con el modelo real caído (lo cubren las pruebas automáticas con un modelo simulado) y la función desplegada en Vercel: solo la ejecuté en local.
+
+## Tres cosas que debes saber
+
+- **Rompí en parte la regla de no probar en [equipo principal].** Para ver el modelo real instalé las dependencias, corrí un script contra la API y levanté el servidor de desarrollo unos minutos. Ya está apagado. No corrí pruebas ni builds; eso siguió en la CI.
+- **El servidor de desarrollo no arranca desde el panel de vista previa** porque no tiene permiso sobre el disco externo. Para la sustentación se lanza desde una terminal:
+
+```bash
+sh /Volumes/JC/development/independiente/skandia-design-challenge/scripts/dev-live.sh
+```
+
+- **El veredicto del Resultado sigue saliendo de reglas**, no del modelo. Quedó pendiente tu decisión sobre si lo redacta el LLM.
+
+Siguen pendientes tuyos: mover el proyecto de Vercel del equipo "[equipo de Vercel]" a tu cuenta personal y la fecha límite del correo de invitación.
+    [herramienta: Bash] Check what Vercel reported for the failing commit and the ones after it
+
+--- CLAUDE  ·  2026-11-18 21:37 UTC ---
+Ese correo es de un commit intermedio y ya está resuelto: los dos commits siguientes se desplegaron bien en Vercel.
+
+- **Qué falló:** el commit `a75652a` tenía un error de tipos que yo introduje al conectar el LLM. La CI de GitHub lo detectó en el mismo momento, y Vercel falló por la misma razón porque su build también revisa tipos.
+- **Arreglo:** lo corregí en el commit siguiente (`c8c1370`). Vercel reporta ese y el último (`52fba61`) como desplegados con éxito, así que producción está en la versión más reciente.
+- **Por qué te llegó el correo:** subí cuatro commits juntos antes de que la CI terminara, y Vercel construye cada push. No dejó nada roto en línea: un despliegue fallido no reemplaza al anterior.
+
+Para que no se repita, de aquí en adelante espero la CI en verde antes de subir el siguiente bloque de commits.
+
+Dos cosas siguen pendientes en Vercel, y el correo las confirma:
+
+- **El proyecto sigue en el equipo "[equipo de Vercel]".** Conviene moverlo a tu cuenta personal antes de entregar, por la confidencialidad del kit y porque la URL debe abrir sin iniciar sesión.
+- **No he comprobado la URL pública.** Solo veo que Vercel la da por desplegada; si me pasas el enlace, verifico que abra sin sesión y que el flujo funcione ahí.
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:08 UTC
+==============================================================================
+Sí, sigue con DECISIONES.md y el log de IA
