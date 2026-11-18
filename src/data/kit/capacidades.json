@@ -1,0 +1,538 @@
+{
+  "version": "1.0",
+  "nota": "Todo el contenido de este archivo es ficticio y fue creado para la prueba. Ninguna cifra, fuente ni persona es real.",
+  "escenario": "Las respuestas simuladas siguen el encargo de la persona A: decidir si vale la pena un simulador de aportes para el Fondo Voluntario de Pensiones antes de pedirle un sprint a desarrollo.",
+  "contratoComun": {
+    "descripcion": "Todas las capacidades responden con el mismo sobre. El contenido cambia según la capacidad.",
+    "respuestaCompletada": {
+      "estado": "completado",
+      "capacidad": "id de la capacidad",
+      "duracionSegundos": "número",
+      "evidencia": {
+        "nivel": "alta | media | baja",
+        "resumen": "texto corto en lenguaje no técnico",
+        "fuentes": [
+          {
+            "id": "F1",
+            "tipo": "cualitativa | cuantitativa | benchmark | lineamiento | sintetica | generada",
+            "descripcion": "de dónde sale",
+            "esSintetica": "true si viene de usuarios simulados o fue generada por la IA sin respaldo"
+          }
+        ]
+      },
+      "contenido": "objeto propio de cada capacidad (ver salida.esquema)",
+      "advertencias": ["textos que la persona debe ver"],
+      "siguientesCapacidades": ["ids sugeridos para continuar"]
+    },
+    "respuestaError": {
+      "estado": "error",
+      "capacidad": "id de la capacidad",
+      "error": {
+        "codigo": "TIEMPO_AGOTADO | ENTRADA_INCOMPLETA | DEPENDENCIA_NO_APROBADA | FUENTE_NO_DISPONIBLE | SEGMENTO_NO_SOPORTADO",
+        "mensaje": "texto técnico, no apto para mostrar tal cual",
+        "reintentable": "true | false",
+        "duracionSegundos": "número"
+      }
+    },
+    "tiposDeFuente": {
+      "cualitativa": "Entrevistas o pruebas con personas reales (dentro de la ficción)",
+      "cuantitativa": "Datos de uso o encuestas (dentro de la ficción)",
+      "benchmark": "Revisión de productos de otras compañías",
+      "lineamiento": "Reglas internas o regulatorias que aplican",
+      "sintetica": "Reacciones de usuarios simulados por IA: orientan, no reemplazan a personas reales",
+      "generada": "Contenido que la IA produjo a partir de otras salidas, sin fuente propia"
+    }
+  },
+  "capacidades": [
+    {
+      "id": "investigacion",
+      "nombre": "Investigación",
+      "agente": "Mike",
+      "queHace": "Cruza investigación cualitativa, datos cuantitativos y benchmarking externo.",
+      "descripcionNoTecnica": "Reúne lo que ya se sabe sobre tu pregunta: qué dicen los clientes, qué muestran los datos y qué hacen otras compañías.",
+      "entradas": [
+        { "campo": "preguntaDeNegocio", "tipo": "texto", "requerido": true, "descripcion": "La pregunta que se quiere responder" },
+        { "campo": "producto", "tipo": "texto", "requerido": false, "descripcion": "Producto o servicio sobre el que se pregunta" },
+        { "campo": "publico", "tipo": "texto", "requerido": false, "descripcion": "A quién afecta la decisión" }
+      ],
+      "salida": {
+        "tipo": "sintesisDeHallazgos",
+        "esquema": {
+          "pregunta": "texto",
+          "hallazgos": [{ "id": "H1", "enunciado": "texto", "fuentes": ["F1"], "confianza": "alta | media | baja" }],
+          "respuestaCorta": "texto",
+          "preguntasAbiertas": ["texto"]
+        }
+      },
+      "duracionTipica": { "minSegundos": 120, "maxSegundos": 300 },
+      "requiereRevisionHumana": true,
+      "dependeDe": [],
+      "respuestasSimuladas": {
+        "normal": {
+          "estado": "completado",
+          "capacidad": "investigacion",
+          "duracionSegundos": 184,
+          "evidencia": {
+            "nivel": "alta",
+            "resumen": "Tres fuentes independientes apuntan en la misma dirección.",
+            "fuentes": [
+              { "id": "F1", "tipo": "cualitativa", "descripcion": "12 entrevistas con personas que ahorran en el fondo voluntario (marzo de 2026)", "esSintetica": false },
+              { "id": "F2", "tipo": "cuantitativa", "descripcion": "Encuesta en la app a 486 personas con fondo voluntario", "esSintetica": false },
+              { "id": "F3", "tipo": "benchmark", "descripcion": "Revisión de 4 simuladores de ahorro de otras entidades del mercado", "esSintetica": false },
+              { "id": "F4", "tipo": "lineamiento", "descripcion": "Lineamiento interno para mostrar proyecciones de rentabilidad", "esSintetica": false }
+            ]
+          },
+          "contenido": {
+            "pregunta": "¿Vale la pena construir un simulador de aportes para el fondo voluntario?",
+            "hallazgos": [
+              { "id": "H1", "enunciado": "La mayoría de quienes ahorran en el fondo voluntario no sabe cuánto aportar para llegar a una meta.", "fuentes": ["F1", "F2"], "confianza": "alta" },
+              { "id": "H2", "enunciado": "En los simuladores de otras entidades, las personas abandonan cuando se les piden datos personales antes de ver un resultado.", "fuentes": ["F3"], "confianza": "media" },
+              { "id": "H3", "enunciado": "Las personas confían más en una proyección cuando ven un rango posible y no una sola cifra.", "fuentes": ["F1", "F3"], "confianza": "media" },
+              { "id": "H4", "enunciado": "Toda proyección debe aclarar que la rentabilidad pasada no garantiza la futura.", "fuentes": ["F4"], "confianza": "alta" }
+            ],
+            "respuestaCorta": "Sí hay una necesidad clara (H1). Antes del sprint conviene validar un prototipo que muestre un rango, no pida datos personales al inicio y cumpla H4.",
+            "preguntasAbiertas": [
+              "¿Las personas prefieren simular por meta (cuánto quiero tener) o por aporte (cuánto puedo poner)?",
+              "¿Dónde vive el simulador: en la app, en la web o en ambas?"
+            ]
+          },
+          "advertencias": [],
+          "siguientesCapacidades": ["contenido", "estrategia"]
+        },
+        "evidenciaDebil": {
+          "estado": "completado",
+          "capacidad": "investigacion",
+          "duracionSegundos": 97,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "No hay entrevistas ni datos de uso sobre esta pregunta. Los hallazgos vienen de usuarios simulados y de un benchmark de 2 sitios.",
+            "fuentes": [
+              { "id": "F3", "tipo": "benchmark", "descripcion": "Revisión de 2 simuladores de ahorro de otras entidades", "esSintetica": false },
+              { "id": "F5", "tipo": "sintetica", "descripcion": "Panel de 5 usuarios simulados del segmento ahorradores digitales", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "pregunta": "¿Vale la pena construir un simulador de aportes para el fondo voluntario?",
+            "hallazgos": [
+              { "id": "H1", "enunciado": "Los usuarios simulados dicen que usarían un simulador para decidir cuánto aportar.", "fuentes": ["F5"], "confianza": "baja" },
+              { "id": "H2", "enunciado": "Los dos simuladores revisados muestran el resultado antes de pedir datos personales.", "fuentes": ["F3"], "confianza": "media" }
+            ],
+            "respuestaCorta": "Hay señales, pero no evidencia suficiente para decidir. Conviene hablar con personas reales antes de invertir en un sprint.",
+            "preguntasAbiertas": [
+              "¿Cuántas personas con fondo voluntario intentan calcular sus aportes hoy?",
+              "¿Qué hacen hoy cuando quieren saber cuánto aportar?"
+            ]
+          },
+          "advertencias": [
+            "Esta síntesis no incluye entrevistas ni datos de uso.",
+            "H1 viene solo de usuarios simulados: orienta, no confirma."
+          ],
+          "siguientesCapacidades": ["contenido"]
+        },
+        "error": {
+          "estado": "error",
+          "capacidad": "investigacion",
+          "error": {
+            "codigo": "FUENTE_NO_DISPONIBLE",
+            "mensaje": "quant_source timeout after 300s (survey_db unreachable)",
+            "reintentable": true,
+            "duracionSegundos": 300
+          }
+        }
+      }
+    },
+    {
+      "id": "contenido",
+      "nombre": "Contenido",
+      "agente": "Kiki",
+      "queHace": "Define la arquitectura de mensajes y el microcopy según la guía de voz.",
+      "descripcionNoTecnica": "Decide qué decirle a las personas, en qué orden y con qué palabras, siguiendo la forma de hablar de Skandia.",
+      "entradas": [
+        { "campo": "hallazgos", "tipo": "salida de investigacion", "requerido": true, "descripcion": "Hallazgos aprobados" },
+        { "campo": "objetivo", "tipo": "texto", "requerido": true, "descripcion": "Qué debe lograr el contenido" },
+        { "campo": "canal", "tipo": "app | web | correo | whatsapp", "requerido": false, "descripcion": "Dónde se va a leer" }
+      ],
+      "salida": {
+        "tipo": "estrategiaDeContenido",
+        "esquema": {
+          "mensajeCentral": "texto",
+          "jerarquia": ["texto en orden de lectura"],
+          "microcopy": [{ "elemento": "texto", "texto": "texto", "nota": "texto" }],
+          "tono": "texto"
+        }
+      },
+      "duracionTipica": { "minSegundos": 60, "maxSegundos": 180 },
+      "requiereRevisionHumana": true,
+      "dependeDe": ["investigacion"],
+      "respuestasSimuladas": {
+        "normal": {
+          "estado": "completado",
+          "capacidad": "contenido",
+          "duracionSegundos": 112,
+          "evidencia": {
+            "nivel": "media",
+            "resumen": "Los textos se apoyan en los hallazgos H1 a H4 y en la guía de voz. Todavía no se han probado con personas.",
+            "fuentes": [
+              { "id": "H1-H4", "tipo": "generada", "descripcion": "Hallazgos aprobados de la capacidad de investigación", "esSintetica": false },
+              { "id": "GV", "tipo": "lineamiento", "descripcion": "Guía de voz y tono de Skandia", "esSintetica": false }
+            ]
+          },
+          "contenido": {
+            "mensajeCentral": "Descubre cuánto podrías tener según lo que aportes, sin dar tus datos para empezar.",
+            "jerarquia": [
+              "Qué puedes calcular",
+              "Cuánto aportarías y por cuánto tiempo",
+              "Rango de lo que podrías tener",
+              "Qué significa ese rango",
+              "Información legal"
+            ],
+            "microcopy": [
+              { "elemento": "Título", "texto": "Calcula tu ahorro voluntario", "nota": "5 palabras, centrado en la acción" },
+              { "elemento": "Campo de aporte", "texto": "¿Cuánto podrías aportar al mes?", "nota": "Pregunta en tú" },
+              { "elemento": "Resultado", "texto": "Podrías tener entre $38.200.000 y $44.900.000 en 10 años", "nota": "Rango, no cifra única (H3). Cifras de ejemplo" },
+              { "elemento": "Aclaración", "texto": "Es una estimación. La rentabilidad pasada no garantiza la futura.", "nota": "Lineamiento H4, al final y sin alarmar" },
+              { "elemento": "Botón", "texto": "Ajustar mi aporte", "nota": "Verbo que invita" }
+            ],
+            "tono": "Educativo: ayuda a entender sin presionar."
+          },
+          "advertencias": [],
+          "siguientesCapacidades": ["estrategia"]
+        },
+        "evidenciaDebil": {
+          "estado": "completado",
+          "capacidad": "contenido",
+          "duracionSegundos": 74,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "No había hallazgos aprobados. Los textos se escribieron solo con la guía de voz y supuestos de la IA.",
+            "fuentes": [
+              { "id": "GV", "tipo": "lineamiento", "descripcion": "Guía de voz y tono de Skandia", "esSintetica": false },
+              { "id": "S1", "tipo": "generada", "descripcion": "Supuestos de la IA sobre lo que la gente necesita", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "mensajeCentral": "Planea tu ahorro voluntario en pocos pasos.",
+            "jerarquia": ["Qué puedes calcular", "Cuánto aportarías", "Resultado"],
+            "microcopy": [
+              { "elemento": "Título", "texto": "Planea tu ahorro voluntario", "nota": "Supuesto: no validado con hallazgos" },
+              { "elemento": "Resultado", "texto": "Podrías tener $41.500.000 en 10 años", "nota": "Cifra única: puede contradecir lo que las personas necesitan" }
+            ],
+            "tono": "Educativo."
+          },
+          "advertencias": [
+            "Estos textos no se basan en hallazgos de investigación.",
+            "El resultado muestra una cifra única y no incluye la aclaración sobre rentabilidad."
+          ],
+          "siguientesCapacidades": ["investigacion"]
+        },
+        "error": {
+          "estado": "error",
+          "capacidad": "contenido",
+          "error": {
+            "codigo": "ENTRADA_INCOMPLETA",
+            "mensaje": "missing required input: objetivo",
+            "reintentable": false,
+            "duracionSegundos": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "estrategia",
+      "nombre": "Estrategia",
+      "agente": "Harvey",
+      "queHace": "Clasifica el riesgo, define la arquitectura de información y la estructura del flujo.",
+      "descripcionNoTecnica": "Arma el plan del producto: qué tan riesgoso es, qué pantallas necesita y en qué orden.",
+      "entradas": [
+        { "campo": "hallazgos", "tipo": "salida de investigacion", "requerido": true, "descripcion": "Hallazgos aprobados" },
+        { "campo": "contenido", "tipo": "salida de contenido", "requerido": true, "descripcion": "Estrategia de contenido aprobada" }
+      ],
+      "salida": {
+        "tipo": "documentoDeProducto",
+        "esquema": {
+          "riesgo": {
+            "regulatorio": "alto | medio | bajo | sin evaluar",
+            "usabilidad": "alto | medio | bajo | sin evaluar",
+            "tecnico": "alto | medio | bajo | sin evaluar",
+            "negocio": "alto | medio | bajo | sin evaluar",
+            "justificacion": "texto"
+          },
+          "estructuraDelFlujo": "texto",
+          "pantallas": [{ "id": "P1", "nombre": "texto", "objetivo": "texto", "componentes": ["texto"] }],
+          "criteriosDeExito": ["texto"],
+          "decisionesPendientes": ["texto"]
+        }
+      },
+      "duracionTipica": { "minSegundos": 90, "maxSegundos": 240 },
+      "requiereRevisionHumana": true,
+      "dependeDe": ["investigacion", "contenido"],
+      "respuestasSimuladas": {
+        "normal": {
+          "estado": "completado",
+          "capacidad": "estrategia",
+          "duracionSegundos": 156,
+          "evidencia": {
+            "nivel": "media",
+            "resumen": "El plan sale de hallazgos y contenido aprobados. El riesgo regulatorio se basa en el lineamiento de proyecciones.",
+            "fuentes": [
+              { "id": "H1-H4", "tipo": "generada", "descripcion": "Hallazgos aprobados", "esSintetica": false },
+              { "id": "C1", "tipo": "generada", "descripcion": "Estrategia de contenido aprobada", "esSintetica": false },
+              { "id": "F4", "tipo": "lineamiento", "descripcion": "Lineamiento interno para mostrar proyecciones de rentabilidad", "esSintetica": false }
+            ]
+          },
+          "contenido": {
+            "riesgo": {
+              "regulatorio": "medio",
+              "usabilidad": "bajo",
+              "tecnico": "bajo",
+              "negocio": "medio",
+              "justificacion": "Muestra proyecciones de rentabilidad, así que necesita la aclaración legal (F4). No mueve dinero ni pide datos personales."
+            },
+            "estructuraDelFlujo": "Tres pasos: aporte y plazo → rango estimado → qué significa y siguiente paso.",
+            "pantallas": [
+              { "id": "P1", "nombre": "Tu aporte", "objetivo": "Capturar aporte mensual y plazo sin pedir datos personales", "componentes": ["sk-input-text", "sk-button"] },
+              { "id": "P2", "nombre": "Tu rango estimado", "objetivo": "Mostrar el rango y permitir ajustar el aporte", "componentes": ["sk-card", "sk-alert", "sk-button"] },
+              { "id": "P3", "nombre": "Qué sigue", "objetivo": "Explicar el rango e invitar a aportar o hablar con un asesor", "componentes": ["sk-card", "sk-button"] }
+            ],
+            "criteriosDeExito": [
+              "7 de cada 10 personas entienden que el resultado es un rango y no una promesa",
+              "Las personas llegan al resultado sin dar datos personales"
+            ],
+            "decisionesPendientes": [
+              "Simular por meta o por aporte (pregunta abierta de investigación)",
+              "Canal de lanzamiento: app, web o ambos"
+            ]
+          },
+          "advertencias": ["El Design System no tiene un campo de moneda: P1 usa un campo de texto provisional."],
+          "siguientesCapacidades": ["prototipado"]
+        },
+        "evidenciaDebil": {
+          "estado": "completado",
+          "capacidad": "estrategia",
+          "duracionSegundos": 88,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "El contenido de entrada tenía evidencia baja. No se pudo evaluar el riesgo regulatorio.",
+            "fuentes": [
+              { "id": "C1", "tipo": "generada", "descripcion": "Estrategia de contenido con evidencia baja", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "riesgo": {
+              "regulatorio": "sin evaluar",
+              "usabilidad": "medio",
+              "tecnico": "bajo",
+              "negocio": "sin evaluar",
+              "justificacion": "Sin hallazgos aprobados no hay forma de saber qué reglas aplican ni qué impacto tendría."
+            },
+            "estructuraDelFlujo": "Dos pasos: aporte → resultado.",
+            "pantallas": [
+              { "id": "P1", "nombre": "Tu aporte", "objetivo": "Capturar el aporte", "componentes": ["sk-input-text", "sk-button"] },
+              { "id": "P2", "nombre": "Resultado", "objetivo": "Mostrar cuánto tendría", "componentes": ["sk-card"] }
+            ],
+            "criteriosDeExito": [],
+            "decisionesPendientes": ["Hacer investigación antes de seguir"]
+          },
+          "advertencias": [
+            "Dos de las cuatro dimensiones de riesgo quedaron sin evaluar.",
+            "No hay criterios de éxito: no hay contra qué validar."
+          ],
+          "siguientesCapacidades": ["investigacion"]
+        },
+        "error": {
+          "estado": "error",
+          "capacidad": "estrategia",
+          "error": {
+            "codigo": "DEPENDENCIA_NO_APROBADA",
+            "mensaje": "input 'hallazgos' has no human approval (review_status=pending)",
+            "reintentable": false,
+            "duracionSegundos": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "prototipado",
+      "nombre": "Prototipado",
+      "agente": "Rachel",
+      "queHace": "Construye pantallas con el Design System.",
+      "descripcionNoTecnica": "Convierte el plan en pantallas navegables que se pueden mostrar y probar.",
+      "entradas": [
+        { "campo": "documentoDeProducto", "tipo": "salida de estrategia", "requerido": true, "descripcion": "Plan aprobado" }
+      ],
+      "salida": {
+        "tipo": "prototipo",
+        "esquema": {
+          "pantallas": [{ "id": "P1", "nombre": "texto", "descripcion": "texto", "componentesUsados": ["texto"] }],
+          "vistaPrevia": { "tipo": "descripcion", "nota": "texto" },
+          "limitaciones": ["texto"]
+        }
+      },
+      "duracionTipica": { "minSegundos": 180, "maxSegundos": 420 },
+      "requiereRevisionHumana": false,
+      "dependeDe": ["estrategia"],
+      "respuestasSimuladas": {
+        "normal": {
+          "estado": "completado",
+          "capacidad": "prototipado",
+          "duracionSegundos": 263,
+          "evidencia": {
+            "nivel": "media",
+            "resumen": "Las pantallas siguen el plan aprobado y usan componentes del Design System.",
+            "fuentes": [
+              { "id": "PRD", "tipo": "generada", "descripcion": "Documento de producto aprobado", "esSintetica": false }
+            ]
+          },
+          "contenido": {
+            "pantallas": [
+              { "id": "P1", "nombre": "Tu aporte", "descripcion": "Campo de aporte mensual, selector de plazo y botón Calcular. Sin login.", "componentesUsados": ["sk-input-text", "sk-button"] },
+              { "id": "P2", "nombre": "Tu rango estimado", "descripcion": "Tarjeta con el rango, aclaración legal al final y botón Ajustar mi aporte.", "componentesUsados": ["sk-card", "sk-alert", "sk-button"] },
+              { "id": "P3", "nombre": "Qué sigue", "descripcion": "Explicación del rango y dos caminos: aportar ahora o hablar con un asesor.", "componentesUsados": ["sk-card", "sk-button"] }
+            ],
+            "vistaPrevia": {
+              "tipo": "descripcion",
+              "nota": "En la prueba no hay un prototipo real. Representa este resultado como prefieras."
+            },
+            "limitaciones": ["El campo de aporte usa un campo de texto: no da formato de moneda."]
+          },
+          "advertencias": [],
+          "siguientesCapacidades": ["validacion"]
+        },
+        "evidenciaDebil": {
+          "estado": "completado",
+          "capacidad": "prototipado",
+          "duracionSegundos": 301,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "Se construyeron solo 2 de las 3 pantallas. La tercera usa piezas fuera del Design System.",
+            "fuentes": [
+              { "id": "PRD", "tipo": "generada", "descripcion": "Documento de producto aprobado", "esSintetica": false },
+              { "id": "G1", "tipo": "generada", "descripcion": "Componentes inventados por la IA para llenar vacíos", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "pantallas": [
+              { "id": "P1", "nombre": "Tu aporte", "descripcion": "Campo de aporte y botón Calcular.", "componentesUsados": ["sk-input-text", "sk-button"] },
+              { "id": "P2", "nombre": "Tu rango estimado", "descripcion": "Gráfica de barras creada por la IA, fuera del Design System.", "componentesUsados": ["sk-card", "grafica-generada"] }
+            ],
+            "vistaPrevia": {
+              "tipo": "descripcion",
+              "nota": "En la prueba no hay un prototipo real. Representa este resultado como prefieras."
+            },
+            "limitaciones": [
+              "Falta la pantalla P3.",
+              "P2 usa una gráfica que no existe en el Design System."
+            ]
+          },
+          "advertencias": ["Revisa P2 antes de mostrarla: incluye piezas que no son del Design System."],
+          "siguientesCapacidades": ["prototipado"]
+        },
+        "error": {
+          "estado": "error",
+          "capacidad": "prototipado",
+          "error": {
+            "codigo": "TIEMPO_AGOTADO",
+            "mensaje": "render job exceeded 420s",
+            "reintentable": true,
+            "duracionSegundos": 420
+          }
+        }
+      }
+    },
+    {
+      "id": "validacion",
+      "nombre": "Validación sintética",
+      "agente": null,
+      "queHace": "Simula la reacción de 5 perfiles de cliente de un segmento.",
+      "descripcionNoTecnica": "Muestra cómo podrían reaccionar 5 clientes simulados. Sirve para encontrar problemas rápido, no para reemplazar una prueba con personas reales.",
+      "entradas": [
+        { "campo": "material", "tipo": "salida de prototipado o texto", "requerido": true, "descripcion": "Prototipo o mensaje a evaluar" },
+        { "campo": "segmento", "tipo": "texto", "requerido": true, "descripcion": "Grupo de clientes a simular" }
+      ],
+      "salida": {
+        "tipo": "informeDeReacciones",
+        "esquema": {
+          "segmento": "texto",
+          "perfiles": [{ "alias": "texto", "descripcion": "texto", "reaccion": "texto", "citaSimulada": "texto", "comprension": "alta | media | baja" }],
+          "patrones": ["texto"],
+          "recomendaciones": ["texto"]
+        }
+      },
+      "duracionTipica": { "minSegundos": 60, "maxSegundos": 150 },
+      "requiereRevisionHumana": false,
+      "dependeDe": [],
+      "segmentosDisponibles": ["ahorradores digitales", "profesionales con patrimonio en crecimiento", "personas cerca de pensionarse"],
+      "respuestasSimuladas": {
+        "normal": {
+          "estado": "completado",
+          "capacidad": "validacion",
+          "duracionSegundos": 94,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "Son reacciones de clientes simulados. Ayudan a detectar problemas, pero no confirman nada.",
+            "fuentes": [
+              { "id": "F5", "tipo": "sintetica", "descripcion": "Panel de 5 usuarios simulados del segmento ahorradores digitales", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "segmento": "ahorradores digitales",
+            "perfiles": [
+              { "alias": "Perfil 1", "descripcion": "34 años, aporta de forma irregular", "reaccion": "Entiende el rango y ajusta el aporte dos veces.", "citaSimulada": "Me gusta que no me pida la cédula para probar.", "comprension": "alta" },
+              { "alias": "Perfil 2", "descripcion": "41 años, aporte fijo mensual", "reaccion": "Busca cuánto ahorraría en impuestos y no lo encuentra.", "citaSimulada": "¿Y el beneficio tributario dónde lo veo?", "comprension": "media" },
+              { "alias": "Perfil 3", "descripcion": "29 años, primer año en el fondo", "reaccion": "Lee el rango como una promesa.", "citaSimulada": "O sea que voy a tener mínimo 38 millones.", "comprension": "baja" },
+              { "alias": "Perfil 4", "descripcion": "37 años, compara con otras entidades", "reaccion": "Quiere comparar plazos lado a lado.", "citaSimulada": "Quisiera ver 5 y 10 años al tiempo.", "comprension": "alta" },
+              { "alias": "Perfil 5", "descripcion": "45 años, poca experiencia digital", "reaccion": "Se pierde en el selector de plazo.", "citaSimulada": "No sé si son meses o años.", "comprension": "media" }
+            ],
+            "patrones": [
+              "El rango se entiende, pero 1 de 5 lo lee como un mínimo garantizado.",
+              "El plazo necesita unidad explícita."
+            ],
+            "recomendaciones": [
+              "Reforzar que el rango no es una promesa, cerca del resultado.",
+              "Probar con personas reales antes de decidir el sprint."
+            ]
+          },
+          "advertencias": ["Usuarios simulados: orientan, no reemplazan una prueba con personas reales."],
+          "siguientesCapacidades": []
+        },
+        "evidenciaDebil": {
+          "estado": "completado",
+          "capacidad": "validacion",
+          "duracionSegundos": 71,
+          "evidencia": {
+            "nivel": "baja",
+            "resumen": "Solo 3 de 5 perfiles completaron la simulación y sus reacciones se contradicen.",
+            "fuentes": [
+              { "id": "F5", "tipo": "sintetica", "descripcion": "Panel parcial: 3 usuarios simulados", "esSintetica": true }
+            ]
+          },
+          "contenido": {
+            "segmento": "ahorradores digitales",
+            "perfiles": [
+              { "alias": "Perfil 1", "descripcion": "34 años, aporta de forma irregular", "reaccion": "Lo encuentra útil.", "citaSimulada": "Lo usaría cada mes.", "comprension": "alta" },
+              { "alias": "Perfil 2", "descripcion": "41 años, aporte fijo mensual", "reaccion": "No le ve valor.", "citaSimulada": "Esto ya lo sé hacer en Excel.", "comprension": "alta" },
+              { "alias": "Perfil 3", "descripcion": "29 años, primer año en el fondo", "reaccion": "No entiende el resultado.", "citaSimulada": "¿Esto es lo que ya tengo o lo que tendría?", "comprension": "baja" }
+            ],
+            "patrones": [],
+            "recomendaciones": ["Repetir la simulación o pasar a una prueba con personas reales."]
+          },
+          "advertencias": [
+            "Simulación incompleta: 2 perfiles no respondieron.",
+            "No hay patrones claros."
+          ],
+          "siguientesCapacidades": ["validacion"]
+        },
+        "error": {
+          "estado": "error",
+          "capacidad": "validacion",
+          "error": {
+            "codigo": "SEGMENTO_NO_SOPORTADO",
+            "mensaje": "segment 'empleados de Skandia' not in available segments",
+            "reintentable": false,
+            "duracionSegundos": 1
+          }
+        }
+      }
+    }
+  ]
+}

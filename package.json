@@ -16,11 +16,12 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "duplication": "jscpd src --threshold 5 --ignore \"**/*.test.ts,**/*.test.tsx\""
+    "duplication": "jscpd src --threshold 5 --ignore \"**/*.test.ts,**/*.test.tsx,**/data/kit/**\""
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

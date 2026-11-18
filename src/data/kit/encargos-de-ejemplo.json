@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "nota": "Encargos ficticios para probar tu plataforma. Los nombres, cédulas y saldos son inventados: úsalos solo para verificar que tu plataforma los detecta.",
+  "encargos": [
+    {
+      "id": "E1",
+      "persona": "A",
+      "texto": "Quiero saber si vale la pena un simulador de aportes para el fondo voluntario antes de pedirle un sprint a desarrollo. Es para la app y la idea es que la gente sepa cuánto aportar.",
+      "casoQuePrueba": "Éxito: encargo claro, con producto, canal y objetivo"
+    },
+    {
+      "id": "E2",
+      "persona": "A",
+      "texto": "Necesito algo para que la gente ahorre más.",
+      "casoQuePrueba": "Necesidad ambigua: falta producto, público y qué significa 'algo'"
+    },
+    {
+      "id": "E3",
+      "persona": "A",
+      "texto": "Quiero un simulador de aportes. Por ejemplo, Mariana Ejemplo, cédula 1.234.567.890, tiene un saldo de $48.500.000 y nos escribió porque no sabe cuánto aportar.",
+      "casoQuePrueba": "Datos sensibles: nombre, cédula y saldo de una clienta (ficticia)"
+    },
+    {
+      "id": "E4",
+      "persona": "A",
+      "texto": "Simulador de aportes para el fondo voluntario, en la app. Mi correo es po.inversion@ejemplo.com y el celular del cliente que lo pidió es 300 123 4567.",
+      "casoQuePrueba": "Datos sensibles menos evidentes: correo y celular"
+    },
+    {
+      "id": "E5",
+      "persona": "B",
+      "texto": "Necesito explicarle un producto nuevo a clientes que están por pensionarse.",
+      "casoQuePrueba": "Persona B: no sabe qué capacidad usar ni qué es un segmento"
+    },
+    {
+      "id": "E6",
+      "persona": "C",
+      "texto": "Tengo que revisar que el flujo de retiro comunique bien los riesgos antes de que salga. Necesito saber de dónde sale cada cosa que dice.",
+      "casoQuePrueba": "Persona C: necesita trazabilidad de cada afirmación"
+    }
+  ]
+}
