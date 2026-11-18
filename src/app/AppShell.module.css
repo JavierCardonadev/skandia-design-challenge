@@ -1,0 +1,25 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--sk-space-l) var(--sk-grid-mobile-margin) var(--sk-space-5xl);
+  display: grid;
+  gap: var(--sk-space-l);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sk-grid-tablet-margin);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sk-space-m);
+}
+
+.content {
+  display: grid;
+  gap: var(--sk-space-m);
+}
