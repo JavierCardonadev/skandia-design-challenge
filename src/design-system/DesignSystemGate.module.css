@@ -1,0 +1,25 @@
+.message {
+  max-width: 480px;
+  margin: var(--sk-space-5xl) auto;
+  padding: 0 var(--sk-grid-mobile-margin);
+  text-align: center;
+  font: var(--sk-font-weight-medium) 16px/24px var(--sk-font-body);
+  color: var(--sk-color-text);
+}
+
+/* Native button on purpose: sk-button is exactly what failed to load here. */
+.retry {
+  margin-top: var(--sk-space-m);
+  padding: var(--sk-space-s) var(--sk-space-l);
+  border: 1px solid var(--sk-color-text);
+  border-radius: var(--bordes-xl);
+  background: var(--sk-color-surface);
+  color: var(--sk-color-text);
+  font: var(--sk-font-weight-bold) 16px/24px var(--sk-font-body);
+  cursor: pointer;
+}
+
+.retry:focus-visible {
+  outline: 2px solid var(--sk-color-border-focus);
+  outline-offset: 2px;
+}

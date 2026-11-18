@@ -1,0 +1,76 @@
+/*
+ * Tokens del Design System Skandia (sk-components).
+ * El bundle aplica los colores --sk-color-* al arrancar; el resto lo defines tú con este archivo.
+ * Si construyes sin el bundle, este archivo trae todo lo necesario.
+ * Usa siempre var(--sk-*). Nada de hex sueltos en tus componentes.
+ */
+:root {
+  /* Color: marca */
+  --sk-color-primary: #00c73d;          /* acción principal y selección. Texto blanco encima solo a 24 px bold o más */
+  --sk-color-primary-hover: #03a835;
+  --sk-color-primary-active: #009a2f;   /* íconos y estados activos sobre blanco */
+  --sk-color-accent: #16d727;
+
+  /* Color: superficies y texto */
+  --sk-color-bg: #ffffff;
+  --sk-color-surface: #ffffff;
+  --sk-color-text: #404040;             /* texto principal. Sobre el verde da 4,6:1 */
+  --sk-color-text-muted: #666666;
+  --sk-color-text-inverse: #ffffff;
+  --sk-color-border: #dddddd;
+  --sk-color-border-hover: #00c73d;
+  --sk-color-border-focus: #16d727;
+
+  /* Color: feedback */
+  --sk-color-success: #00a34e;
+  --sk-color-warning: #ffae08;
+  --sk-color-error: #e03430;
+  --sk-color-info: #0099de;
+  --sk-color-success-light: #ecfdf3;
+  --sk-color-success-medium: #87f491;
+
+  /* Color: estados y apoyos */
+  --sk-color-disabled: #f7f7f7;
+  --sk-color-placeholder: #a5a5a5;
+  --sk-color-secondary-hover-bg: #caf9cb;   /* verde suave */
+  --sk-color-tertiary-hover-bg: #f6fcf2;    /* verde muy suave */
+  --sk-color-link: #0099de;
+
+  /* Fondos suaves de feedback (los mismos de sk-alert) */
+  --background-warning-light: #fff3e0;
+  --background-info-light: #ebf4ff;
+  --background-error-light: #fff5f4;
+
+  /* Tipografía */
+  --sk-font-title: 'Montserrat', sans-serif;          /* títulos, 700 */
+  --sk-font-body: 'Open Sans', system-ui, sans-serif; /* cuerpo, 500 */
+  --sk-font-weight-regular: 400;
+  --sk-font-weight-medium: 500;
+  --sk-font-weight-bold: 700;
+  /* Escala: h1 32/40 · h2 24/32 · h3 20/28 · h4 18/26 · p 16/24 · label 14/22. Nada por debajo de 14 px en texto de lectura. */
+
+  /* Espaciado */
+  --sk-space-xxs: 4px; --sk-space-xs: 8px; --sk-space-s: 12px; --sk-space-m: 16px; --sk-space-l: 24px;
+  --sk-space-xl: 32px; --sk-space-2xl: 40px; --sk-space-3xl: 48px; --sk-space-4xl: 56px; --sk-space-5xl: 64px;
+
+  /* Grid: móvil < 768 px · tablet 768–1023 px · escritorio ≥ 1024 px */
+  --sk-grid-mobile-columns: 4;   --sk-grid-mobile-gutter: 16px;  --sk-grid-mobile-margin: 16px;
+  --sk-grid-tablet-columns: 8;   --sk-grid-tablet-gutter: 24px;  --sk-grid-tablet-margin: 32px;
+  --sk-grid-desktop-columns: 12; --sk-grid-desktop-gutter: 24px; --sk-grid-desktop-margin: 90px;
+
+  /* Radios (la librería no publica tokens de radio: estos son los del equipo UX) */
+  --bordes-s: 4px; --bordes-m: 16px; --bordes-l: 32px; --bordes-xl: 104px;
+
+  /* Sombras: una por rol */
+  --sk-shadow-subtle: 0 0 2px rgba(68, 68, 68, 0.15);       /* inputs */
+  --sk-shadow-surface: 0 0 2px 0 rgba(61, 75, 92, 0.15);    /* tarjetas y superficies */
+  --sk-shadow-raised: 0 4px 16px rgba(0, 0, 0, 0.12);       /* elevación media */
+  --sk-shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.16);      /* modales y paneles flotantes */
+
+  /* Movimiento */
+  --sk-motion-duration-fast: 120ms;
+  --sk-motion-duration-base: 320ms;
+  --sk-motion-duration-slow: 480ms;
+  --sk-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --sk-motion-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+}
