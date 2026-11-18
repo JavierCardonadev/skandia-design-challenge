@@ -33,4 +33,6 @@ await writeFile(
     2,
   ),
 );
+// The bundle is CommonJS; say so explicitly so it never inherits "type": "module".
+await writeFile(`${functionDir}/package.json`, JSON.stringify({ type: 'commonjs' }, null, 2));
 await writeFile(`${output}/config.json`, JSON.stringify({ version: 3 }, null, 2));
