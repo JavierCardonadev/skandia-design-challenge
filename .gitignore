@@ -1,0 +1,10 @@
+node_modules
+dist
+coverage
+.vercel
+.DS_Store
+
+# Secrets never reach the repository; .env.example documents the variable names.
+.env
+.env.*
+!.env.example
