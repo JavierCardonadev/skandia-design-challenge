@@ -22,6 +22,8 @@ export interface PlannedStep {
   capabilityId: string;
   /** Why this step serves this particular need, in plain language. May be empty. */
   reason: string;
+  /** The framer left this step out although a later one needs it; the platform put it back. */
+  addedByPlatform: boolean;
 }
 
 export interface FramedBrief {
@@ -55,7 +57,7 @@ export const MAX_QUESTIONS = 3;
 
 const nonEmptyText = z.string().trim().min(1);
 
-/** The contract of a framer's answer. This is the schema a live model is asked to follow. */
+/** The contract of a framer's answer, checked on whatever a framer returns. */
 export const framedBriefSchema = z.object({
   summary: nonEmptyText,
   facts: z.array(z.object({ label: nonEmptyText, value: nonEmptyText, isAssumption: z.boolean() })),
@@ -66,26 +68,37 @@ export const framedBriefSchema = z.object({
 });
 
 /**
- * Validates the shape, then makes the plan runnable: steps the catalog does not know
- * are dropped (a model can invent capabilities) and missing dependencies are added.
+ * Validates the shape, then repairs what a model typically gets wrong without making
+ * the answer useless: capabilities it invented are dropped, dependencies it skipped are
+ * added back (and flagged), and questions the person already answered are removed.
  */
-function toFramedBrief(catalog: CapabilityCatalog, raw: unknown): FramingOutcome {
+function toFramedBrief(
+  catalog: CapabilityCatalog,
+  request: FramingRequest,
+  raw: unknown,
+): FramingOutcome {
   const parsed = framedBriefSchema.safeParse(raw);
   if (!parsed.success) return { ok: false, issues: formatIssues(parsed.error) };
 
-  const { steps, ...brief } = parsed.data;
+  const { steps, questions, ...brief } = parsed.data;
   const reasons = new Map(steps.map((step) => [step.capabilityId, step.reason]));
-  const { stepIds } = resolvePlan(catalog, [...reasons.keys()]);
+  const plan = resolvePlan(catalog, [...reasons.keys()]);
+  const pendingQuestions = questions.filter((question) => !(question.id in request.answers));
 
-  if (brief.questions.length === 0 && stepIds.length === 0) {
-    return { ok: false, issues: ['The brief has no questions and no runnable steps'] };
+  if (pendingQuestions.length === 0 && plan.stepIds.length === 0) {
+    return { ok: false, issues: ['The brief has no pending questions and no runnable steps'] };
   }
 
   return {
     ok: true,
     brief: {
       ...brief,
-      steps: stepIds.map((id) => ({ capabilityId: id, reason: reasons.get(id) ?? '' })),
+      questions: pendingQuestions,
+      steps: plan.stepIds.map((id) => ({
+        capabilityId: id,
+        reason: reasons.get(id) ?? '',
+        addedByPlatform: plan.addedDependencyIds.includes(id),
+      })),
     },
   };
 }
@@ -102,5 +115,40 @@ export async function frameBrief(
   } catch (error) {
     return { ok: false, issues: [error instanceof Error ? error.message : 'Unknown error'] };
   }
-  return toFramedBrief(catalog, raw);
+  return toFramedBrief(catalog, request, raw);
+}
+
+export interface Framers {
+  primary: BriefFramer;
+  /** Used when the primary fails or answers out of contract. Omitted when the primary is local. */
+  fallback?: BriefFramer;
+}
+
+export interface FramingAttempt {
+  outcome: FramingOutcome;
+  /** The brief on screen came from the fallback, not from the primary framer. */
+  usedFallback: boolean;
+  /** Why the primary was not used, for logs and for explaining the failure afterwards. */
+  primaryIssues: string[];
+}
+
+/**
+ * Tries the primary framer and, if it fails for any reason other than being cancelled,
+ * falls back so the person still gets a brief instead of a dead end.
+ */
+export async function frameBriefWithFallback(
+  framers: Framers,
+  catalog: CapabilityCatalog,
+  request: FramingRequest,
+): Promise<FramingAttempt> {
+  const primary = await frameBrief(framers.primary, catalog, request);
+  if (primary.ok || !framers.fallback || request.signal?.aborted) {
+    return { outcome: primary, usedFallback: false, primaryIssues: [] };
+  }
+
+  return {
+    outcome: await frameBrief(framers.fallback, catalog, request),
+    usedFallback: true,
+    primaryIssues: primary.issues,
+  };
 }

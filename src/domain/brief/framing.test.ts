@@ -1,6 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { kitCatalog } from '../capabilities/kit-catalog';
-import { frameBrief, type BriefFramer, type FramingRequest } from './framing';
+import {
+  frameBrief,
+  frameBriefWithFallback,
+  type BriefFramer,
+  type FramingRequest,
+} from './framing';
 
 const request: FramingRequest = { text: 'Quiero un simulador', answers: {} };
 
@@ -28,7 +33,18 @@ describe('frameBrief', () => {
   it('returns the validated brief of a well formed answer', async () => {
     const outcome = await frameBrief(framerAnswering(validAnswer()), kitCatalog, request);
 
-    expect(outcome).toEqual({ ok: true, brief: validAnswer() });
+    expect(outcome).toEqual({
+      ok: true,
+      brief: validAnswer({
+        steps: [
+          {
+            capabilityId: 'investigacion',
+            reason: 'Para saber qué dicen los clientes.',
+            addedByPlatform: false,
+          },
+        ],
+      }),
+    });
   });
 
   it('drops invented capabilities and adds the dependencies the plan needs', async () => {
@@ -46,8 +62,8 @@ describe('frameBrief', () => {
     );
 
     expect(outcome.ok && outcome.brief.steps).toEqual([
-      { capabilityId: 'investigacion', reason: '' },
-      { capabilityId: 'contenido', reason: 'Define los mensajes.' },
+      { capabilityId: 'investigacion', reason: '', addedByPlatform: true },
+      { capabilityId: 'contenido', reason: 'Define los mensajes.', addedByPlatform: false },
     ]);
   });
 
@@ -77,7 +93,9 @@ describe('frameBrief', () => {
   it('rejects a brief with nothing to ask and nothing to run', async () => {
     const answer = validAnswer({ steps: [{ capabilityId: 'traduccion', reason: '' }] });
 
-    expect(await issuesFor(answer)).toEqual(['The brief has no questions and no runnable steps']);
+    expect(await issuesFor(answer)).toEqual([
+      'The brief has no pending questions and no runnable steps',
+    ]);
   });
 
   it('turns a framer that throws into a failed outcome', async () => {
@@ -95,5 +113,104 @@ describe('frameBrief', () => {
       ok: false,
       issues: ['Unknown error'],
     });
+  });
+});
+
+describe('frameBrief with earlier answers', () => {
+  const questions = [
+    { id: 'product', question: '¿Sobre qué producto es?', options: [] },
+    { id: 'audience', question: '¿Para qué grupo de clientes es?', options: [] },
+  ];
+
+  it('removes questions the person already answered', async () => {
+    const outcome = await frameBrief(framerAnswering(validAnswer({ questions })), kitCatalog, {
+      text: 'Quiero un simulador',
+      answers: { product: 'Fondo Voluntario' },
+    });
+
+    expect(outcome.ok && outcome.brief.questions.map((question) => question.id)).toEqual([
+      'audience',
+    ]);
+  });
+
+  it('rejects a brief that only repeats answered questions and proposes nothing', async () => {
+    const outcome = await frameBrief(
+      framerAnswering(validAnswer({ questions: questions.slice(0, 1), steps: [] })),
+      kitCatalog,
+      { text: 'Quiero un simulador', answers: { product: 'Fondo Voluntario' } },
+    );
+
+    expect(outcome.ok).toBe(false);
+  });
+});
+
+describe('frameBriefWithFallback', () => {
+  const working = framerAnswering(validAnswer());
+  const broken: BriefFramer = { frame: () => Promise.reject(new Error('quota exceeded')) };
+
+  it('uses the primary framer when it answers well', async () => {
+    const attempt = await frameBriefWithFallback(
+      { primary: working, fallback: broken },
+      kitCatalog,
+      request,
+    );
+
+    expect(attempt).toMatchObject({
+      outcome: { ok: true },
+      usedFallback: false,
+      primaryIssues: [],
+    });
+  });
+
+  it('falls back when the primary throws, keeping the reason', async () => {
+    const attempt = await frameBriefWithFallback(
+      { primary: broken, fallback: working },
+      kitCatalog,
+      request,
+    );
+
+    expect(attempt).toMatchObject({
+      outcome: { ok: true },
+      usedFallback: true,
+      primaryIssues: ['quota exceeded'],
+    });
+  });
+
+  it('falls back when the primary answers out of contract', async () => {
+    const attempt = await frameBriefWithFallback(
+      { primary: framerAnswering({ summary: '' }), fallback: working },
+      kitCatalog,
+      request,
+    );
+
+    expect(attempt.usedFallback).toBe(true);
+    expect(attempt.outcome.ok).toBe(true);
+    expect(attempt.primaryIssues.length).toBeGreaterThan(0);
+  });
+
+  it('reports the failure when there is no fallback or it fails too', async () => {
+    const alone = await frameBriefWithFallback({ primary: broken }, kitCatalog, request);
+    const both = await frameBriefWithFallback(
+      { primary: broken, fallback: broken },
+      kitCatalog,
+      request,
+    );
+
+    expect(alone).toMatchObject({ outcome: { ok: false }, usedFallback: false });
+    expect(both).toMatchObject({ outcome: { ok: false }, usedFallback: true });
+  });
+
+  it('does not fall back for a request that was cancelled', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    const fallback = { frame: vi.fn(() => Promise.resolve(validAnswer())) };
+
+    const attempt = await frameBriefWithFallback({ primary: broken, fallback }, kitCatalog, {
+      ...request,
+      signal: controller.signal,
+    });
+
+    expect(attempt.usedFallback).toBe(false);
+    expect(fallback.frame).not.toHaveBeenCalled();
   });
 });
