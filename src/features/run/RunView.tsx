@@ -1,9 +1,9 @@
 import { SkButton } from '../../design-system';
 import { requireCapability } from '../../domain/capabilities/catalog';
-import type { CapabilityCatalog, CompletedResult } from '../../domain/capabilities/types';
+import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { dependentsOf } from '../../domain/plan/plan';
 import type { CapabilityProvider } from '../../domain/providers/provider';
-import { completedResults, type Run, type RunPhase } from '../../domain/run/run';
+import type { Run, RunPhase } from '../../domain/run/run';
 import { StepCard } from './StepCard';
 import { useRunExecution } from './useRunExecution';
 import styles from './RunView.module.css';
@@ -15,7 +15,7 @@ export interface RunViewProps {
   speedFactor: number;
   /** Leaves the run to change the plan. Progress is not kept. */
   onBack: () => void;
-  onFinish: (results: CompletedResult[]) => void;
+  onFinish: (run: Run) => void;
 }
 
 function phaseMessage(phase: RunPhase, run: Run): string {
@@ -103,7 +103,7 @@ export function RunView({
             icon="pi pi-arrow-right"
             iconPosition="right"
             onClick={() => {
-              onFinish(completedResults(run));
+              onFinish(run);
             }}
           />
         )}

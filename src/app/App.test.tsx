@@ -18,6 +18,15 @@ async function frameNeed() {
   await advance(1000);
 }
 
+/** Runs a plan reduced to its only step without review, up to the result view. */
+async function reachResult() {
+  await frameNeed();
+  clickSkButton('Quitar Investigación');
+  clickSkButton('Empezar con este plan');
+  await advance(5000);
+  clickSkButton('Ver el resultado');
+}
+
 function currentStage(): string | null {
   return document.querySelector('[aria-current="step"]')?.textContent ?? null;
 }
@@ -64,19 +73,43 @@ describe('App', () => {
     expect(currentStage()).toBe('1Encargo');
   });
 
-  it('runs a one-step plan to its result', async () => {
+  it('runs a plan to its result, with the need as context', async () => {
     render(<App />);
-    await frameNeed();
-    clickSkButton('Quitar Investigación');
 
-    clickSkButton('Empezar con este plan');
-    await advance(5000);
-    clickSkButton('Ver el resultado');
+    await reachResult();
 
-    expect(skElement('sk-alert[type="success"]')).toHaveAttribute(
-      'message',
-      'Pasos que aportaron al resultado: 1.',
-    );
+    expect(currentStage()).toBe('3Resultado');
+    expect(screen.queryByText('Tu plan terminó')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Aún falta respaldo para decidir con confianza',
+      }),
+    ).toBeVisible();
+    expect(
+      screen.getByText(/Tu encargo: Quieres saber si vale la pena un simulador/),
+    ).toBeVisible();
+  });
+
+  it('goes back from the result to the plan, keeping the need', async () => {
+    render(<App />);
+    await reachResult();
+
+    clickSkButton('Volver al plan');
+
+    expect(currentStage()).toBe('1Encargo');
+    expect(skElement('sk-textarea')).toHaveAttribute('value', NEED);
+  });
+
+  it('starts a new brief from the result with a clean slate', async () => {
+    render(<App />);
+    await reachResult();
+
+    clickSkButton('Empezar otro encargo');
+
+    expect(currentStage()).toBe('1Encargo');
+    expect(skElement('sk-textarea')).toHaveAttribute('value', '');
+    expect(screen.queryByText('Esto fue lo que entendimos')).not.toBeInTheDocument();
   });
 
   it('runs the plan under the demo scenario the reviewer picked', async () => {

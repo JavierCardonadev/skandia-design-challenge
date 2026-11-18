@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { kitCatalog } from '../../domain/capabilities/kit-catalog';
-import type { CompletedResult } from '../../domain/capabilities/types';
+import { completedResults, type Run } from '../../domain/run/run';
 import type { CapabilityProvider, CapabilityRequest } from '../../domain/providers/provider';
 import {
   createSimulatedProvider,
@@ -34,7 +34,7 @@ function renderRun(options: RenderOptions = {}) {
     },
   };
   const onBack = vi.fn<() => void>();
-  const onFinish = vi.fn<(results: CompletedResult[]) => void>();
+  const onFinish = vi.fn<(run: Run) => void>();
   const view = render(
     <RunView
       catalog={kitCatalog}
@@ -67,6 +67,11 @@ function manualProvider() {
     });
   };
   return { provider, signals, answer };
+}
+
+function finishedResults(run: Run | undefined) {
+  if (!run) throw new Error('The run was not reported');
+  return completedResults(run);
 }
 
 function statusLines(): string[] {
@@ -107,7 +112,7 @@ describe('RunView: progress', () => {
 
     clickSkButton('Ver el resultado');
     expect(onFinish).toHaveBeenCalledTimes(1);
-    expect(onFinish.mock.calls[0]?.[0]).toHaveLength(5);
+    expect(finishedResults(onFinish.mock.calls[0]?.[0])).toHaveLength(5);
   });
 
   it('hands the approved outputs to the next capability', async () => {
@@ -256,7 +261,7 @@ describe('RunView: failures and delays', () => {
     expect(screen.getAllByText('No se ejecutó')).toHaveLength(4);
 
     clickSkButton('Ver el resultado');
-    expect(onFinish.mock.calls[0]?.[0]).toHaveLength(1);
+    expect(finishedResults(onFinish.mock.calls[0]?.[0])).toHaveLength(1);
   });
 
   it('does not offer a retry when trying again cannot help', async () => {

@@ -1,0 +1,123 @@
+.view {
+  display: grid;
+  gap: var(--sk-space-xl);
+}
+
+.stack {
+  display: grid;
+  gap: var(--sk-space-m);
+}
+
+.view :is(h1, h2, h3, p) {
+  margin: 0;
+}
+
+.muted {
+  color: var(--sk-color-text-muted);
+}
+
+.context {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.signal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sk-space-xs);
+}
+
+.actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--sk-space-s);
+}
+
+@media (max-width: 767.98px) {
+  .actions {
+    grid-auto-flow: row;
+  }
+
+  .actions > :last-child {
+    order: -1;
+  }
+}
+
+.warnings {
+  display: grid;
+  gap: var(--sk-space-xs);
+  padding: var(--sk-space-m);
+  border-radius: var(--bordes-m);
+  background: var(--background-warning-light);
+}
+
+.warnings ul {
+  margin: 0;
+  padding-left: var(--sk-space-l);
+}
+
+.section {
+  display: grid;
+  gap: var(--sk-space-m);
+  padding: var(--sk-space-m);
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-m);
+  background: var(--sk-color-surface);
+  box-shadow: var(--sk-shadow-surface);
+}
+
+.sectionHeader {
+  display: grid;
+  gap: var(--sk-space-xxs);
+}
+
+.sectionHeader p {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* The table scrolls on its own so the page never scrolls sideways on a phone. */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-m);
+  background: var(--sk-color-surface);
+}
+
+.sources {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.sources :is(th, td) {
+  padding: var(--sk-space-s) var(--sk-space-m);
+  border-bottom: 1px solid var(--sk-color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.sources tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.sources thead th {
+  color: var(--sk-color-text-muted);
+  font-weight: var(--sk-font-weight-medium);
+}
+
+@media print {
+  .actions {
+    display: none;
+  }
+
+  .section {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}

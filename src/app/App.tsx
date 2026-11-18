@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react';
-import { DesignSystemGate, SkAlert } from '../design-system';
+import { DesignSystemGate } from '../design-system';
 import { createLocalFramer } from '../domain/brief/local-framer';
-import type { CompletedResult } from '../domain/capabilities/types';
 import { kitCatalog } from '../domain/capabilities/kit-catalog';
 import {
   createSimulatedProvider,
   DEFAULT_SPEED_FACTOR,
 } from '../domain/providers/simulated-provider';
+import type { Run } from '../domain/run/run';
 import { BriefView, type ConfirmedBrief } from '../features/brief/BriefView';
 import { DemoScenarioPicker } from '../features/demo/DemoScenarioPicker';
 import { buildSimulationScript, type ScenarioId } from '../features/demo/scenarios';
+import { ResultView } from '../features/result/ResultView';
 import { RunView } from '../features/run/RunView';
 import { AppShell } from './AppShell';
+import type { Stage } from './StageNav';
 import styles from './App.module.css';
 
 const framer = createLocalFramer(kitCatalog);
@@ -19,14 +21,10 @@ const framer = createLocalFramer(kitCatalog);
 export function App() {
   const [scenario, setScenario] = useState<ScenarioId>('normal');
   const [confirmed, setConfirmed] = useState<ConfirmedBrief | null>(null);
-  const [results, setResults] = useState<CompletedResult[] | null>(null);
-  // Every start is a fresh run, even with the same plan.
+  const [finishedRun, setFinishedRun] = useState<Run | null>(null);
+  // Every start is a fresh run, and every restart a fresh brief.
   const [runNumber, setRunNumber] = useState(0);
-
-  const start = (brief: ConfirmedBrief) => {
-    setConfirmed(brief);
-    setRunNumber((current) => current + 1);
-  };
+  const [briefNumber, setBriefNumber] = useState(0);
 
   const provider = useMemo(
     () =>
@@ -36,36 +34,50 @@ export function App() {
     [scenario, confirmed],
   );
 
+  const start = (brief: ConfirmedBrief) => {
+    setConfirmed(brief);
+    setRunNumber((current) => current + 1);
+  };
+  const backToBrief = () => {
+    setConfirmed(null);
+    setFinishedRun(null);
+  };
+  const restart = () => {
+    backToBrief();
+    setBriefNumber((current) => current + 1);
+  };
+
+  let stage: Stage = 'brief';
+  if (confirmed) stage = finishedRun ? 'result' : 'run';
+
   return (
     <DesignSystemGate>
-      <AppShell stage={confirmed ? 'run' : 'brief'}>
+      <AppShell stage={stage}>
         {/* The brief stays mounted so going back to change the plan keeps what was written. */}
-        <div className={styles.stage} hidden={confirmed !== null}>
+        <div key={briefNumber} className={styles.stage} hidden={stage !== 'brief'}>
           <BriefView catalog={kitCatalog} framer={framer} onStart={start} />
           <DemoScenarioPicker scenario={scenario} onChange={setScenario} />
         </div>
 
-        {confirmed && (
+        {confirmed && !finishedRun && (
           <RunView
             key={runNumber}
             catalog={kitCatalog}
             stepIds={confirmed.stepIds}
             provider={provider}
             speedFactor={DEFAULT_SPEED_FACTOR}
-            onBack={() => {
-              setConfirmed(null);
-              setResults(null);
-            }}
-            onFinish={setResults}
+            onBack={backToBrief}
+            onFinish={setFinishedRun}
           />
         )}
 
-        {results && (
-          // Interim confirmation until the result view takes over from here.
-          <SkAlert
-            tone="success"
-            title="Tu resultado está listo"
-            message={`Pasos que aportaron al resultado: ${results.length}.`}
+        {confirmed && finishedRun && (
+          <ResultView
+            catalog={kitCatalog}
+            run={finishedRun}
+            needSummary={confirmed.brief.summary}
+            onChangePlan={backToBrief}
+            onRestart={restart}
           />
         )}
       </AppShell>

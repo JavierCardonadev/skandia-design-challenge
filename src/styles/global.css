@@ -41,3 +41,15 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* A saved or printed result keeps the content and drops the controls around it. */
+@media print {
+  nav,
+  aside {
+    display: none;
+  }
+
+  body {
+    background: var(--sk-color-bg);
+  }
+}
