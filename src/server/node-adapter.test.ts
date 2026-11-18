@@ -39,7 +39,7 @@ describe('handleNodeFrameRequest', () => {
   it('rejects an empty or malformed body as an invalid request', async () => {
     const { response, asNode } = nodeResponse();
 
-    await handleNodeFrameRequest(nodeRequest('POST'), asNode, { ANTHROPIC_API_KEY: 'test-key' });
+    await handleNodeFrameRequest(nodeRequest('POST'), asNode, {});
 
     expect(response.statusCode).toBe(400);
   });
