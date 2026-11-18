@@ -832,6 +832,11 @@ sh /Volumes/JC/development/independiente/skandia-design-challenge/scripts/dev-li
 - **El veredicto del Resultado sigue saliendo de reglas**, no del modelo. Quedó pendiente tu decisión sobre si lo redacta el LLM.
 
 Siguen pendientes tuyos: mover el proyecto de Vercel del equipo "[equipo de Vercel]" a tu cuenta personal y la fecha límite del correo de invitación.
+
+==============================================================================
+JAVIER  ·  2026-11-18 21:36 UTC  ·  (1 imagen(es) adjunta(s), no incluidas)
+==============================================================================
+(mensaje sin texto: solo una captura de pantalla)
     [herramienta: Bash] Check what Vercel reported for the failing commit and the ones after it
 
 --- CLAUDE  ·  2026-11-18 21:37 UTC ---
@@ -852,3 +857,135 @@ Dos cosas siguen pendientes en Vercel, y el correo las confirma:
 JAVIER  ·  2026-11-18 22:08 UTC
 ==============================================================================
 Sí, sigue con DECISIONES.md y el log de IA
+    [herramienta: export_transcript] 
+    [herramienta: Bash] Unpack the exported transcript and inspect its structure and private content
+    [herramienta: Bash] Build a readable, sanitised log from the transcript and scan it for private content
+    [herramienta: Bash] Check every user message captured in the log
+    [herramienta: Bash] Finalise the sanitised AI log and place it in the repo
+    [herramienta: Write] DECISIONES.md
+    [herramienta: Bash] Format, commit, and push the decisions document and log; confirm CI and deployment
+    [herramienta: Bash] Read why CI failed on the last commit
+    [herramienta: Bash] Fix the flaky test helper, push, and report CI
+
+--- CLAUDE  ·  2026-11-18 22:14 UTC ---
+`DECISIONES.md` y el registro de la sesión de IA ya están en el repo, con la CI en verde y Vercel desplegado en el último commit.
+
+## DECISIONES.md
+
+Es un borrador en primera persona con las cinco secciones, los supuestos y la declaración de uso de IA. Pesa 40 % y lo vas a defender tú, así que léelo como tuyo antes de entregar:
+
+- **Longitud:** tiene unas 750 palabras. Puede pasarse de una página según cómo lo rendericen; si quieres ir seguro, lo recorto.
+- **Decisiones que tomé yo y aparecen como tuyas:** la línea vertical de pasos, no mostrar porcentaje, no permitir reordenar el plan, el veredicto basado en la evidencia y el umbral de "menos de dos fuentes reales". Solo la alternativa C la elegiste tú explícitamente. Confírmalas o cámbialas.
+- **Lo que declara como faltante:** sin streaming de texto, sin historial, sin prueba con lector de pantalla, y solo el encuadre usa un modelo real.
+
+## Registro de IA
+
+Está en `docs/ai-log/session-2026-11-18.txt`. No subí la transcripción exportada tal cual porque incluye contexto privado de tu máquina; armé un registro con todos tus mensajes y todas mis respuestas visibles, más una línea por cada acción.
+
+- **Qué edité:** tu correo, el nombre del equipo de Vercel y los nombres de tus dos equipos, reemplazados por etiquetas. El encabezado del archivo lo dice.
+- **Revísalo antes de compartir.** Queda una frase mía que dice que ese equipo de Vercel es un cliente tuyo; decide si la dejas.
+- **Punto débil frente al criterio de 20 %:** evalúan cuándo y por qué corregiste a la IA, y en el registro tus mensajes son casi todos aprobaciones cortas. Las correcciones que aparecen son mías sobre mi propio trabajo. Si revisas las decisiones de arriba y pides cambios reales, eso queda en el registro y es dirección genuina.
+- **Hay que regenerarlo al final:** el registro llega hasta antes de este mensaje. La exportación original quedó en `/Users/javiercardona/Downloads/session-export-1795039730897.zip`.
+
+## Prueba inestable
+
+La CI falló una vez en un commit que solo añadía documentos. Era una carrera en mi ayudante de pruebas, no un fallo del producto. La corregí y la CI pasó, pero una sola vez: no está demostrado que no vuelva a aparecer.
+
+## Lo que falta para entregar
+
+1. **Mover el proyecto de Vercel a tu cuenta personal** y pasarme la URL para verificar que abre sin sesión.
+2. **Compartir el repo** con jdguevara@skandia.com.co y jaleman@skandia.com.co, desde Settings → Collaborators en GitHub. Es una invitación a terceros, así que es tuya o me la pides explícitamente.
+3. **Mostrar la capacidad real:** en la sustentación o en un video de máximo 3 minutos, porque la URL pública corre simulada.
+4. **Correo de entrega** a los tres destinatarios, con la URL y el repo.
+5. **La fecha límite** de tu invitación, que sigo sin conocer.
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:17 UTC
+==============================================================================
+https://skandia-design-challenge.vercel.app/
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Replace the zero-config function with a bundled one, add a Node adapter, tests, and a smoke check
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:18 UTC  ·  (enviado mientras Claude trabajaba)
+==============================================================================
+Hacer las pruebas ahi en el navegador para ver funcionamiento.
+
+--- CLAUDE  ·  2026-11-18 22:19 UTC ---
+Entendido: termino el arreglo de la función y luego recorro todo el flujo en el navegador sobre la URL pública.
+    [herramienta: Bash] Pin the bundler, commit, push, and report CI including the function smoke check
+    [herramienta: Bash] Fix the adapter test, push, and check CI, the deployment, and the live function
+
+--- CLAUDE  ·  2026-11-18 22:23 UTC ---
+La función desplegada ya responde bien (503 "no configurado" en vez de 500). Solo falla mi comprobación en la CI, por cómo Node interpreta el archivo dentro del repo; lo ajusto.
+    [herramienta: Bash] Mark the bundle as CommonJS, push, and recheck CI, deployment, and the live function
+
+--- CLAUDE  ·  2026-11-18 22:25 UTC ---
+CI en verde y la función desplegada responde bien. Ahora recorro los estados en el navegador sobre la URL pública.
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: javascript_tool] 
+
+--- CLAUDE  ·  2026-11-18 22:27 UTC ---
+Falla, reintento, ajuste y resultado funcionan en la URL pública. Me faltan el escenario de poca evidencia, saltar un paso fallido y la vista en celular.
+    [herramienta: javascript_tool] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Fix an awkward source-count phrase found during browser testing; push and report CI
+
+--- CLAUDE  ·  2026-11-18 22:29 UTC ---
+Probé la URL pública en el navegador de punta a punta: abre sin iniciar sesión y los seis estados obligatorios funcionan ahí. De paso arreglé dos cosas que encontré; la CI quedó en verde.
+
+## Lo que probé en https://skandia-design-challenge.vercel.app/
+
+| Estado | Qué hice | Resultado |
+|---|---|---|
+| Necesidad ambigua | Encargo "Necesito algo para que la gente ahorre más" | Hace dos preguntas y no propone plan; al continuar sin responder marca las dos que faltan; al responder aparece el plan de cinco pasos |
+| Datos sensibles | Encargo con nombre, cédula y saldo | Avisa "1 nombre, 1 cédula y 1 saldo" y sigue con el texto enmascarado |
+| Falla | Escenario "Un paso falla" | Mensaje llano, avisa qué pasos se perderían, y "Intentar de nuevo" recupera |
+| Ajuste pedido | "Pedir un ajuste" con texto | Rehace el paso y muestra "Tu indicación: «Incluye también el canal web»" |
+| Evidencia débil | Escenario "Hay poca evidencia" | "Aún falta respaldo para decidir con confianza", con 2 fuentes reales y 4 simuladas, y sugiere repetir Prototipado y Validación |
+| Éxito | Aprobar las tres revisiones | "Tienes respaldo para dar el siguiente paso", con la tabla de nueve fuentes |
+
+También comprobé "Seguir sin este paso" (el resultado se declara incompleto y nombra los cuatro pasos que no corrieron), que "Volver al plan" conserva lo escrito, y el ancho de celular sin desplazamiento horizontal.
+
+No probé en la URL pública la demora de un paso (la vi antes en local), el botón de imprimir ni el modelo real, porque Vercel no tiene llave configurada y corre simulado, como permite la prueba.
+
+## Lo que arreglé
+
+- **La función `/api/frame` se caía en Vercel** con error 500. No afectaba al modo simulado, pero el modo real no habría funcionado ahí. Ahora el build empaqueta la función en un solo archivo y la CI la carga y verifica su respuesta antes de desplegar. En producción ya responde 503 "no configurado", que es lo correcto sin llave.
+- **Una frase del Resultado** decía "Se apoya en 1 simulada"; ahora dice "1 fuente simulada".
+
+En el camino la CI falló dos veces por errores míos en las pruebas nuevas, no en el producto; quedaron corregidos en commits aparte. El historial tiene por eso tres commits de arreglo seguidos.
+
+## Pendiente
+
+- **Vercel sigue en el equipo "[equipo de Vercel]".** La URL abre sin sesión, así que ese requisito se cumple; lo que queda es la confidencialidad frente a los miembros de ese equipo.
+- **El registro de IA está desactualizado:** hay que regenerarlo al final para que incluya esta parte de la sesión.
+- **Tus decisiones sobre `DECISIONES.md`,** compartir el repo con Skandia, la demostración del modelo real y la fecha límite.
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:34 UTC
+==============================================================================
+Recórtalo
+    [herramienta: Write] DECISIONES.md
+    [herramienta: Bash] Commit the trimmed decisions document and confirm CI
+
+--- CLAUDE  ·  2026-11-18 22:36 UTC ---
+`DECISIONES.md` quedó recortado a unas 630 palabras (antes 750), subido y con la CI en verde. No comprobé cómo se ve renderizado en una página exacta; en GitHub debería caber, pero confírmalo al abrirlo.
+
+Qué cambió al recortar:
+
+- **Quité** el descarte de "reordenar el plan", el hallazgo de `sk-button[label]`, el detalle del foco al cambiar de etapa y la lista de mejoras futuras menos importantes.
+- **Fusioné** la sección 5 en un párrafo.
+- **Actualicé** la sección 3 con la falla más reciente: la función de servidor se caía en producción aunque pasaba las pruebas, y ahora la CI la verifica empaquetada.
+- **Añadí** el enlace a la preview en el encabezado.
+
+Sigue siendo un borrador escrito por mí en tu voz. Las decisiones que aparecen como tuyas y que solo aprobaste de forma implícita son la línea vertical de pasos, no mostrar porcentaje, el veredicto basado en evidencia y el umbral de dos fuentes reales; léelas antes de entregar porque las vas a sustentar.
+
+Lo que falta para entregar no cambió: regenerar el registro de IA al final, mover Vercel a tu cuenta personal, compartir el repo con los dos correos de Skandia, preparar la demostración del modelo real y enviar el correo de entrega.
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:38 UTC
+==============================================================================
+Sí, regenéralo
