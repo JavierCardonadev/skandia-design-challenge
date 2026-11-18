@@ -158,7 +158,7 @@ describe('ResultView: weak evidence', () => {
     expect(
       screen.getByText(/viene de clientes simulados o de contenido elaborado por IA/),
     ).toBeVisible();
-    expect(screen.getByText('Se apoya en 1 simulada.')).toBeInTheDocument();
+    expect(screen.getByText('Se apoya en 1 fuente simulada.')).toBeInTheDocument();
   });
 });
 
@@ -205,7 +205,7 @@ describe('describeSourceCounts', () => {
     expect(describeSourceCounts({ real: 1, simulated: 0, aiMade: 1 })).toBe(
       '1 fuente real y 1 elaborada por IA',
     );
-    expect(describeSourceCounts({ real: 0, simulated: 2, aiMade: 0 })).toBe('2 simuladas');
+    expect(describeSourceCounts({ real: 0, simulated: 2, aiMade: 0 })).toBe('2 fuentes simuladas');
   });
 
   it('counts each source once, by what backs it', () => {

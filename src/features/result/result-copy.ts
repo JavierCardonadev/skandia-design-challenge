@@ -26,11 +26,18 @@ export function countSources(sources: readonly TracedSource[]): SourceCounts {
 
 /** "5 fuentes reales, 1 simulada y 3 elaboradas por IA", leaving out what is zero. */
 export function describeSourceCounts(counts: SourceCounts): string {
-  const parts = [
-    counts.real > 0 && plural(counts.real, 'fuente real', 'fuentes reales'),
-    counts.simulated > 0 && plural(counts.simulated, 'simulada', 'simuladas'),
-    counts.aiMade > 0 && plural(counts.aiMade, 'elaborada por IA', 'elaboradas por IA'),
-  ].filter((part) => part !== false);
+  const kinds: [count: number, singular: string, pluralForm: string][] = [
+    [counts.real, 'real', 'reales'],
+    [counts.simulated, 'simulada', 'simuladas'],
+    [counts.aiMade, 'elaborada por IA', 'elaboradas por IA'],
+  ];
+  const parts = kinds
+    .filter(([count]) => count > 0)
+    .map(([count, singular, pluralForm], index) => {
+      // Only the first kind carries the noun: "2 fuentes simuladas y 1 elaborada por IA".
+      const noun = index === 0 ? (count === 1 ? 'fuente ' : 'fuentes ') : '';
+      return `${count} ${noun}${count === 1 ? singular : pluralForm}`;
+    });
 
   if (parts.length <= 1) return parts.join('');
   return `${parts.slice(0, -1).join(', ')} y ${parts.at(-1) ?? ''}`;
