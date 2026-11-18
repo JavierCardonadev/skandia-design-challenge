@@ -1,0 +1,22 @@
+.picker {
+  display: grid;
+  gap: var(--sk-space-xs);
+  padding: var(--sk-space-m);
+  border: 1px dashed var(--sk-color-border);
+  border-radius: var(--bordes-m);
+}
+
+.title,
+.description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.title {
+  font-weight: var(--sk-font-weight-bold);
+}
+
+.description {
+  color: var(--sk-color-text-muted);
+}
