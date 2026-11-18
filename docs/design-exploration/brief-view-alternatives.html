@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exploración · Vista Encargo · Tres alternativas</title>
+    <style>
+      :root { --ink: #404040; --muted: #666; --line: #ddd; --paper: #f7f7f7; --pick: #009a2f; --gap: #fff3e0; }
+      body { margin: 0; padding: 24px; font: 14px/1.5 system-ui, sans-serif; color: var(--ink); }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      .intro { color: var(--muted); margin: 0 0 24px; max-width: 70ch; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+      .option { border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+      .option.chosen { border: 2px solid var(--pick); }
+      .option h2 { font-size: 16px; margin: 0; }
+      .badge { align-self: flex-start; font-size: 12px; padding: 2px 10px; border-radius: 8px; background: #ecfdf3; color: var(--pick); }
+      .frame { background: var(--paper); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px; min-height: 280px; }
+      .box { border: 1px solid #bbb; border-radius: 8px; padding: 5px 8px; font-size: 12px; background: #fff; color: var(--muted); }
+      .me { align-self: flex-end; max-width: 85%; }
+      .it { align-self: flex-start; max-width: 85%; }
+      .label { font-size: 11px; color: #888; margin: 2px 0 0; }
+      .missing { border: 1px dashed #ffae08; background: var(--gap); border-radius: 8px; padding: 5px 8px; font-size: 12px; }
+      .step { font-size: 12px; margin: 0; color: var(--muted); }
+      .end { margin-top: auto; }
+      dl { margin: 0; font-size: 13px; }
+      dt { font-weight: 600; margin-top: 6px; }
+      dd { margin: 0; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <h1>Vista Encargo: tres alternativas exploradas</h1>
+    <p class="intro">
+      Bocetos de baja fidelidad hechos antes de escribir código (18 de noviembre de 2026). La vista Encargo es la
+      que más cambia entre alternativas; Ejecución y Resultado se derivan de la elegida. Se eligió la C.
+    </p>
+    <div class="grid">
+      <section class="option">
+        <h2>A · Conversación</h2>
+        <div class="frame">
+          <div class="box me">Necesito algo para que la gente ahorre más</div>
+          <div class="box it">¿Sobre qué producto?</div>
+          <div class="box me">Fondo voluntario</div>
+          <div class="box it">¿Para quién?</div>
+          <div class="box me">Ahorradores digitales</div>
+          <div class="box it">Este es el plan: 1. Reunir lo que se sabe 2. …</div>
+          <div class="box end">Escribe aquí…</div>
+        </div>
+        <dl>
+          <dt>A favor</dt>
+          <dd>Familiar y sin formulario.</dd>
+          <dt>Descartada porque</dt>
+          <dd>El plan queda enterrado en el hilo y editarlo es volver a escribir. El aviso de datos sensibles no tiene un lugar fijo.</dd>
+        </dl>
+      </section>
+      <section class="option">
+        <h2>B · Formulario guiado</h2>
+        <div class="frame">
+          <p class="step">Paso 2 de 4</p>
+          <p class="label">Producto</p><div class="box">Fondo voluntario</div>
+          <p class="label">Público</p><div class="box">Elige un grupo</div>
+          <p class="label">Canal</p><div class="box">App</div>
+          <p class="label">Objetivo</p><div class="box">&nbsp;</div>
+          <div class="box end" style="text-align: center">Continuar</div>
+        </div>
+        <dl>
+          <dt>A favor</dt>
+          <dd>Predecible y fácil de validar.</dd>
+          <dt>Descartada porque</dt>
+          <dd>Pide lo mismo a todas las personas, aunque ya lo hayan dicho. Es lo que frustra a la persona B y no usa la inteligencia de la plataforma. Queda como respaldo si el encuadre con IA falla.</dd>
+        </dl>
+      </section>
+      <section class="option chosen">
+        <span class="badge">Elegida</span>
+        <h2>C · Caja única y encargo vivo</h2>
+        <div class="frame">
+          <div class="box">Quiero saber si vale la pena un simulador…</div>
+          <p class="label">Lo que entendí</p>
+          <div class="box">Producto: fondo voluntario · Canal: app</div>
+          <div class="missing">Falta: ¿para qué grupo de clientes?</div>
+          <p class="label">Plan propuesto, lo puedes cambiar</p>
+          <p class="step">⋮⋮ 1. Reunir lo que se sabe</p>
+          <p class="step">⋮⋮ 2. Definir los mensajes</p>
+          <p class="step">⋮⋮ 3. Probar con clientes simulados</p>
+        </div>
+        <dl>
+          <dt>A favor</dt>
+          <dd>La persona escribe una vez; la plataforma muestra qué entendió y solo pregunta lo que falta. El plan es un objeto editable. Sirve a B y C sin pantallas nuevas.</dd>
+          <dt>Costo</dt>
+          <dd>Depende de que el modelo extraiga bien el encargo: lleva validación de esquema y degrada a preguntas fijas, parecidas a la B.</dd>
+        </dl>
+      </section>
+    </div>
+  </body>
+</html>
