@@ -9,8 +9,8 @@ const brief: FramedBrief = {
   facts: [],
   questions: [],
   steps: [
-    { capabilityId: 'investigacion', reason: '' },
-    { capabilityId: 'validacion', reason: '' },
+    { capabilityId: 'investigacion', reason: '', addedByPlatform: false },
+    { capabilityId: 'validacion', reason: '', addedByPlatform: false },
   ],
 };
 
@@ -20,7 +20,11 @@ describe('briefSessionReducer', () => {
     scan,
     answers: { product: 'Fondo' },
   });
-  const framed = briefSessionReducer(framing, { type: 'framing-succeeded', brief });
+  const framed = briefSessionReducer(framing, {
+    type: 'framing-succeeded',
+    brief,
+    usedFallback: false,
+  });
 
   it('records what is being framed', () => {
     expect(framing).toMatchObject({ status: 'framing', scan, answers: { product: 'Fondo' } });
@@ -47,5 +51,21 @@ describe('briefSessionReducer', () => {
 
     expect(edited.stepIds).toEqual(['validacion']);
     expect(edited.brief).toBe(brief);
+  });
+
+  it('remembers whether the brief came from the fallback, and forgets it on the next success', () => {
+    const viaFallback = briefSessionReducer(framing, {
+      type: 'framing-succeeded',
+      brief,
+      usedFallback: true,
+    });
+    const viaModel = briefSessionReducer(viaFallback, {
+      type: 'framing-succeeded',
+      brief,
+      usedFallback: false,
+    });
+
+    expect(viaFallback.usedFallback).toBe(true);
+    expect(viaModel.usedFallback).toBe(false);
   });
 });

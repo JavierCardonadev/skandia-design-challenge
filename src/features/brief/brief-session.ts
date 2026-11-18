@@ -12,11 +12,13 @@ export interface BriefSession {
   brief: FramedBrief | null;
   /** The plan as the person has edited it. */
   stepIds: string[];
+  /** The brief on screen came from the local rules because the model could not be used. */
+  usedFallback: boolean;
 }
 
 export type BriefEvent =
   | { type: 'framing-started'; scan: SensitiveScan; answers: Record<string, string> }
-  | { type: 'framing-succeeded'; brief: FramedBrief }
+  | { type: 'framing-succeeded'; brief: FramedBrief; usedFallback: boolean }
   | { type: 'framing-failed' }
   | { type: 'plan-changed'; stepIds: string[] };
 
@@ -26,6 +28,7 @@ export const initialBriefSession: BriefSession = {
   answers: {},
   brief: null,
   stepIds: [],
+  usedFallback: false,
 };
 
 export function briefSessionReducer(session: BriefSession, event: BriefEvent): BriefSession {
@@ -39,6 +42,7 @@ export function briefSessionReducer(session: BriefSession, event: BriefEvent): B
         status: 'framed',
         brief: event.brief,
         stepIds: event.brief.steps.map((step) => step.capabilityId),
+        usedFallback: event.usedFallback,
       };
     case 'framing-failed':
       return { ...session, status: 'failed' };

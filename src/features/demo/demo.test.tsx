@@ -39,7 +39,7 @@ describe('buildSimulationScript', () => {
 describe('DemoScenarioPicker', () => {
   it('marks the current scenario and reports a new choice', () => {
     const onChange = vi.fn();
-    render(<DemoScenarioPicker scenario="normal" onChange={onChange} />);
+    render(<DemoScenarioPicker scenario="normal" isLiveFraming={false} onChange={onChange} />);
 
     expect(screen.getByRole('complementary', { name: 'Modo demostración' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Todo sale bien' })).toHaveAttribute(
@@ -50,5 +50,15 @@ describe('DemoScenarioPicker', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Un paso falla' }));
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('failure');
+  });
+
+  it('says whether a real model or the example rules read the need', () => {
+    const { rerender } = render(
+      <DemoScenarioPicker scenario="normal" isLiveFraming={false} onChange={vi.fn()} />,
+    );
+    expect(screen.getByText(/usa respuestas de ejemplo en todos los pasos/)).toBeInTheDocument();
+
+    rerender(<DemoScenarioPicker scenario="normal" isLiveFraming onChange={vi.fn()} />);
+    expect(screen.getByText(/Un modelo de IA real lee tu necesidad/)).toBeInTheDocument();
   });
 });

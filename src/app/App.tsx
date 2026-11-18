@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { DesignSystemGate } from '../design-system';
-import { createLocalFramer } from '../domain/brief/local-framer';
 import { kitCatalog } from '../domain/capabilities/kit-catalog';
 import {
   createSimulatedProvider,
@@ -13,10 +12,12 @@ import { buildSimulationScript, type ScenarioId } from '../features/demo/scenari
 import { ResultView } from '../features/result/ResultView';
 import { RunView } from '../features/run/RunView';
 import { AppShell } from './AppShell';
+import { createFramers } from './framers';
 import type { Stage } from './StageNav';
 import styles from './App.module.css';
 
-const framer = createLocalFramer(kitCatalog);
+const isLiveFraming = import.meta.env.VITE_LIVE_FRAMING === 'true';
+const framers = createFramers(kitCatalog, isLiveFraming);
 
 export function App() {
   const [scenario, setScenario] = useState<ScenarioId>('normal');
@@ -55,8 +56,12 @@ export function App() {
       <AppShell stage={stage}>
         {/* The brief stays mounted so going back to change the plan keeps what was written. */}
         <div key={briefNumber} className={styles.stage} hidden={stage !== 'brief'}>
-          <BriefView catalog={kitCatalog} framer={framer} onStart={start} />
-          <DemoScenarioPicker scenario={scenario} onChange={setScenario} />
+          <BriefView catalog={kitCatalog} framers={framers} onStart={start} />
+          <DemoScenarioPicker
+            scenario={scenario}
+            isLiveFraming={isLiveFraming}
+            onChange={setScenario}
+          />
         </div>
 
         {confirmed && !finishedRun && (

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import { frameBrief, type BriefFramer } from '../../domain/brief/framing';
+import { frameBriefWithFallback, type Framers } from '../../domain/brief/framing';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { removeStep, resolvePlan } from '../../domain/plan/plan';
 import { scanSensitiveData, type SensitiveScan } from '../../domain/sensitive-data/sensitive-data';
@@ -19,9 +19,9 @@ export interface BriefFraming {
 
 /**
  * Owns the brief view's session: scans what the person writes, sends only the
- * redacted version to the framer and keeps the editable plan.
+ * redacted version to the framers and keeps the editable plan.
  */
-export function useBriefFraming(framer: BriefFramer, catalog: CapabilityCatalog): BriefFraming {
+export function useBriefFraming(framers: Framers, catalog: CapabilityCatalog): BriefFraming {
   const [session, dispatch] = useReducer(briefSessionReducer, initialBriefSession);
   const inFlight = useRef<AbortController | null>(null);
 
@@ -37,21 +37,29 @@ export function useBriefFraming(framer: BriefFramer, catalog: CapabilityCatalog)
       inFlight.current = controller;
 
       dispatch({ type: 'framing-started', scan, answers });
-      const outcome = await frameBrief(framer, catalog, {
-        text: scan.redactedText,
-        answers,
-        signal: controller.signal,
-      });
+      const { outcome, usedFallback, primaryIssues } = await frameBriefWithFallback(
+        framers,
+        catalog,
+        {
+          text: scan.redactedText,
+          answers,
+          signal: controller.signal,
+        },
+      );
       // A newer attempt or an unmount makes this answer irrelevant.
       if (controller.signal.aborted) return;
+      if (usedFallback) {
+        // Kept out of the interface on purpose: it is written for whoever maintains the framer.
+        console.warn('Framing fell back to the local rules:', primaryIssues);
+      }
 
       dispatch(
         outcome.ok
-          ? { type: 'framing-succeeded', brief: outcome.brief }
+          ? { type: 'framing-succeeded', brief: outcome.brief, usedFallback }
           : { type: 'framing-failed' },
       );
     },
-    [framer, catalog, abortInFlight],
+    [framers, catalog, abortInFlight],
   );
 
   const { scan, answers, stepIds } = session;

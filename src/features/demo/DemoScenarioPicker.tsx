@@ -4,18 +4,23 @@ import styles from './DemoScenarioPicker.module.css';
 
 export interface DemoScenarioPickerProps {
   scenario: ScenarioId;
+  /** Whether needs are read by the live model or by the local rules. */
+  isLiveFraming: boolean;
   onChange: (scenario: ScenarioId) => void;
 }
 
 /** Lets a reviewer choose what happens when the plan runs. Clearly set apart from the product. */
-export function DemoScenarioPicker({ scenario, onChange }: DemoScenarioPickerProps) {
+export function DemoScenarioPicker({ scenario, isLiveFraming, onChange }: DemoScenarioPickerProps) {
   const selected = SCENARIOS.find((candidate) => candidate.id === scenario);
 
   return (
     <aside className={styles.picker} aria-label="Modo demostración">
       <p className={styles.title}>Modo demostración</p>
       <p className={styles.description}>
-        Esta versión usa respuestas de ejemplo. Elige qué quieres ver cuando el plan se ejecute.
+        {isLiveFraming
+          ? 'Un modelo de IA real lee tu necesidad. Los pasos del plan usan respuestas de ejemplo.'
+          : 'Esta versión usa respuestas de ejemplo en todos los pasos.'}{' '}
+        Elige qué quieres ver cuando el plan se ejecute.
       </p>
       <ChoiceChips
         label="Escenario de la demostración"

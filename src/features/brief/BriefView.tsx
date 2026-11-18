@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SkAlert, SkButton, SkCard, SkTextarea } from '../../design-system';
-import type { BriefFramer, FramedBrief } from '../../domain/brief/framing';
+import type { FramedBrief, Framers } from '../../domain/brief/framing';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { PlanEditor } from './PlanEditor';
 import { QuestionList } from './QuestionList';
@@ -17,7 +17,7 @@ export interface ConfirmedBrief {
 
 export interface BriefViewProps {
   catalog: CapabilityCatalog;
-  framer: BriefFramer;
+  framers: Framers;
   onStart: (confirmed: ConfirmedBrief) => void;
 }
 
@@ -25,14 +25,14 @@ export interface BriefViewProps {
  * First view: the person writes a need once, sees what the platform understood,
  * answers only what is missing and edits the proposed plan before anything runs.
  */
-export function BriefView({ catalog, framer, onStart }: BriefViewProps) {
+export function BriefView({ catalog, framers, onStart }: BriefViewProps) {
   const [text, setText] = useState('');
   const [showEmptyError, setShowEmptyError] = useState(false);
   const { session, submit, answer, retry, removeFromPlan, addToPlan } = useBriefFraming(
-    framer,
+    framers,
     catalog,
   );
-  const { status, scan, brief, stepIds } = session;
+  const { status, scan, brief, stepIds, usedFallback } = session;
   const isFraming = status === 'framing';
 
   const changeText = (value: string) => {
@@ -86,6 +86,21 @@ export function BriefView({ catalog, framer, onStart }: BriefViewProps) {
             message="Tu texto sigue aquí. Puedes intentarlo de nuevo."
           />
           <SkButton label="Intentar de nuevo" variant="secondary" onClick={retry} />
+        </div>
+      )}
+
+      {usedFallback && status === 'framed' && (
+        <div className={styles.stack}>
+          <SkAlert
+            title="Leímos tu necesidad con el modo básico"
+            message="La lectura con IA no estuvo disponible esta vez. Lo que ves abajo funciona igual: puedes revisarlo, ajustarlo o intentarlo de nuevo."
+          />
+          <SkButton
+            label="Intentar de nuevo con IA"
+            variant="secondary"
+            fullWidth={false}
+            onClick={retry}
+          />
         </div>
       )}
 

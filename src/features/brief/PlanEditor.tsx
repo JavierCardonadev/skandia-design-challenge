@@ -27,9 +27,6 @@ export function PlanEditor({ catalog, stepIds, proposedSteps, onRemove, onAdd }:
   const byId = (id: string) => requireCapability(catalog, id);
   const steps = stepIds.map(byId);
   const available = catalog.capabilities.filter((capability) => !stepIds.includes(capability.id));
-  const reasonFor = (id: string) =>
-    proposedSteps.find((step) => step.capabilityId === id)?.reason ?? '';
-
   return (
     <SkCard>
       <div className={styles.stack}>
@@ -46,7 +43,8 @@ export function PlanEditor({ catalog, stepIds, proposedSteps, onRemove, onAdd }:
         <ol className={styles.steps}>
           {steps.map((capability, index) => {
             const dependents = dependentsOf(catalog, stepIds, capability.id).map(byId);
-            const reason = reasonFor(capability.id);
+            const proposed = proposedSteps.find((step) => step.capabilityId === capability.id);
+            const reason = proposed?.reason ?? '';
             return (
               <li key={capability.id} className={styles.step}>
                 <span className={styles.stepNumber} aria-hidden="true">
@@ -56,6 +54,11 @@ export function PlanEditor({ catalog, stepIds, proposedSteps, onRemove, onAdd }:
                   <h3>{capability.name}</h3>
                   <p>{capability.plainDescription}</p>
                   {reason && <p className={styles.reason}>{reason}</p>}
+                  {proposed?.addedByPlatform && (
+                    <p className={styles.hint}>
+                      Lo agregamos al plan porque un paso siguiente lo necesita.
+                    </p>
+                  )}
                   <p className={styles.meta}>
                     Tarda {formatTypicalDuration(capability)}
                     {capability.requiresHumanReview && (

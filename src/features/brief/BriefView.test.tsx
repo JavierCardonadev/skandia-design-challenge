@@ -31,7 +31,7 @@ function recordingFramer() {
 
 function renderView(framer: BriefFramer = localFramer) {
   const onStart = vi.fn();
-  render(<BriefView catalog={kitCatalog} framer={framer} onStart={onStart} />);
+  render(<BriefView catalog={kitCatalog} framers={{ primary: framer }} onStart={onStart} />);
   return { onStart };
 }
 
@@ -277,7 +277,9 @@ describe('BriefView: when framing fails', () => {
       },
     };
     const onStart = vi.fn();
-    const view = render(<BriefView catalog={kitCatalog} framer={slow} onStart={onStart} />);
+    const view = render(
+      <BriefView catalog={kitCatalog} framers={{ primary: slow }} onStart={onStart} />,
+    );
     typeIntoSk(NEED_LABEL, sample('E1'));
     clickSkButton('Continuar');
 
@@ -286,5 +288,79 @@ describe('BriefView: when framing fails', () => {
     await Promise.resolve();
 
     expect(signals[0]?.aborted).toBe(true);
+  });
+});
+
+describe('BriefView: when the live model cannot be used', () => {
+  const broken: BriefFramer = { frame: () => Promise.reject(new Error('quota exceeded')) };
+
+  function renderWithFallback(primary: BriefFramer) {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    render(
+      <BriefView
+        catalog={kitCatalog}
+        framers={{ primary, fallback: localFramer }}
+        onStart={vi.fn()}
+      />,
+    );
+    return warn;
+  }
+
+  it('still frames the need with the local rules and says so plainly', async () => {
+    const warn = renderWithFallback(broken);
+
+    await submitNeed(sample('E1'));
+
+    expect(skElement('sk-alert')).toHaveAttribute(
+      'title',
+      'Leímos tu necesidad con el modo básico',
+    );
+    expect(planStepNames()).toHaveLength(5);
+    expect(warn).toHaveBeenCalledWith('Framing fell back to the local rules:', ['quota exceeded']);
+    warn.mockRestore();
+  });
+
+  it('goes back to the model on retry and drops the notice when it works', async () => {
+    let attempts = 0;
+    const recovering: BriefFramer = {
+      frame: (request) => {
+        attempts += 1;
+        return attempts === 1 ? Promise.reject(new Error('timeout')) : localFramer.frame(request);
+      },
+    };
+    const warn = renderWithFallback(recovering);
+    await submitNeed(sample('E1'));
+
+    clickSkButton('Intentar de nuevo con IA');
+
+    await vi.waitFor(() => {
+      expect(skElements('sk-alert')).toHaveLength(0);
+    });
+    expect(attempts).toBe(2);
+    warn.mockRestore();
+  });
+
+  it('tells the person when the platform added a step the plan needed', async () => {
+    const skipsDependency: BriefFramer = {
+      frame: () =>
+        Promise.resolve({
+          summary: 'Quieres saber si vale la pena un simulador.',
+          facts: [],
+          questions: [],
+          steps: [
+            { capabilityId: 'investigacion', reason: 'Reúne lo que ya se sabe.' },
+            { capabilityId: 'estrategia', reason: 'Define qué tan riesgoso es.' },
+          ],
+        }),
+    };
+    renderView(skipsDependency);
+
+    await submitNeed(sample('E1'));
+
+    expect(planStepNames()).toEqual(['Investigación', 'Contenido', 'Estrategia']);
+    expect(
+      screen.getAllByText('Lo agregamos al plan porque un paso siguiente lo necesita.'),
+    ).toHaveLength(1);
+    expect(screen.getByText('Define qué tan riesgoso es.')).toBeInTheDocument();
   });
 });
