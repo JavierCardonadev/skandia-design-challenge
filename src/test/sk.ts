@@ -16,6 +16,9 @@ export function skElement(selector: string, root: ParentNode = document.body): H
 }
 
 export function emit(element: HTMLElement, type: string, detail?: unknown): void {
+  // The wrappers subscribe to custom events in an effect. After an awaited query the DOM
+  // can be ready before that effect has run, so pending effects are flushed first.
+  act(() => undefined);
   act(() => {
     element.dispatchEvent(new CustomEvent(type, { detail }));
   });
