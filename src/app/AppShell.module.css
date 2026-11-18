@@ -23,4 +23,11 @@
 .content {
   display: grid;
   gap: var(--sk-space-m);
+  /* Clears the header when a stage change scrolls here. */
+  scroll-margin-top: var(--sk-space-5xl);
+}
+
+/* Focus is moved here by code on a stage change, never by the keyboard. */
+.content:focus {
+  outline: none;
 }
