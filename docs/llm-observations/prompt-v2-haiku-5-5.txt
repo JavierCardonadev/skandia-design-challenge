@@ -1,0 +1,203 @@
+
+=== E1 (Éxito: encargo claro, con producto, canal y objetivo) · 2488 ms
+need: Quiero saber si vale la pena un simulador de aportes para el fondo voluntario antes de pedirle un sprint a desarrollo. Es para la app y la idea es que la gente sepa cuánto aportar.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres saber si vale la pena un simulador de aportes para el fondo voluntario en la app, antes de pedir un sprint a desarrollo.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Fondo voluntario",
+        "isAssumption": false
+      },
+      {
+        "label": "Canal",
+        "value": "App",
+        "isAssumption": false
+      },
+      {
+        "label": "Para qué",
+        "value": "Que la gente sepa cuánto aportar",
+        "isAssumption": false
+      },
+      {
+        "label": "Qué decidir",
+        "value": "Si vale la pena el simulador antes de pedir un sprint a desarrollo",
+        "isAssumption": false
+      }
+    ],
+    "questions": [],
+    "steps": [
+      {
+        "capabilityId": "investigacion",
+        "reason": "Reúne lo que ya se sabe sobre cuánto aportan las personas y si piden simuladores de aportes."
+      },
+      {
+        "capabilityId": "estrategia",
+        "reason": "Define qué tan riesgoso es el simulador y qué pantallas necesita antes de pedir el sprint."
+      }
+    ]
+  }
+}
+
+=== E2 (Necesidad ambigua: falta producto, público y qué significa 'algo') · 1948 ms
+need: Necesito algo para que la gente ahorre más.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres que la gente ahorre más, pero aún no sé sobre qué producto o mensaje trabajar.",
+    "facts": [
+      {
+        "label": "Para qué",
+        "value": "Que la gente ahorre más",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "product",
+        "question": "¿Sobre qué producto o servicio de Skandia es esta necesidad?",
+        "options": []
+      },
+      {
+        "id": "idea",
+        "question": "¿Qué quieres obtener: decidir una idea, explicarla o revisarla?",
+        "options": [
+          "decidir",
+          "explicar",
+          "revisar"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E3 (Datos sensibles: nombre, cédula y saldo de una clienta (ficticia)) · 1459 ms
+need: Quiero un simulador de aportes. Por ejemplo, [nombre oculto], cédula [cédula oculta], tiene un saldo de [saldo oculto] y nos escribió porque no sabe cuánto aportar.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres un simulador de aportes para ayudar a una persona a decidir cuánto aportar a su cuenta.",
+    "facts": [
+      {
+        "label": "Qué quieres",
+        "value": "Un simulador de aportes",
+        "isAssumption": false
+      },
+      {
+        "label": "Situación",
+        "value": "Una persona escribió porque no sabe cuánto aportar",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "idea",
+        "question": "¿Qué quieres que haga el simulador: mostrar cuánto aportar, explicar el resultado o revisar la idea?",
+        "options": [
+          "Mostrar cuánto aportar",
+          "Explicar el resultado",
+          "Revisar la idea"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E4 (Datos sensibles menos evidentes: correo y celular) · 1402 ms
+need: Simulador de aportes para el fondo voluntario, en la app. Mi correo es [correo oculto] y el celular del cliente que lo pidió es [celular oculto].
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres saber cómo responderían los clientes a un simulador de aportes para el fondo voluntario en la app.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Simulador de aportes para el fondo voluntario",
+        "isAssumption": false
+      },
+      {
+        "label": "Canal",
+        "value": "App",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "idea",
+        "question": "¿Qué quieres obtener: decidir si el simulador sirve, explicarlo a otros equipos o revisar su diseño?",
+        "options": [
+          "Decidir si sirve",
+          "Explicarlo a otros equipos",
+          "Revisar su diseño"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E5 (Persona B: no sabe qué capacidad usar ni qué es un segmento) · 3009 ms
+need: Necesito explicarle un producto nuevo a clientes que están por pensionarse.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres explicarle un producto nuevo a personas que están por pensionarse.",
+    "facts": [
+      {
+        "label": "Grupo de clientes",
+        "value": "Personas que están por pensionarse",
+        "isAssumption": false
+      },
+      {
+        "label": "Para qué",
+        "value": "Explicarles el producto nuevo",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "product",
+        "question": "¿Cuál es el producto nuevo y de qué trata en pocas palabras?",
+        "options": []
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E6 (Persona C: necesita trazabilidad de cada afirmación) · 1493 ms
+need: Tengo que revisar que el flujo de retiro comunique bien los riesgos antes de que salga. Necesito saber de dónde sale cada cosa que dice.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres revisar que el flujo de retiro comunique bien los riesgos antes de salir, y saber de dónde sale cada cosa que dice.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Flujo de retiro",
+        "isAssumption": false
+      },
+      {
+        "label": "Para qué",
+        "value": "Revisar que comunique bien los riesgos antes de salir",
+        "isAssumption": false
+      },
+      {
+        "label": "Qué necesitas saber",
+        "value": "De dónde sale cada cosa que dice el flujo",
+        "isAssumption": false
+      }
+    ],
+    "questions": [],
+    "steps": [
+      {
+        "capabilityId": "investigacion",
+        "reason": "Reúne las fuentes que respaldan cada afirmación de riesgo del flujo de retiro."
+      }
+    ]
+  }
+}

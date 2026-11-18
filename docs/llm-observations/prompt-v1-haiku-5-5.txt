@@ -1,0 +1,253 @@
+
+=== E1 (Éxito: encargo claro, con producto, canal y objetivo) · 2263 ms
+need: Quiero saber si vale la pena un simulador de aportes para el fondo voluntario antes de pedirle un sprint a desarrollo. Es para la app y la idea es que la gente sepa cuánto aportar.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres saber si vale la pena un simulador de aportes para el fondo voluntario en la app, antes de pedir un sprint a desarrollo.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Fondo voluntario",
+        "isAssumption": false
+      },
+      {
+        "label": "Canal",
+        "value": "App",
+        "isAssumption": false
+      },
+      {
+        "label": "Qué se quiere",
+        "value": "Un simulador de aportes",
+        "isAssumption": false
+      },
+      {
+        "label": "Para qué",
+        "value": "Que la gente sepa cuánto aportar",
+        "isAssumption": false
+      },
+      {
+        "label": "Decisión previa",
+        "value": "Evaluar si vale la pena antes de pedir un sprint a desarrollo",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "audience",
+        "question": "¿Para qué grupo de clientes quieres evaluar el simulador?",
+        "options": [
+          "ahorradores digitales",
+          "profesionales con patrimonio en crecimiento",
+          "personas cerca de pensionarse"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E2 (Necesidad ambigua: falta producto, público y qué significa 'algo') · 1320 ms
+need: Necesito algo para que la gente ahorre más.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres encontrar una forma de que la gente ahorre más, pero aún no sé para qué producto ni para qué grupo de personas.",
+    "facts": [
+      {
+        "label": "Para qué",
+        "value": "Que la gente ahorre más",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "product",
+        "question": "¿Para qué producto es esto?",
+        "options": []
+      },
+      {
+        "id": "audience",
+        "question": "¿A qué grupo de clientes quieres llegar?",
+        "options": [
+          "ahorradores digitales",
+          "profesionales con patrimonio en crecimiento",
+          "personas cerca de pensionarse"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E3 (Datos sensibles: nombre, cédula y saldo de una clienta (ficticia)) · 1621 ms
+need: Quiero un simulador de aportes. Por ejemplo, [nombre oculto], cédula [cédula oculta], tiene un saldo de [saldo oculto] y nos escribió porque no sabe cuánto aportar.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres un simulador de aportes para ayudar a una persona que no sabe cuánto aportar a su cuenta.",
+    "facts": [
+      {
+        "label": "Qué quieres",
+        "value": "Un simulador de aportes",
+        "isAssumption": false
+      },
+      {
+        "label": "Situación",
+        "value": "Una persona no sabe cuánto aportar y nos escribió por eso",
+        "isAssumption": false
+      },
+      {
+        "label": "Producto",
+        "value": "No se indica el producto exacto",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "product",
+        "question": "¿Para qué producto es el simulador?",
+        "options": []
+      },
+      {
+        "id": "audience",
+        "question": "¿A qué grupo de clientes se dirige?",
+        "options": [
+          "ahorradores digitales",
+          "profesionales con patrimonio en crecimiento",
+          "personas cerca de pensionarse"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E4 (Datos sensibles menos evidentes: correo y celular) · 1858 ms
+need: Simulador de aportes para el fondo voluntario, en la app. Mi correo es [correo oculto] y el celular del cliente que lo pidió es [celular oculto].
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres crear un simulador de aportes para el fondo voluntario dentro de la app, pero aún no está claro qué quieres averiguar o lograr con él.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Fondo voluntario",
+        "isAssumption": false
+      },
+      {
+        "label": "Canal",
+        "value": "App",
+        "isAssumption": false
+      },
+      {
+        "label": "Qué se pide",
+        "value": "Un simulador de aportes",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "idea",
+        "question": "¿Qué quieres lograr con el simulador?",
+        "options": [
+          "Que el cliente entienda cuánto le conviene aportar",
+          "Que el cliente se anime a hacer su primer aporte",
+          "Que el cliente vea cómo crece su ahorro en el tiempo",
+          "Otra cosa"
+        ]
+      },
+      {
+        "id": "audience",
+        "question": "¿Para qué grupo de clientes es?",
+        "options": [
+          "ahorradores digitales",
+          "profesionales con patrimonio en crecimiento",
+          "personas cerca de pensionarse"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E5 (Persona B: no sabe qué capacidad usar ni qué es un segmento) · 1798 ms
+need: Necesito explicarle un producto nuevo a clientes que están por pensionarse.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres explicar un producto nuevo a clientes que están por pensionarse, y necesitas saber cómo lo recibirían.",
+    "facts": [
+      {
+        "label": "Para qué",
+        "value": "Explicar un producto nuevo",
+        "isAssumption": false
+      },
+      {
+        "label": "Grupo de clientes",
+        "value": "Clientes que están por pensionarse",
+        "isAssumption": false
+      },
+      {
+        "label": "Producto",
+        "value": "Producto nuevo, sin nombre ni detalles",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "product",
+        "question": "¿Qué producto es y qué hace?",
+        "options": []
+      },
+      {
+        "id": "idea",
+        "question": "¿Qué quieres lograr con la explicación: que entiendan el producto, que lo contraten o que confíen en él?",
+        "options": [
+          "Que lo entiendan",
+          "Que lo contraten",
+          "Que confíen en él"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
+
+=== E6 (Persona C: necesita trazabilidad de cada afirmación) · 1557 ms
+need: Tengo que revisar que el flujo de retiro comunique bien los riesgos antes de que salga. Necesito saber de dónde sale cada cosa que dice.
+ACCEPTED
+{
+  "brief": {
+    "summary": "Quieres revisar que el flujo de retiro explique bien los riesgos antes de salir, y saber de dónde sale cada cosa que dice.",
+    "facts": [
+      {
+        "label": "Producto",
+        "value": "Flujo de retiro",
+        "isAssumption": false
+      },
+      {
+        "label": "Para qué",
+        "value": "Revisar que comunique bien los riesgos antes de salir",
+        "isAssumption": false
+      },
+      {
+        "label": "Necesidad",
+        "value": "Saber de dónde sale cada afirmación que el flujo hace",
+        "isAssumption": false
+      }
+    ],
+    "questions": [
+      {
+        "id": "audience",
+        "question": "¿Para qué grupo de clientes es el flujo de retiro?",
+        "options": [
+          "ahorradores digitales",
+          "profesionales con patrimonio en crecimiento",
+          "personas cerca de pensionarse"
+        ]
+      }
+    ],
+    "steps": []
+  }
+}
