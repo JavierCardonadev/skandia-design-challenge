@@ -1,6 +1,6 @@
 import { SkAlert } from '../../design-system';
 import type { SensitiveScan } from '../../domain/sensitive-data/sensitive-data';
-import { describeFindings } from './format';
+import { describeFindings } from '../shared/format';
 import styles from './BriefView.module.css';
 
 export interface SensitiveDataNoticeProps {

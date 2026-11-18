@@ -3,7 +3,7 @@ import type { PlannedStep } from '../../domain/brief/framing';
 import { requireCapability } from '../../domain/capabilities/catalog';
 import type { Capability, CapabilityCatalog } from '../../domain/capabilities/types';
 import { dependentsOf, resolvePlan } from '../../domain/plan/plan';
-import { formatPlanDuration, formatTypicalDuration } from './format';
+import { formatPlanDuration, formatTypicalDuration } from '../shared/format';
 import styles from './BriefView.module.css';
 
 export interface PlanEditorProps {

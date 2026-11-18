@@ -1,0 +1,108 @@
+.muted {
+  color: var(--sk-color-text-muted);
+}
+
+/* Evidence */
+
+.evidence {
+  display: grid;
+  gap: var(--sk-space-s);
+  padding: var(--sk-space-m);
+  border-radius: var(--bordes-m);
+  background: var(--sk-color-disabled);
+}
+
+.evidenceHeadline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sk-space-xs);
+  margin: 0;
+}
+
+.sources {
+  display: grid;
+  gap: var(--sk-space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.source {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sk-space-xxs) var(--sk-space-xs);
+  align-items: start;
+}
+
+.source > sk-tag {
+  grid-column: 2;
+  justify-self: start;
+}
+
+@media (min-width: 768px) {
+  .source {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .source > sk-tag {
+    grid-column: auto;
+  }
+}
+
+.sourceId {
+  min-width: 48px;
+  font-weight: var(--sk-font-weight-bold);
+}
+
+/* Schema-driven content */
+
+.fields {
+  display: grid;
+  gap: var(--sk-space-s);
+  margin: 0;
+}
+
+.field {
+  display: grid;
+  gap: var(--sk-space-xxs);
+}
+
+.field > dt {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sk-color-text-muted);
+}
+
+.field > dd {
+  margin: 0;
+}
+
+.bullets {
+  margin: 0;
+  padding-left: var(--sk-space-l);
+}
+
+.records {
+  display: grid;
+  gap: var(--sk-space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.records > li {
+  padding: var(--sk-space-s);
+  border: 1px solid var(--sk-color-border);
+  border-radius: var(--bordes-s);
+}
+
+/* Inside a record, label and value share a line to keep lists of records compact. */
+@media (min-width: 768px) {
+  .records .field {
+    grid-template-columns: 160px 1fr;
+    gap: var(--sk-space-s);
+  }
+}
