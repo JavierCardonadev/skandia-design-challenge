@@ -1,0 +1,31 @@
+Real failures of the framing model (claude-haiku-5-5), observed on 18 Nov 2026.
+Raw outputs: prompt-v1-haiku-5-5.txt and prompt-v2-haiku-5-5.txt in this folder.
+
+1. Asked instead of planning (prompt v1)
+   Input:  kit sample E1, the "clear need" case (product, channel and goal are stated).
+   Output: no steps; one question asking for the client group. All six samples got
+           questions and none got a plan. Every answer passed schema validation.
+   Fix:    prompt v2 states when the model may proceed and that the client group is an
+           assumption to record, not a reason to ask. The interface shows assumptions
+           with a "Lo supusimos" tag so the person can correct them.
+
+2. Facts that state missing information (prompt v1)
+   Input:  kit samples E3 and E5.
+   Output: facts such as "Producto: No se indica el producto exacto".
+   Fix:    prompt v2 defines a fact as something known; unknown things are asked.
+
+3. Plan that skips required steps (prompt v2, seen in the script and in the browser)
+   Input:  kit sample E1, then the answer "ahorradores digitales".
+   Output: steps investigacion, prototipado, validacion. Prototipado needs estrategia,
+           which needs contenido; the model left both out.
+   Handling in the interface: the plan is resolved against the catalog before it is
+           shown. The two missing steps are added in order and labelled "Lo agregamos
+           al plan porque un paso siguiente lo necesita." See
+           live-plan-with-added-steps.jpg.
+
+4. Still asking for the client group (prompt v2, intermittent)
+   Input:  kit sample E1 in the browser.
+   Output: one question about the client group, against the prompt's rule.
+   Handling in the interface: the question offers the catalog's groups as one-tap
+           options; after answering, questions already answered are filtered out so
+           the model cannot ask them again.
