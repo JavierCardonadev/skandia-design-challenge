@@ -3,20 +3,29 @@ import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 
 /**
- * Serves /api/frame during local development with the same handler the deployed
- * function uses, so the live model can be exercised with an API key in the environment.
- * Without a key the handler answers "not configured".
+ * Serves /api/* during local development with the same handlers the deployed functions
+ * use, so the live model can be exercised with an API key in the environment.
+ * Without a key the handlers answer "not configured".
  */
-function localFramingApi(): Plugin {
+function localModelApi(): Plugin {
   return {
-    name: 'local-framing-api',
+    name: 'local-model-api',
     configureServer(server) {
-      server.middlewares.use('/api/frame', (request, response) => {
+      server.middlewares.use('/api', (request, response, next) => {
         void (async () => {
-          const { handleNodeFrameRequest } = (await server.ssrLoadModule(
+          const { isTaskName } = (await server.ssrLoadModule(
+            '/src/server/http.ts',
+          )) as typeof import('./src/server/http');
+          const { handleNodeRequest } = (await server.ssrLoadModule(
             '/src/server/node-adapter.ts',
           )) as typeof import('./src/server/node-adapter');
-          await handleNodeFrameRequest(request, response, process.env);
+
+          const task = (request.url ?? '').replace(/^\//, '').split('?')[0] ?? '';
+          if (!isTaskName(task)) {
+            next();
+            return;
+          }
+          await handleNodeRequest(task, request, response, process.env);
         })();
       });
     },
@@ -24,7 +33,7 @@ function localFramingApi(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), localFramingApi()],
+  plugins: [react(), localModelApi()],
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],

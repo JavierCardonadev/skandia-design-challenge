@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { handleFrameRequest, type ServerEnvironment } from './http';
+import { handleTaskRequest, type ServerEnvironment, type TaskName } from './http';
 
-/** Far above any real need plus answers; stops oversized bodies before they are buffered. */
-const MAX_BODY_BYTES = 32 * 1024;
+/** Far above a need plus the outputs of every step; stops oversized bodies early. */
+const MAX_BODY_BYTES = 256 * 1024;
 
 async function readBody(request: IncomingMessage): Promise<string | null> {
   const chunks: Buffer[] = [];
@@ -17,10 +17,11 @@ async function readBody(request: IncomingMessage): Promise<string | null> {
 }
 
 /**
- * Bridges Node's request and response objects to the framing handler. The deployed
- * function and the local dev server both go through here, so they behave the same.
+ * Bridges Node's request and response objects to a model task. The deployed functions
+ * and the local dev server both go through here, so they behave the same.
  */
-export async function handleNodeFrameRequest(
+export async function handleNodeRequest(
+  task: TaskName,
   request: IncomingMessage,
   response: ServerResponse,
   env: ServerEnvironment,
@@ -39,8 +40,9 @@ export async function handleNodeFrameRequest(
     return;
   }
 
-  const answer = await handleFrameRequest(
-    new Request('http://localhost/api/frame', { method: 'POST', body }),
+  const answer = await handleTaskRequest(
+    task,
+    new Request(`http://localhost/api/${task}`, { method: 'POST', body }),
     env,
   );
   response.statusCode = answer.status;
@@ -48,4 +50,12 @@ export async function handleNodeFrameRequest(
     response.setHeader(name, value);
   });
   response.end(await answer.text());
+}
+
+export function handleNodeFrameRequest(
+  request: IncomingMessage,
+  response: ServerResponse,
+  env: ServerEnvironment,
+): Promise<void> {
+  return handleNodeRequest('frame', request, response, env);
 }

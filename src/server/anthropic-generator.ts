@@ -1,18 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
-import type { BriefGenerator, FramingErrorCode } from './frame-need';
+import type { ServerErrorCode, StructuredGenerator } from './generation';
 
 /**
- * A small, fast model is enough to frame a need, and the challenge does not grade the
+ * A small, fast model is enough for these tasks, and the challenge does not grade the
  * model. Override with ANTHROPIC_MODEL to compare models without touching the code.
  */
 export const DEFAULT_MODEL = 'claude-haiku-5-5';
 
-/** Room for the model's reasoning plus a brief of a few hundred tokens. */
-const MAX_OUTPUT_TOKENS = 4000;
-const REQUEST_TIMEOUT_MS = 30_000;
+/** Room for the model's reasoning plus the longest capability output. */
+const MAX_OUTPUT_TOKENS = 8000;
+const REQUEST_TIMEOUT_MS = 60_000;
 
-function errorCode(error: unknown): FramingErrorCode | null {
+function errorCode(error: unknown): ServerErrorCode | null {
   if (error instanceof Anthropic.RateLimitError) return 'rate-limited';
   if (error instanceof Anthropic.AuthenticationError) return 'not-configured';
   if (error instanceof Anthropic.APIConnectionError) return 'unreachable';
@@ -20,8 +20,11 @@ function errorCode(error: unknown): FramingErrorCode | null {
   return null;
 }
 
-/** Frames needs with Claude, using structured outputs so the answer follows the brief schema. */
-export function createAnthropicGenerator(apiKey: string, model = DEFAULT_MODEL): BriefGenerator {
+/** Asks Claude for structured output, so every answer follows the schema of its task. */
+export function createAnthropicGenerator(
+  apiKey: string,
+  model = DEFAULT_MODEL,
+): StructuredGenerator {
   const client = new Anthropic({ apiKey, maxRetries: 1, timeout: REQUEST_TIMEOUT_MS });
 
   return async ({ system, user, schema }) => {
@@ -34,7 +37,7 @@ export function createAnthropicGenerator(apiKey: string, model = DEFAULT_MODEL):
         output_config: { effort: 'low', format: zodOutputFormat(schema) },
       });
 
-      // A response can be valid HTTP and still not be a brief: check why it stopped first.
+      // A response can be valid HTTP and still be unusable: check why it stopped first.
       if (response.stop_reason === 'refusal') return { ok: false, code: 'refused' };
       if (response.stop_reason === 'max_tokens') return { ok: false, code: 'truncated' };
       if (response.parsed_output === null) return { ok: false, code: 'unparseable' };

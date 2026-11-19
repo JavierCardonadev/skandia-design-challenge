@@ -53,11 +53,11 @@ describe('createAnthropicGenerator', () => {
     expect(sdk.construct).toHaveBeenCalledWith({
       apiKey: 'test-key',
       maxRetries: 1,
-      timeout: 30_000,
+      timeout: 60_000,
     });
     expect(sdk.parse).toHaveBeenCalledExactlyOnceWith({
       model: DEFAULT_MODEL,
-      max_tokens: 4000,
+      max_tokens: 8000,
       system: request.system,
       messages: [{ role: 'user', content: request.user }],
       output_config: { effort: 'low', format: { type: 'json_schema', schema } },

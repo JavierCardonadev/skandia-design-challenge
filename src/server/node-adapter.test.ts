@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Readable } from 'node:stream';
 import { describe, expect, it, vi } from 'vitest';
 import { handleNodeFrameRequest } from './node-adapter';
-import frame from './vercel-function';
+import { capability, frame, verdict } from './functions';
 
 function nodeRequest(method: string, body = ''): IncomingMessage {
   return Object.assign(Readable.from(body === '' ? [] : [Buffer.from(body)]), {
@@ -57,18 +57,23 @@ describe('handleNodeFrameRequest', () => {
   it('refuses a body that is too large without reading it all', async () => {
     const { response, asNode } = nodeResponse();
 
-    await handleNodeFrameRequest(nodeRequest('POST', 'a'.repeat(40_000)), asNode, {});
+    await handleNodeFrameRequest(nodeRequest('POST', 'a'.repeat(300_000)), asNode, {});
 
     expect(response.statusCode).toBe(413);
   });
 });
 
-describe('deployed function entry', () => {
-  it('serves the same handler with the process environment', async () => {
+describe('deployed function entries', () => {
+  it.each([
+    ['frame', frame],
+    ['capability', capability],
+    ['verdict', verdict],
+  ])('serves %s through the shared adapter', async (_name, handler) => {
     const { response, asNode } = nodeResponse();
 
-    await frame(nodeRequest('GET'), asNode);
+    await handler(nodeRequest('POST', '{}'), asNode);
 
-    expect(response.statusCode).toBe(405);
+    expect(response.statusCode).toBe(400);
+    expect(response.end).toHaveBeenCalledExactlyOnceWith('{"error":"invalid-request"}');
   });
 });
