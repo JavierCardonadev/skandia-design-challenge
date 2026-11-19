@@ -1,4 +1,5 @@
 import { SkCard, SkTag } from '../../design-system';
+import { RevealText } from '../../design-system/extensions/RevealText';
 import type { FramedBrief } from '../../domain/brief/framing';
 import styles from './BriefView.module.css';
 
@@ -12,7 +13,9 @@ export function UnderstoodPanel({ brief }: UnderstoodPanelProps) {
     <SkCard>
       <div className={styles.stack}>
         <h2>Esto fue lo que entendimos</h2>
-        <p>{brief.summary}</p>
+        <p>
+          <RevealText text={brief.summary} />
+        </p>
         {brief.facts.length > 0 && (
           <dl className={styles.facts}>
             {brief.facts.map((fact) => (

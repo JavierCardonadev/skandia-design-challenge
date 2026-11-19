@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { SkButton, SkCard, SkTag } from '../../design-system';
+import { RevealText } from '../../design-system/extensions/RevealText';
 import { requireCapability } from '../../domain/capabilities/catalog';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { buildDeliverable } from '../../domain/result/deliverable';
@@ -10,6 +11,9 @@ import { EVIDENCE_LEVELS, SOURCE_KINDS, sourceOrigin } from '../shared/evidence-
 import { countSources, describeSourceCounts, verdictCopy } from './result-copy';
 import { useModelVerdict } from './useModelVerdict';
 import styles from './ResultView.module.css';
+
+/** Each reason starts after the previous one, so the recommendation reads in order. */
+const REASON_STAGGER_MS = 900;
 
 const DECISIONS: Record<Decision, { label: string; tone: 'success' | 'warning' | 'error' }> = {
   go: { label: 'Hacerlo', tone: 'success' },
@@ -73,7 +77,9 @@ export function ResultView({
         <p className={styles.context}>Tu encargo: {needSummary}</p>
         {model.status === 'ready' ? (
           <>
-            <h1>{model.verdict.headline}</h1>
+            <h1>
+              <RevealText text={model.verdict.headline} />
+            </h1>
             <p className={styles.signal}>
               <SkTag tone={DECISIONS[model.verdict.decision].tone} size="large">
                 {DECISIONS[model.verdict.decision].label}
@@ -83,9 +89,9 @@ export function ResultView({
               </span>
             </p>
             <ul className={styles.reasons}>
-              {model.verdict.reasons.map((reason) => (
+              {model.verdict.reasons.map((reason, index) => (
                 <li key={reason.text}>
-                  {reason.text}{' '}
+                  <RevealText text={reason.text} delayMs={(index + 1) * REASON_STAGGER_MS} />{' '}
                   <span className={styles.muted}>(Fuentes: {reason.sourceIds.join(', ')})</span>
                 </li>
               ))}

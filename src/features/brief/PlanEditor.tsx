@@ -1,4 +1,5 @@
 import { SkButton, SkCard, SkTag } from '../../design-system';
+import { RevealText } from '../../design-system/extensions/RevealText';
 import type { PlannedStep } from '../../domain/brief/framing';
 import { requireCapability } from '../../domain/capabilities/catalog';
 import type { Capability, CapabilityCatalog } from '../../domain/capabilities/types';
@@ -14,6 +15,9 @@ export interface PlanEditorProps {
   onRemove: (capabilityId: string) => void;
   onAdd: (capabilityId: string) => void;
 }
+
+/** Each step's reason starts a little after the previous one, so they read in order. */
+const REASON_STAGGER_MS = 350;
 
 function names(capabilities: readonly Capability[]): string {
   return capabilities.map((capability) => capability.name).join(', ');
@@ -53,7 +57,11 @@ export function PlanEditor({ catalog, stepIds, proposedSteps, onRemove, onAdd }:
                 <div className={styles.stepBody}>
                   <h3>{capability.name}</h3>
                   <p>{capability.plainDescription}</p>
-                  {reason && <p className={styles.reason}>{reason}</p>}
+                  {reason && (
+                    <p className={styles.reason}>
+                      <RevealText text={reason} delayMs={index * REASON_STAGGER_MS} />
+                    </p>
+                  )}
                   {proposed?.addedByPlatform && (
                     <p className={styles.hint}>
                       Lo agregamos al plan porque un paso siguiente lo necesita.
