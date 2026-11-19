@@ -28,7 +28,7 @@ describe('createRemoteProvider', () => {
     const [endpoint, init] = send.mock.calls[0] ?? [];
     expect(endpoint).toBe('/api/capability');
     expect(init?.signal).toBe(signal);
-    expect(JSON.parse(String(init?.body))).toEqual({
+    expect(JSON.parse(init?.body as string)).toEqual({
       capabilityId: 'contenido',
       need: 'Quiero un simulador',
       upstream: [

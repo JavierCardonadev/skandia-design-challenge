@@ -32,7 +32,7 @@ function sent(generate: ReturnType<typeof generatorAnswering>): GenerationReques
   return request;
 }
 
-async function envelopeOf(response: Awaited<ReturnType<typeof runCapability>>) {
+function envelopeOf(response: Awaited<ReturnType<typeof runCapability>>) {
   expect(response.status).toBe(200);
   return response.body.result as Record<string, unknown>;
 }
@@ -41,7 +41,7 @@ describe('runCapability', () => {
   it('answers with the common envelope, valid against the capability contract', async () => {
     const generate = generatorAnswering({ contenido: contentOutput, advertencias: [] });
 
-    const envelope = await envelopeOf(await runCapability(body(), generate, kitCatalog));
+    const envelope = envelopeOf(await runCapability(body(), generate, kitCatalog));
 
     expect(parseCapabilityResult(content, envelope)).toMatchObject({
       ok: true,
@@ -53,7 +53,7 @@ describe('runCapability', () => {
   it('decides the evidence itself: at most medium, with the approved steps as its only sources', async () => {
     const generate = generatorAnswering({ contenido: contentOutput, advertencias: [] });
 
-    const envelope = await envelopeOf(await runCapability(body(), generate, kitCatalog));
+    const envelope = envelopeOf(await runCapability(body(), generate, kitCatalog));
 
     expect(envelope.evidencia).toEqual({
       nivel: 'media',
@@ -73,7 +73,7 @@ describe('runCapability', () => {
   it('inherits weak evidence and flags sources that rest on nothing real', async () => {
     const generate = generatorAnswering({ contenido: contentOutput, advertencias: [] });
 
-    const envelope = await envelopeOf(
+    const envelope = envelopeOf(
       await runCapability(
         body({ upstream: [upstream('investigacion', 'low', false)] }),
         generate,
@@ -87,9 +87,7 @@ describe('runCapability', () => {
   it('reports low evidence when there is nothing to build on', async () => {
     const generate = generatorAnswering({ contenido: contentOutput, advertencias: [] });
 
-    const envelope = await envelopeOf(
-      await runCapability(body({ upstream: [] }), generate, kitCatalog),
-    );
+    const envelope = envelopeOf(await runCapability(body({ upstream: [] }), generate, kitCatalog));
 
     expect(envelope.evidencia).toMatchObject({
       nivel: 'baja',
@@ -104,7 +102,7 @@ describe('runCapability', () => {
       advertencias: [],
     });
 
-    const envelope = await envelopeOf(
+    const envelope = envelopeOf(
       await runCapability(body({ capabilityId: 'validacion' }), generate, kitCatalog),
     );
 
@@ -124,7 +122,7 @@ describe('runCapability', () => {
       advertencias: ['Las cifras son de ejemplo.'],
     });
 
-    const envelope = await envelopeOf(await runCapability(body(), generate, kitCatalog));
+    const envelope = envelopeOf(await runCapability(body(), generate, kitCatalog));
 
     expect(envelope.advertencias).toEqual([
       'Las cifras son de ejemplo.',

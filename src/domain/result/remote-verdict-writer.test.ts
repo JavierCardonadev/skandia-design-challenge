@@ -20,7 +20,7 @@ describe('createRemoteVerdictWriter', () => {
     const [endpoint, init] = send.mock.calls[0] ?? [];
     expect(endpoint).toBe('/api/verdict');
     expect(init?.signal).toBe(signal);
-    expect(JSON.parse(String(init?.body))).toEqual(input);
+    expect(JSON.parse(init?.body as string)).toEqual(input);
   });
 
   it('throws when the service fails', async () => {
