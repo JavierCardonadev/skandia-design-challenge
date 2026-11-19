@@ -184,7 +184,7 @@ export function ResultView({
         <h2 id="result-sources">De dónde sale cada cosa</h2>
         <p>Todas las fuentes del resultado, con los pasos que se apoyan en cada una.</p>
         <div className={styles.tableWrap}>
-          <table className={styles.sources}>
+          <table className={styles.sources} aria-labelledby="result-sources">
             <thead>
               <tr>
                 <th scope="col">Fuente</th>

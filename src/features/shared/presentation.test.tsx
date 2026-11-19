@@ -77,7 +77,7 @@ describe('EvidencePanel', () => {
   it('names the level in words and labels each source by what backs it', () => {
     render(<EvidencePanel evidence={kitResult('contenido').evidence} />);
 
-    expect(screen.getByRole('region', { name: 'Qué tan confiable es' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Qué tan confiable es' })).toBeInTheDocument();
     expect(screen.getByText('Evidencia parcial')).toBeInTheDocument();
     expect(screen.getByText('Elaborado por IA')).toBeInTheDocument();
     expect(screen.getByText('Fuente real')).toBeInTheDocument();

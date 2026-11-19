@@ -65,6 +65,7 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Tu plan está en marcha' })).toBeVisible();
     expect(screen.getByText('Cuéntanos qué necesitas resolver hoy')).not.toBeVisible();
     expect(currentStage()).toBe('2Ejecución');
+    expect(document.title).toBe('Ejecución · De tu necesidad a un resultado · Skandia');
     expect(screen.getByRole('main')).toHaveFocus();
 
     clickSkButton('Cambiar el plan');

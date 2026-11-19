@@ -7,7 +7,8 @@
 .chip {
   min-height: 40px;
   padding: var(--sk-space-xs) var(--sk-space-m);
-  border: 1px solid var(--sk-color-border);
+  /* The border is the chip's only boundary, so it needs 3:1 against the page. */
+  border: 1px solid var(--sk-color-text-muted);
   border-radius: var(--bordes-xl);
   background: var(--sk-color-surface);
   color: var(--sk-color-text);
@@ -20,13 +21,8 @@
 }
 
 .chip:hover {
-  border-color: var(--sk-color-border-hover);
+  border-color: var(--sk-color-primary-active);
   background: var(--sk-color-tertiary-hover-bg);
-}
-
-.chip:focus-visible {
-  outline: 2px solid var(--sk-color-border-focus);
-  outline-offset: 2px;
 }
 
 /* Selection uses the soft green with dark text: white on the brand green fails contrast at this size. */

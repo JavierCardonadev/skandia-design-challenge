@@ -2,7 +2,7 @@ import styles from './StageNav.module.css';
 
 export type Stage = 'brief' | 'run' | 'result';
 
-const STAGES: readonly { id: Stage; label: string }[] = [
+export const STAGES: readonly { id: Stage; label: string }[] = [
   { id: 'brief', label: 'Encargo' },
   { id: 'run', label: 'Ejecución' },
   { id: 'result', label: 'Resultado' },

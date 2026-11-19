@@ -1,0 +1,66 @@
+ACCESSIBILITY AUDIT · 19 Nov 2026 · target: WCAG 2.2 level AA
+Audited on the public preview, after the model-backed steps, the verdict, the progressive
+text and the history were in place.
+
+METHOD
+1. Automated: axe-core 4.10 (rules wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa and
+   best-practice) on six screens: empty brief, brief with plan, failed step, open review,
+   adjustment form, result.
+2. Manual, in the browser: heading order, landmarks, keyboard order and focus indicator,
+   target sizes, form labels and descriptions, reflow at 320 px and at 375 px, motion.
+Not done: a pass with a screen reader (VoiceOver, NVDA) and testing with users. What is
+listed below as "pass" for assistive tech is read from the markup, not heard.
+
+FINDINGS AND WHAT WAS DONE
+
+A. Contrast of text (1.4.3). Serious. All in design system components.
+   1. Primary button: white on #00c73d, 2.27:1.
+      Fixed: the kit's text colour on that green, 4.6:1. Hover uses the lighter accent,
+      because the darker hover green would drop it to 3.3:1.
+   2. Secondary and tertiary buttons: #00c73d text on white, 2.27:1.
+      Fixed: text in the kit's text colour; the tertiary button is underlined so it still
+      reads as an action without relying on colour.
+   3. Info tag: white on #0099de at 12 px, 3.17:1. Error tag: white on #e03430, 4.4:1.
+      Fixed: the kit's light info and error backgrounds with dark text and a coloured edge.
+   4. Placeholder text: #a5a5a5 on white, 2.4:1.
+      Fixed: the kit's muted text colour, 5.7:1.
+
+B. Contrast of non-text elements (1.4.11).
+   5. Focus ring: 3 px #00c73d on white, 2.27:1, and invisible on a secondary button,
+      whose border is the same green.
+      Fixed: 3 px ring in the text colour with a 2 px offset, on every focusable element.
+   6. Secondary button border: 2.27:1. Fixed: the kit's darker green, 3.7:1.
+   7. Choice chips (our component): #dddddd border, 1.3:1.
+      Fixed: muted text colour, 5.7:1; hover keeps a border above 3:1.
+
+C. Structure.
+   8. Landmarks (best practice): the evidence panel was a region with the same name once
+      per step. Fixed: it is a named group; landmarks are now unique.
+   9. Page title (2.4.2): the title did not change between the three stages.
+      Fixed: the title starts with the stage ("Ejecución · …").
+  10. The sources table had no accessible name. Fixed: named by its heading.
+
+PASSED WITHOUT CHANGES
+- Headings: one h1 per stage, no skipped levels.
+- Language: lang="es".
+- Forms: the text areas and inputs of the kit are labelled and described.
+- Keyboard: every control is a native button, summary or field; order follows the page.
+- Focus: moves to the main region when the stage changes.
+- Target size (2.5.8): no target under 24 by 24 px; chips are 40 px high.
+- Reflow (1.4.10): no horizontal scroll at 320 px; the sources table scrolls on its own.
+- Use of colour (1.4.1): evidence level, source origin, step status and the current stage
+  are written in words, not shown by colour alone.
+- Motion: every animation, including the word-by-word text, stops under
+  prefers-reduced-motion. The revealed text is complete for assistive tech from the start.
+- Status messages (4.1.3): reading the need, the phase of the run, the empty plan and the
+  verdict being written are announced through status regions; failures through alerts.
+
+KNOWN LIMITS
+- The fixes in section A and B override styles of the design system. They are scoped,
+  use only the kit's tokens and are written down as feedback for it, but the right place
+  for them is the design system itself.
+- A step that opens for review is announced by the status line, but focus stays where it
+  was: a keyboard user has to move to the step.
+- Error text of the kit's text area is shown by the component; whether it is tied to the
+  field for assistive tech was not verified.
+- The disabled state of the kit's components was not audited: the interface does not use it.

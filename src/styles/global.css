@@ -42,6 +42,68 @@ body {
   }
 }
 
+/*
+ * Accessibility corrections to the design system (audit of 19 Nov 2026, WCAG 2.2 AA).
+ * The kit asks not to restyle its components; these are the exception, each one for a
+ * measured failure, and all of them use the kit's own tokens. They are feedback for the
+ * design system as much as a fix here.
+ */
+
+/* White on the brand green is 2.3:1. The kit's own text colour on that green is 4.6:1. */
+:root .p-button:not(.p-button-outlined):not(.p-button-text) :is(.p-button-label, .p-button-icon) {
+  color: var(--sk-color-text);
+}
+
+/* The darker hover green would drop that pairing to 3.3:1; the lighter accent keeps it above 4.5:1. */
+:root .p-button:not(.p-button-outlined):not(.p-button-text):is(:hover, :active):not(:disabled) {
+  background: var(--sk-color-accent);
+  border-color: var(--sk-color-accent);
+}
+
+/* Green text on white is 2.3:1 in secondary and tertiary buttons. */
+:root .p-button:is(.p-button-outlined, .p-button-text) :is(.p-button-label, .p-button-icon) {
+  color: var(--sk-color-text);
+}
+
+/* The outline of a secondary button is its boundary: 3.7:1 instead of 2.3:1. */
+:root .p-button.p-button-outlined {
+  border-color: var(--sk-color-primary-active);
+}
+
+/* Without colour, a tertiary button needs another cue that it is an action. */
+:root .p-button.p-button-text .p-button-label {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* White on the info blue is 3.2:1 and on the error red 4.4:1, at 12 px. */
+:root sk-tag.sk-tag--info {
+  background: var(--background-info-light);
+  box-shadow: inset 0 0 0 1px var(--sk-color-info);
+}
+
+:root sk-tag.sk-tag--error {
+  background: var(--background-error-light);
+  box-shadow: inset 0 0 0 1px var(--sk-color-error);
+}
+
+:root sk-tag:is(.sk-tag--info, .sk-tag--error),
+:root sk-tag:is(.sk-tag--info, .sk-tag--error) .sk-tag__text {
+  color: var(--sk-color-text);
+}
+
+/* The green focus ring is 2.3:1 against white; focus must be visible to be useful. */
+:root :is(.p-button, button, summary, a, [tabindex]):focus-visible {
+  outline: 3px solid var(--sk-color-text);
+  outline-offset: 2px;
+}
+
+/* Placeholder text at #a5a5a5 is 2.4:1. */
+:root :is(textarea, input)::placeholder {
+  color: var(--sk-color-text-muted);
+  opacity: 1;
+}
+
 /* A saved or printed result keeps the content and drops the controls around it. */
 @media print {
   nav,

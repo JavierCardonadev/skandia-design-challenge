@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { SkLogo } from '../design-system';
-import { StageNav, type Stage } from './StageNav';
+import { StageNav, STAGES, type Stage } from './StageNav';
 import styles from './AppShell.module.css';
 
 export interface AppShellProps {
@@ -12,6 +12,12 @@ export interface AppShellProps {
 export function AppShell({ stage, children }: AppShellProps) {
   const main = useRef<HTMLElement>(null);
   const previousStage = useRef(stage);
+
+  // The page title names the stage, so tabs, history and screen readers can tell them apart.
+  useEffect(() => {
+    const label = STAGES.find((candidate) => candidate.id === stage)?.label ?? '';
+    document.title = `${label} · De tu necesidad a un resultado · Skandia`;
+  }, [stage]);
 
   // A new stage replaces the whole view: start reading it from the top, with focus on it.
   useEffect(() => {

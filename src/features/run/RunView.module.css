@@ -185,11 +185,6 @@
   font-weight: var(--sk-font-weight-bold);
 }
 
-.delivered > summary:focus-visible {
-  outline: 2px solid var(--sk-color-border-focus);
-  outline-offset: 2px;
-}
-
 .delivered[open] > summary {
   margin-bottom: var(--sk-space-m);
 }

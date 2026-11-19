@@ -15,7 +15,8 @@ export function EvidencePanel({ evidence }: EvidencePanelProps) {
   const level = EVIDENCE_LEVELS[evidence.level];
 
   return (
-    <section className={styles.evidence} aria-label="Qué tan confiable es">
+    // A group, not a landmark: there is one per step, and landmarks must be unique.
+    <div role="group" className={styles.evidence} aria-label="Qué tan confiable es">
       <p className={styles.evidenceHeadline}>
         <SkTag tone={level.tone} size="large">
           {level.label}
@@ -37,6 +38,6 @@ export function EvidencePanel({ evidence }: EvidencePanelProps) {
           );
         })}
       </ul>
-    </section>
+    </div>
   );
 }
