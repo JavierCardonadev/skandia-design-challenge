@@ -29,3 +29,14 @@ Raw outputs: prompt-v1-haiku-5-5.txt and prompt-v2-haiku-5-5.txt in this folder.
    Handling in the interface: the question offers the catalog's groups as one-tap
            options; after answering, questions already answered are filtered out so
            the model cannot ask them again.
+
+5. Warnings written as if in a chat (capabilities on the model, first live run)
+   Input:  kit sample E1 run through content, strategy, prototyping and validation.
+           Raw output: live-run-haiku-5-5.txt in this folder.
+   Output: five or six warnings per step, some in the first person ("simuladas por mí")
+           and one asking the reader a question ("Si prefieres otro, dime cuál").
+   Fix:    the prompt now limits warnings to three, one sentence each, and says they are
+           read in an interface: no first person, no questions.
+   Not a failure, worth noting: the fixed rules allowed "go" for that result and the
+           model chose "validate-first", citing real sources and calling the simulated
+           one a sign. The rules bound the model from above; it may be more cautious.
