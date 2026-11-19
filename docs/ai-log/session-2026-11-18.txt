@@ -1,6 +1,6 @@
 REGISTRO DE LA SESIÓN DE IA · Prueba Design Engineer · Skandia
 Herramienta: Claude Code (aplicación de escritorio), modelo Claude Fable 5.2.
-Sesión única del 18 de noviembre de 2026. Exportada desde la propia herramienta.
+Una sola sesión, del 18 y el 19 de noviembre de 2026. Exportada desde la propia herramienta.
 
 Qué contiene: todos los mensajes de Javier y todas las respuestas visibles de Claude,
 en orden, más una línea por cada acción que Claude ejecutó (comandos, archivos, navegador).
@@ -989,3 +989,168 @@ Lo que falta para entregar no cambió: regenerar el registro de IA al final, mov
 JAVIER  ·  2026-11-18 22:38 UTC
 ==============================================================================
 Sí, regenéralo
+    [herramienta: export_transcript] 
+    [herramienta: Bash] Rebuild the sanitised log from the new export and scan it for private content
+    [herramienta: Bash] Check whether the mid-task message made it into the log
+    [herramienta: Bash] Include the mid-task message and image-only messages in the log and rebuild it
+    [herramienta: Bash] Repair the log builder and rebuild the log
+    [herramienta: Bash] Commit the regenerated log and confirm CI
+
+--- CLAUDE  ·  2026-11-18 22:40 UTC ---
+El registro de IA quedó regenerado con la sesión completa, subido y con la CI en verde. Está en `docs/ai-log/session-2026-11-18.txt`.
+
+- **Qué incluye ahora:** tus 16 mensajes, incluido el que enviaste mientras yo trabajaba ("Hacer las pruebas ahí en el navegador") y el que era solo una captura, todas mis respuestas visibles y 230 líneas de acciones.
+- **Hasta dónde llega:** hasta tu mensaje "Sí, regenéralo". Esta respuesta y lo que hablemos después no están; si seguimos trabajando, hay que regenerarlo una última vez antes de enviar.
+- **Datos privados:** volví a revisar el archivo y no quedan tu correo, el nombre del equipo de Vercel, los nombres de tus equipos ni la llave. Sigue la frase mía que dice que ese equipo de Vercel es un cliente tuyo, con el nombre reemplazado por una etiqueta; decide si la dejas.
+- **Exportaciones originales:** las dos transcripciones completas quedaron en tu carpeta de Descargas (`session-export-1795039730897.zip` y `session-export-1795041497323.zip`). Contienen contexto privado de tu máquina; no las adjuntes al correo de entrega.
+
+Lo que falta para entregar depende de ti:
+
+1. **Leer `DECISIONES.md`** y confirmar o cambiar las decisiones que aparecen como tuyas.
+2. **Compartir el repo** con jdguevara@skandia.com.co y jaleman@skandia.com.co.
+3. **Mover Vercel a tu cuenta personal**, si quieres sacarlo del equipo actual.
+4. **Preparar la demostración del modelo real:** en vivo en la sustentación o un video de máximo 3 minutos.
+5. **Enviar el correo de entrega** a los tres destinatarios, con la URL de preview y el repo, antes de la fecha de tu invitación.
+
+==============================================================================
+JAVIER  ·  2026-11-18 22:41 UTC  ·  (1 imagen(es) adjunta(s), no incluidas)
+==============================================================================
+No me lleva a la tercera pestaña, la de resultado.
+    [herramienta: Bash] Check which build still contains the old interim message
+
+--- CLAUDE  ·  2026-11-18 22:42 UTC ---
+Esa captura es de una versión anterior de la página, no de la que está publicada ahora. Lo delata el aviso verde "Tu resultado está listo · Pasos que aportaron al resultado: 5": era el aviso provisional que existía antes de construir la vista Resultado, y ya no está en el código.
+
+Acabo de comprobarlo contra producción: el archivo que sirve hoy `https://skandia-design-challenge.vercel.app` no contiene ese texto, y hace un rato recorrí ahí mismo el flujo hasta la etapa 3 varias veces.
+
+Lo más probable es una de estas dos cosas:
+
+- **La pestaña quedó abierta desde antes.** La página no se recarga sola cuando hay un despliegue nuevo, así que sigue ejecutando el código que cargó en su momento. Recarga con Cmd+Shift+R y repite el flujo.
+- **Estás en la URL de un despliegue antiguo.** Si abriste el enlace desde el botón "Visit" de un despliegue viejo en Vercel, o una dirección con un código en medio (del tipo `skandia-design-challenge-abc123-….vercel.app`), esa dirección queda congelada en aquella versión. Usa la dirección corta de arriba.
+
+Si después de recargar en la dirección corta sigue sin pasar a Resultado, dime qué dirección exacta aparece en la barra y lo reviso, porque entonces sí sería un fallo real.
+
+Un detalle aparte: la vista previa local que yo tenía en `http://localhost:4179` ya no está activa, así que si la captura viene de ahí, también es una versión vieja.
+
+==============================================================================
+JAVIER  ·  2026-11-19 16:42 UTC
+==============================================================================
+Ahora darme manual y la forma de explicacion del proceso para entenderlo completo.
+    [herramienta: Bash] Gather the current repo structure, history, and scripts for the manual
+    [herramienta: Write] /Users/javiercardona/Documents/skandia-prueba/manual-sustentacion.html
+    [herramienta: SendUserFile] 
+
+--- CLAUDE  ·  2026-11-19 16:44 UTC ---
+El manual está en [manual-sustentacion.html](Documents/skandia-prueba/manual-sustentacion.html), abierto en el panel del navegador. Lo dejé en tu carpeta Documentos y no en el repositorio, porque describe el kit confidencial y es material de estudio tuyo, no parte de la entrega.
+
+Tiene doce secciones. Si tienes poco tiempo, léelo en este orden:
+
+1. **La idea en un minuto (sección 1):** el problema y los tres trabajos que hace la plataforma, con una frase para abrir la sustentación.
+2. **El recorrido por las tres vistas (sección 2):** qué pasa en cada pantalla, paso a paso.
+3. **Los ocho conceptos (sección 5):** catálogo como datos, forma del contenido, sobre común, plan, máquina de estados, proveedor, evidencia y datos sensibles. Cada uno con el porqué de la decisión.
+4. **El modelo real (sección 6):** cómo funciona el encuadre con Claude y las cuatro fallas reales, con la lección que debes poder decir: validar la forma no basta.
+5. **Guion de sustentación (sección 8):** siete minutos repartidos por bloque, y el comando para encender el modelo real en la demo.
+6. **Preguntas probables (sección 9):** once preguntas con su respuesta.
+
+El resto es apoyo: cómo llegar a cada uno de los seis estados, la arquitectura por capas, el orden real en que se construyó, un mapa de "si te preguntan por X, abre este archivo" y un glosario.
+
+Dos cosas del manual que conviene que tengas presentes:
+
+- **La sección 10 lista lo que no está hecho**, incluido que el registro de IA muestra pocas correcciones tuyas. La rúbrica premia que lo digas tú antes de que lo encuentren.
+- **Ensaya el modo real antes de la sustentación.** El modelo no responde igual cada vez, así que la falla que quieres mostrar puede no repetirse en vivo; por eso el guion se apoya en la captura guardada en `docs/llm-observations/`.
+
+Sobre el problema que reportaste antes (no pasaba a la etapa de Resultado): no supe si recargar lo resolvió. Si sigue ocurriendo en `https://skandia-design-challenge.vercel.app`, dime y lo reviso.
+
+==============================================================================
+JAVIER  ·  2026-11-19 17:09 UTC
+==============================================================================
+Revisando hacer lo siguiente: 
+
+. El veredicto salga del modelo, no de reglas aplicadas, que se validen esas reglas con el modelo.
+. HAcer que el texto se un tipo streaming, palabra por palabra.
+. HAcer historial, que si refresco no se pierda la info.
+. Que no solo sea el encuadree el que usa el modelo real.
+. Adicional quiero que hagas una auditofira visual para toda la accesibilidad.
+
+Estos cambios solicitados si irian en el registro de IA como correcciones mias.
+
+--- CLAUDE  ·  2026-11-19 17:10 UTC ---
+Son cinco cambios grandes; los hago en este orden, subiendo cada uno solo cuando la CI esté en verde: modelo real en más capacidades, veredicto redactado por el modelo y validado contra las reglas, texto progresivo, persistencia con historial, y al final la auditoría de accesibilidad sobre la interfaz ya cambiada. Sí: tu mensaje queda en el registro como dirección tuya.
+    [herramienta: Bash] Read the current server code before generalising it
+    [herramienta: Bash] Extract shared server types and generalise the generator
+
+--- CLAUDE  ·  2026-11-19 17:11 UTC ---
+Tipos compartidos del servidor listos. Escribo ahora la ejecución de capacidades con el modelo y el veredicto, en servidor y cliente.
+    [herramienta: Write] src/domain/capabilities/generative.ts
+    [herramienta: Write] src/server/voice-rules.ts
+    [herramienta: Write] src/server/run-capability.ts
+    [herramienta: Write] src/server/write-verdict.ts
+    [herramienta: Write] src/domain/result/verdict.ts
+    [herramienta: Bash] Route three model tasks through one server entry, the build, and the dev server
+    [herramienta: Bash] Add shared posting, the live capability provider, the verdict writer, and pass the need through
+
+--- CLAUDE  ·  2026-11-19 17:14 UTC ---
+Servidor y cliente del modelo listos. Integro el veredicto en la vista Resultado y conecto todo en la app.
+    [herramienta: Bash] Read the current result view and app wiring before editing
+    [herramienta: Bash] Integrate the model verdict in the result view and wire live services in the app
+    [herramienta: Bash] Write tests for the live capability path
+
+--- CLAUDE  ·  2026-11-19 17:15 UTC ---
+Pruebas de las capacidades con modelo escritas; sigo con las del veredicto y la vista, y luego subo para que corra la CI.
+    [herramienta: Bash] Write verdict, writer, services, and result view tests; format
+    [herramienta: Bash] Commit the live capabilities and model verdict in three steps, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:18 UTC ---
+Tres errores de lint en las pruebas nuevas; los corrijo y vuelvo a subir.
+    [herramienta: Bash] Fix lint findings, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:20 UTC ---
+CI en verde. Antes de seguir, pruebo las capacidades y el veredicto con el modelo real para ver cómo responden.
+    [herramienta: Bash] Run the live capabilities and verdict once with the real model and summarise
+    [herramienta: Bash] Read the model's verdict and samples of its capability outputs
+    [herramienta: Bash] Tighten the capability prompt, record the finding, and add progressive text reveal
+    [herramienta: Bash] Commit the prompt fix and the progressive text, and push
+    [herramienta: Bash] Read the view and app code that persistence will touch
+    [herramienta: Bash] Make the brief and the run restorable and observable for persistence
+
+--- CLAUDE  ·  2026-11-19 17:24 UTC ---
+Vistas y ejecución ya se pueden restaurar. Escribo el almacenamiento, el historial y su conexión en la app.
+    [herramienta: Bash] Add the session store with validation and the history list
+    [herramienta: Bash] Read why CI failed on the progressive text commit
+    [herramienta: Bash] Fix the script lint error and rewrite the app with persistence and history
+    [herramienta: Bash] Write tests for the store, history, resume, and restore paths
+    [herramienta: Bash] Add app persistence tests, commit, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:28 UTC ---
+Solo falla una prueba del texto progresivo: mi propia aserción encuentra el texto dos veces (la copia para lectores de pantalla y la parte aún oculta). Corrijo la aserción.
+    [herramienta: Bash] Fix the reveal test assertion, push, and report CI
+    [herramienta: Bash] Fix the event subscription timing at its root, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:32 UTC ---
+CI en verde con 99,7 % de cobertura. Empiezo la auditoría de accesibilidad sobre la URL pública, con la interfaz ya actualizada.
+    [herramienta: browser_batch] 
+    [herramienta: javascript_tool] 
+    [herramienta: javascript_tool] 
+    [herramienta: browser_batch] 
+    [herramienta: javascript_tool] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Apply the accessibility corrections found by the audit
+    [herramienta: Bash] Write the audit report, commit the accessibility fixes, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:37 UTC ---
+CI en verde. Vuelvo a pasar la auditoría sobre el despliegue nuevo y compruebo que recargar no pierde nada.
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Start the live dev server in the background
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: browser_batch] 
+    [herramienta: Bash] Stop the dev server and fix the grounding label and the duplicated reveal text
+    [herramienta: Bash] Make the reveal restart cleanly, commit both fixes, push, and report CI
+
+--- CLAUDE  ·  2026-11-19 17:42 UTC ---
+CI en verde. Actualizo `DECISIONES.md`, el manual y el registro para que reflejen los cinco cambios.
+    [herramienta: Bash] Update DECISIONES.md for the five changes
+    [herramienta: Bash] Trim DECISIONES.md back toward one page and commit it
+    [herramienta: Bash] Update the study manual for the five changes
