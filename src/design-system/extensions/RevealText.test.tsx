@@ -42,7 +42,10 @@ describe('RevealText', () => {
     vi.useFakeTimers();
     const { container } = render(<RevealText text="Quieres un simulador." wordsPerSecond={10} />);
 
-    expect(screen.getByText('Quieres un simulador.')).toBeInTheDocument();
+    // The first span is the copy for screen readers: complete from the start.
+    expect(container.querySelector('span:not([aria-hidden])')).toHaveTextContent(
+      'Quieres un simulador.',
+    );
     expect(visiblePart(container)).toBe('');
 
     act(() => {
