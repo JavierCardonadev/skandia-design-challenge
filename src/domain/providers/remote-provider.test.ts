@@ -10,7 +10,7 @@ function requestFor(overrides: Partial<CapabilityRequest> = {}): CapabilityReque
     capability: content,
     need: 'Quiero un simulador',
     attempt: 1,
-    upstream: [kitResult('investigacion'), kitResult('validacion')],
+    upstream: [kitResult('investigacion'), kitResult('contenido'), kitResult('validacion')],
     adjustmentNote: 'Más corto',
     ...overrides,
   };
@@ -37,6 +37,13 @@ describe('createRemoteProvider', () => {
           level: 'high',
           isGrounded: true,
           content: kitResult('investigacion').content,
+        },
+        {
+          // Made by AI, but from approved research: still grounded.
+          capabilityId: 'contenido',
+          level: 'medium',
+          isGrounded: true,
+          content: kitResult('contenido').content,
         },
         {
           capabilityId: 'validacion',

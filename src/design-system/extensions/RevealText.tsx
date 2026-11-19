@@ -19,7 +19,8 @@ function prefersReducedMotion(): boolean {
 /**
  * Design system extension: shows a text the model wrote word by word, the way it would
  * arrive. The whole text is in the page from the start for screen readers and for
- * layout, so nothing jumps and nothing is read twice; only its visibility is animated.
+ * layout, so nothing jumps and nothing is read twice; only its visibility is animated,
+ * and once it is all shown the text is ordinary text again.
  * People who ask for reduced motion get the text at once.
  */
 export function RevealText({
@@ -30,18 +31,21 @@ export function RevealText({
   // Words keep their trailing space so revealed and pending parts join without gaps.
   const words = useMemo(() => text.match(/\S+\s*/g) ?? [], [text]);
   const [isStatic] = useState(prefersReducedMotion);
-  const [revealed, setRevealed] = useState(0);
+  const [progress, setProgress] = useState({ text, count: 0 });
+
+  // A new text starts from nothing in the same render, so the old count never shows it whole.
+  if (progress.text !== text) setProgress({ text, count: 0 });
+  const revealed = progress.text === text ? progress.count : 0;
 
   useEffect(() => {
     if (isStatic) return;
 
-    setRevealed(0);
     let interval: ReturnType<typeof setInterval> | undefined;
     const start = setTimeout(() => {
       interval = setInterval(() => {
-        setRevealed((count) => {
-          if (count >= words.length) clearInterval(interval);
-          return Math.min(count + 1, words.length);
+        setProgress((current) => {
+          if (current.count >= words.length) clearInterval(interval);
+          return { ...current, count: Math.min(current.count + 1, words.length) };
         });
       }, 1000 / wordsPerSecond);
     }, delayMs);
@@ -52,7 +56,8 @@ export function RevealText({
     };
   }, [isStatic, words, delayMs, wordsPerSecond]);
 
-  if (isStatic) return <>{text}</>;
+  // Once everything is shown the text is plain again: selectable and copied only once.
+  if (isStatic || revealed >= words.length) return <>{text}</>;
 
   return (
     <>

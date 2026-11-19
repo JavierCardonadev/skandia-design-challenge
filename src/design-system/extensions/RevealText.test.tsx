@@ -56,7 +56,8 @@ describe('RevealText', () => {
     act(() => {
       vi.advanceTimersByTime(1000);
     });
-    expect(visiblePart(container)).toBe('Quieres un simulador.');
+    expect(container.querySelector('[aria-hidden]')).toBeNull();
+    expect(container.textContent).toBe('Quieres un simulador.');
     expect(vi.getTimerCount()).toBe(0);
   });
 
