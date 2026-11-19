@@ -7,6 +7,7 @@ import type {
   CompletedResult,
   SimulatedOutcome,
 } from '../domain/capabilities/types';
+import { createRun, runReducer, type Run, type RunEvent } from '../domain/run/run';
 
 export function kitCapability(id: string): Capability {
   return requireCapability(kitCatalog, id);
@@ -71,3 +72,15 @@ export function rawCapability(id: string, overrides: Record<string, unknown> = {
     ...overrides,
   };
 }
+
+/** A run where every step of the plan finished with the given kind of kit response. */
+export function finishedRun(stepIds: string[], outcome: SimulatedOutcome = 'normal'): Run {
+  const events = stepIds.flatMap((id): RunEvent[] => [
+    { type: 'step-started', capabilityId: id },
+    { type: 'step-completed', capabilityId: id, result: kitResult(id, outcome) },
+    { type: 'step-approved', capabilityId: id },
+  ]);
+  return events.reduce(runReducer, createRun(kitCatalog, stepIds));
+}
+
+export const FULL_PLAN = ['investigacion', 'contenido', 'estrategia', 'prototipado', 'validacion'];

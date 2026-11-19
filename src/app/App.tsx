@@ -1,10 +1,6 @@
 import { useMemo, useState } from 'react';
 import { DesignSystemGate } from '../design-system';
 import { kitCatalog } from '../domain/capabilities/kit-catalog';
-import {
-  createSimulatedProvider,
-  DEFAULT_SPEED_FACTOR,
-} from '../domain/providers/simulated-provider';
 import type { Run } from '../domain/run/run';
 import { BriefView, type ConfirmedBrief } from '../features/brief/BriefView';
 import { DemoScenarioPicker } from '../features/demo/DemoScenarioPicker';
@@ -12,12 +8,11 @@ import { buildSimulationScript, type ScenarioId } from '../features/demo/scenari
 import { ResultView } from '../features/result/ResultView';
 import { RunView } from '../features/run/RunView';
 import { AppShell } from './AppShell';
-import { createFramers } from './framers';
+import { createServices } from './services';
 import type { Stage } from './StageNav';
 import styles from './App.module.css';
 
-const isLiveFraming = import.meta.env.VITE_LIVE_FRAMING === 'true';
-const framers = createFramers(kitCatalog, isLiveFraming);
+const services = createServices(kitCatalog, import.meta.env.VITE_LIVE_FRAMING === 'true');
 
 export function App() {
   const [scenario, setScenario] = useState<ScenarioId>('normal');
@@ -28,10 +23,7 @@ export function App() {
   const [briefNumber, setBriefNumber] = useState(0);
 
   const provider = useMemo(
-    () =>
-      createSimulatedProvider({
-        script: buildSimulationScript(scenario, confirmed?.stepIds ?? []),
-      }),
+    () => services.createProvider(buildSimulationScript(scenario, confirmed?.stepIds ?? [])),
     [scenario, confirmed],
   );
 
@@ -56,10 +48,10 @@ export function App() {
       <AppShell stage={stage}>
         {/* The brief stays mounted so going back to change the plan keeps what was written. */}
         <div key={briefNumber} className={styles.stage} hidden={stage !== 'brief'}>
-          <BriefView catalog={kitCatalog} framers={framers} onStart={start} />
+          <BriefView catalog={kitCatalog} framers={services.framers} onStart={start} />
           <DemoScenarioPicker
             scenario={scenario}
-            isLiveFraming={isLiveFraming}
+            isLiveFraming={services.isLive}
             onChange={setScenario}
           />
         </div>
@@ -69,8 +61,9 @@ export function App() {
             key={runNumber}
             catalog={kitCatalog}
             stepIds={confirmed.stepIds}
+            need={confirmed.need}
             provider={provider}
-            speedFactor={DEFAULT_SPEED_FACTOR}
+            speedFactor={services.speedFactor}
             onBack={backToBrief}
             onFinish={setFinishedRun}
           />
@@ -81,6 +74,8 @@ export function App() {
             catalog={kitCatalog}
             run={finishedRun}
             needSummary={confirmed.brief.summary}
+            need={confirmed.need}
+            verdictWriter={services.verdictWriter}
             onChangePlan={backToBrief}
             onRestart={restart}
           />

@@ -1,18 +1,31 @@
+import { useMemo } from 'react';
 import { SkButton, SkCard, SkTag } from '../../design-system';
 import { requireCapability } from '../../domain/capabilities/catalog';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { buildDeliverable } from '../../domain/result/deliverable';
+import type { Decision, VerdictWriter } from '../../domain/result/verdict';
 import type { Run } from '../../domain/run/run';
 import { StepOutput } from '../run/StepOutput';
 import { EVIDENCE_LEVELS, SOURCE_KINDS, sourceOrigin } from '../shared/evidence-labels';
 import { countSources, describeSourceCounts, verdictCopy } from './result-copy';
+import { useModelVerdict } from './useModelVerdict';
 import styles from './ResultView.module.css';
+
+const DECISIONS: Record<Decision, { label: string; tone: 'success' | 'warning' | 'error' }> = {
+  go: { label: 'Hacerlo', tone: 'success' },
+  'validate-first': { label: 'Validarlo primero', tone: 'warning' },
+  'no-go': { label: 'No hacerlo', tone: 'error' },
+};
 
 export interface ResultViewProps {
   catalog: CapabilityCatalog;
   run: Run;
   /** The need as the platform understood it, shown as the context of the result. */
   needSummary: string;
+  /** The full redacted need, given to the model that writes the recommendation. */
+  need?: string;
+  /** Writes the recommendation with a live model. Without it the evidence rules speak. */
+  verdictWriter?: VerdictWriter | null;
   onChangePlan: () => void;
   onRestart: () => void;
   onSave?: () => void;
@@ -26,14 +39,17 @@ export function ResultView({
   catalog,
   run,
   needSummary,
+  need = needSummary,
+  verdictWriter = null,
   onChangePlan,
   onRestart,
   onSave = () => {
     window.print();
   },
 }: ResultViewProps) {
-  const deliverable = buildDeliverable(run);
+  const deliverable = useMemo(() => buildDeliverable(run), [run]);
   const nameOf = (id: string) => requireCapability(catalog, id).name;
+  const model = useModelVerdict({ writer: verdictWriter, deliverable, need, catalog });
 
   if (!deliverable) {
     return (
@@ -55,8 +71,43 @@ export function ResultView({
     <div className={styles.view}>
       <header className={styles.stack}>
         <p className={styles.context}>Tu encargo: {needSummary}</p>
-        <h1>{copy.title}</h1>
-        <p>{copy.lead}</p>
+        {model.status === 'ready' ? (
+          <>
+            <h1>{model.verdict.headline}</h1>
+            <p className={styles.signal}>
+              <SkTag tone={DECISIONS[model.verdict.decision].tone} size="large">
+                {DECISIONS[model.verdict.decision].label}
+              </SkTag>
+              <span className={styles.muted}>
+                Recomendación redactada por IA y comprobada contra la evidencia de los pasos.
+              </span>
+            </p>
+            <ul className={styles.reasons}>
+              {model.verdict.reasons.map((reason) => (
+                <li key={reason.text}>
+                  {reason.text}{' '}
+                  <span className={styles.muted}>(Fuentes: {reason.sourceIds.join(', ')})</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <>
+            <h1>{copy.title}</h1>
+            <p>{copy.lead}</p>
+          </>
+        )}
+        {model.status === 'writing' && (
+          <p role="status" className={styles.muted}>
+            Estamos redactando la recomendación con IA. La evidencia de abajo ya está completa.
+          </p>
+        )}
+        {model.status === 'unavailable' && (
+          <p className={styles.muted}>
+            No pudimos redactar la recomendación con IA esta vez. Lo que ves sale de la evidencia de
+            los pasos.
+          </p>
+        )}
         <p className={styles.signal}>
           <SkTag tone={level.tone} size="large">
             {level.label}
@@ -68,7 +119,7 @@ export function ResultView({
       <SkCard>
         <div className={styles.stack}>
           <h2>Qué puedes hacer ahora</h2>
-          <p>{copy.nextStep}</p>
+          <p>{model.status === 'ready' ? model.verdict.nextStep : copy.nextStep}</p>
           {deliverable.suggestedStepIds.length > 0 && (
             <p>
               Los propios resultados sugieren repetir o sumar:{' '}

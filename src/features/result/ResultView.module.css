@@ -121,3 +121,10 @@
     box-shadow: none;
   }
 }
+
+.reasons {
+  display: grid;
+  gap: var(--sk-space-xs);
+  margin: 0;
+  padding-left: var(--sk-space-l);
+}

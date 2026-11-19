@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { kitCatalog } from '../../domain/capabilities/kit-catalog';
 import type { SimulatedOutcome } from '../../domain/capabilities/types';
+import type { VerdictWriter } from '../../domain/result/verdict';
 import { createRun, runReducer, type Run, type RunEvent } from '../../domain/run/run';
 import { kitResult, timeoutFailure } from '../../test/fixtures';
 import { clickSkButton } from '../../test/sk';
@@ -218,5 +219,116 @@ describe('verdict lead without simulated sources', () => {
     renderResult(runOf(['investigacion'], finish('investigacion')));
 
     expect(screen.getByText('Este resultado se apoya en 4 fuentes reales.')).toBeInTheDocument();
+  });
+});
+
+describe('ResultView: recommendation written by the model', () => {
+  const run = runOf(
+    FULL_PLAN,
+    FULL_PLAN.flatMap((id) => finish(id)),
+  );
+  const verdict = {
+    decision: 'validate-first',
+    headline: 'Hay una necesidad clara, pero falta probar el prototipo con personas.',
+    reasons: [
+      {
+        text: 'La mayoría no sabe cuánto aportar para llegar a una meta.',
+        sourceIds: ['F1', 'F2'],
+      },
+      {
+        text: 'Un cliente simulado leyó el rango como una promesa: es una señal.',
+        sourceIds: ['F5'],
+      },
+    ],
+    nextStep: 'Puedes probar el prototipo con cinco personas antes de pedir el sprint.',
+  };
+
+  function renderWith(writer: VerdictWriter) {
+    render(
+      <ResultView
+        catalog={kitCatalog}
+        run={run}
+        needSummary="Quieres saber si vale la pena un simulador."
+        need="Quiero un simulador de aportes"
+        verdictWriter={writer}
+        onChangePlan={vi.fn()}
+        onRestart={vi.fn()}
+      />,
+    );
+  }
+
+  it("opens with the model's decision, its reasons and the sources behind each one", async () => {
+    const write = vi.fn<VerdictWriter['write']>(() => Promise.resolve(verdict));
+    renderWith({ write });
+
+    expect(screen.getByRole('status')).toHaveTextContent('Estamos redactando la recomendación');
+    expect(
+      await screen.findByRole('heading', { level: 1, name: verdict.headline }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Validarlo primero')).toBeInTheDocument();
+    expect(screen.getByText('(Fuentes: F1, F2)')).toBeInTheDocument();
+    expect(screen.getByText(verdict.nextStep)).toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(write.mock.calls[0]?.[0]).toMatchObject({
+      need: 'Quiero un simulador de aportes',
+      ruleVerdict: 'ready-to-share',
+    });
+  });
+
+  it("keeps the evidence signal from the fixed rules next to the model's words", async () => {
+    renderWith({ write: () => Promise.resolve(verdict) });
+
+    await screen.findByRole('heading', { level: 1, name: verdict.headline });
+
+    expect(
+      screen.getByText('Se apoya en 5 fuentes reales, 1 simulada y 3 elaboradas por IA.'),
+    ).toBeInTheDocument();
+  });
+
+  it('discards a verdict that cites sources the result does not have', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const invented = { ...verdict, reasons: [{ text: 'Lo dice un estudio.', sourceIds: ['F99'] }] };
+    renderWith({ write: () => Promise.resolve(invented) });
+
+    expect(await screen.findByText(/No pudimos redactar la recomendación con IA/)).toBeVisible();
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Tienes respaldo para dar el siguiente paso' }),
+    ).toBeInTheDocument();
+    expect(warn).toHaveBeenCalledWith('Model verdict discarded:', [
+      'reasons.0: cites unknown sources F99',
+    ]);
+    warn.mockRestore();
+  });
+
+  it('falls back to the evidence rules when the model cannot be reached', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    renderWith({ write: () => Promise.reject(new Error('offline')) });
+
+    expect(await screen.findByText(/No pudimos redactar la recomendación con IA/)).toBeVisible();
+    expect(screen.getByText(/Puedes guardarlo y llevarlo a tu equipo/)).toBeInTheDocument();
+    warn.mockRestore();
+  });
+
+  it('stops listening when the view goes away before the model answers', () => {
+    const signals: (AbortSignal | undefined)[] = [];
+    const { unmount } = render(
+      <ResultView
+        catalog={kitCatalog}
+        run={run}
+        needSummary="Un simulador"
+        verdictWriter={{
+          write: (_input, signal) => {
+            signals.push(signal);
+            return new Promise(() => undefined);
+          },
+        }}
+        onChangePlan={vi.fn()}
+        onRestart={vi.fn()}
+      />,
+    );
+
+    unmount();
+
+    expect(signals[0]?.aborted).toBe(true);
   });
 });
