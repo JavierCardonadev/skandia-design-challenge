@@ -18,7 +18,7 @@ export function DemoScenarioPicker({ scenario, isLiveFraming, onChange }: DemoSc
       <p className={styles.title}>Modo demostración</p>
       <p className={styles.description}>
         {isLiveFraming
-          ? 'Un modelo de IA real lee tu necesidad. Los pasos del plan usan respuestas de ejemplo.'
+          ? 'Un modelo de IA real lee tu necesidad, ejecuta los pasos que no dependen de datos reales y redacta la recomendación. Investigación usa respuestas de ejemplo.'
           : 'Esta versión usa respuestas de ejemplo en todos los pasos.'}{' '}
         Elige qué quieres ver cuando el plan se ejecute.
       </p>

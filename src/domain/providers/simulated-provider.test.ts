@@ -11,7 +11,13 @@ import {
 const prototyping = kitCapability('prototipado');
 
 function requestFor(attempt = 1): CapabilityRequest {
-  return { capability: prototyping, attempt, upstream: [], adjustmentNote: null };
+  return {
+    capability: prototyping,
+    need: 'Quiero un simulador',
+    attempt,
+    upstream: [],
+    adjustmentNote: null,
+  };
 }
 
 /** Records the requested delays and resolves at once. */

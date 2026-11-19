@@ -125,6 +125,7 @@ describe('BriefView: a clear need', () => {
     expect(onStart).toHaveBeenCalledExactlyOnceWith({
       brief: expect.objectContaining({ questions: [] }) as unknown,
       stepIds: ['investigacion', 'contenido', 'estrategia', 'prototipado'],
+      need: sample('E1'),
     });
   });
 });

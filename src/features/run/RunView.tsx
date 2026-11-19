@@ -11,6 +11,7 @@ import styles from './RunView.module.css';
 export interface RunViewProps {
   catalog: CapabilityCatalog;
   stepIds: readonly string[];
+  need: string;
   provider: CapabilityProvider;
   speedFactor: number;
   /** Leaves the run to change the plan. Progress is not kept. */
@@ -43,6 +44,7 @@ function phaseMessage(phase: RunPhase, run: Run): string {
 export function RunView({
   catalog,
   stepIds,
+  need,
   provider,
   speedFactor,
   onBack,
@@ -51,6 +53,7 @@ export function RunView({
   const { run, phase, approve, requestRevision, retry, skip } = useRunExecution({
     catalog,
     stepIds,
+    need,
     provider,
     speedFactor,
   });

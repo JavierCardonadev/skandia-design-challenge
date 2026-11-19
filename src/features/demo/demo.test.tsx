@@ -59,6 +59,8 @@ describe('DemoScenarioPicker', () => {
     expect(screen.getByText(/usa respuestas de ejemplo en todos los pasos/)).toBeInTheDocument();
 
     rerender(<DemoScenarioPicker scenario="normal" isLiveFraming onChange={vi.fn()} />);
-    expect(screen.getByText(/Un modelo de IA real lee tu necesidad/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Un modelo de IA real lee tu necesidad, ejecuta los pasos/),
+    ).toBeInTheDocument();
   });
 });

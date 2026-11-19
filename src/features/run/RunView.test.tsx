@@ -39,6 +39,7 @@ function renderRun(options: RenderOptions = {}) {
     <RunView
       catalog={kitCatalog}
       stepIds={stepIds}
+      need="Quiero un simulador de aportes"
       provider={provider}
       speedFactor={speedFactor}
       onBack={onBack}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SkAlert, SkButton, SkCard, SkTextarea } from '../../design-system';
 import type { FramedBrief, Framers } from '../../domain/brief/framing';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
+import type { SensitiveScan } from '../../domain/sensitive-data/sensitive-data';
 import { PlanEditor } from './PlanEditor';
 import { QuestionList } from './QuestionList';
 import { SampleBriefs } from './SampleBriefs';
@@ -13,12 +14,19 @@ import styles from './BriefView.module.css';
 export interface ConfirmedBrief {
   brief: FramedBrief;
   stepIds: string[];
+  /** The redacted need plus the person's answers: the context every later step works from. */
+  need: string;
 }
 
 export interface BriefViewProps {
   catalog: CapabilityCatalog;
   framers: Framers;
   onStart: (confirmed: ConfirmedBrief) => void;
+}
+
+function describeNeed(scan: SensitiveScan | null, answers: Record<string, string>): string {
+  const given = Object.values(answers).filter((answer) => answer.trim() !== '');
+  return [scan?.redactedText ?? '', ...given].join('\n').trim();
 }
 
 /**
@@ -32,7 +40,7 @@ export function BriefView({ catalog, framers, onStart }: BriefViewProps) {
     framers,
     catalog,
   );
-  const { status, scan, brief, stepIds, usedFallback } = session;
+  const { status, scan, brief, stepIds, usedFallback, answers } = session;
   const isFraming = status === 'framing';
 
   const changeText = (value: string) => {
@@ -129,7 +137,7 @@ export function BriefView({ catalog, framers, onStart }: BriefViewProps) {
                   icon="pi pi-arrow-right"
                   iconPosition="right"
                   onClick={() => {
-                    onStart({ brief, stepIds });
+                    onStart({ brief, stepIds, need: describeNeed(scan, answers) });
                   }}
                 />
               )}

@@ -9,6 +9,8 @@ import type {
 
 export interface CapabilityRequest {
   capability: Capability;
+  /** The need as the person wrote it, already redacted, with their answers. */
+  need: string;
   /** 1 for the first run of the step; grows with every retry, redo or adjustment. */
   attempt: number;
   /** Approved outputs of earlier steps: the context handed from one capability to the next. */

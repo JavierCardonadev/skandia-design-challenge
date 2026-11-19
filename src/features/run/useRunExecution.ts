@@ -25,6 +25,8 @@ export interface RunExecution {
 export interface RunExecutionOptions {
   catalog: CapabilityCatalog;
   stepIds: readonly string[];
+  /** The redacted need, handed to every capability as context. */
+  need: string;
   provider: CapabilityProvider;
   /** Same factor the provider uses, so "longer than expected" matches its pace. */
   speedFactor: number;
@@ -37,7 +39,7 @@ const MS_PER_SECOND = 1000;
  * outputs to the next capability and reports delays. All decisions stay in the reducer.
  */
 export function useRunExecution(options: RunExecutionOptions): RunExecution {
-  const { catalog, stepIds, provider, speedFactor } = options;
+  const { catalog, stepIds, need, provider, speedFactor } = options;
   const [run, dispatch] = useReducer(runReducer, undefined, () => createRun(catalog, stepIds));
 
   // Effects read the latest run without re-running every time it changes.
@@ -70,6 +72,7 @@ export function useRunExecution(options: RunExecutionOptions): RunExecution {
 
     void executeCapability(provider, {
       capability,
+      need,
       attempt,
       upstream: completedResults(current),
       adjustmentNote:
@@ -89,7 +92,7 @@ export function useRunExecution(options: RunExecutionOptions): RunExecution {
       controller.abort();
       clearTimeout(delayTimer);
     };
-  }, [runningId, attempt, catalog, provider, speedFactor]);
+  }, [runningId, attempt, catalog, need, provider, speedFactor]);
 
   return {
     run,

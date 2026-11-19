@@ -5,6 +5,7 @@ import { executeCapability, type CapabilityProvider, type CapabilityRequest } fr
 const research = kitCapability('investigacion');
 const request: CapabilityRequest = {
   capability: research,
+  need: 'Quiero un simulador',
   attempt: 1,
   upstream: [],
   adjustmentNote: null,
