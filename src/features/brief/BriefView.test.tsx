@@ -5,6 +5,7 @@ import type { BriefFramer, FramingRequest } from '../../domain/brief/framing';
 import { createLocalFramer } from '../../domain/brief/local-framer';
 import { kitCatalog } from '../../domain/capabilities/kit-catalog';
 import { clickSkButton, skElement, skElements, typeIntoSk } from '../../test/sk';
+import type { BriefSnapshot } from './brief-session';
 import { BriefView } from './BriefView';
 
 const NEED_LABEL = 'Tu necesidad';
@@ -363,5 +364,63 @@ describe('BriefView: when the live model cannot be used', () => {
       screen.getAllByText('Lo agregamos al plan porque un paso siguiente lo necesita.'),
     ).toHaveLength(1);
     expect(screen.getByText('Define qué tan riesgoso es.')).toBeInTheDocument();
+  });
+});
+
+describe('BriefView: continuing after a reload', () => {
+  it('reports what is worth keeping, with the redacted text only', async () => {
+    const onChange = vi.fn<(snapshot: BriefSnapshot) => void>();
+    render(
+      <BriefView
+        catalog={kitCatalog}
+        framers={{ primary: localFramer }}
+        onChange={onChange}
+        onStart={vi.fn()}
+      />,
+    );
+
+    await submitNeed(sample('E4'));
+
+    const kept = onChange.mock.calls.at(-1)?.[0];
+    expect(kept?.brief?.summary).toMatch(/Quieres saber si vale la pena/);
+    expect(kept?.stepIds).toHaveLength(5);
+    expect(kept?.text).toContain('[correo oculto]');
+    expect(JSON.stringify(onChange.mock.calls)).not.toContain('po.inversion@ejemplo.com');
+  });
+
+  it('shows a kept brief again, ready to start, without asking the framer', () => {
+    const { framer, requests } = recordingFramer();
+    const onStart = vi.fn();
+    render(
+      <BriefView
+        catalog={kitCatalog}
+        framers={{ primary: framer }}
+        initial={{
+          text: 'Quiero un simulador para el fondo voluntario',
+          answers: {},
+          brief: {
+            summary: 'Quieres saber si vale la pena un simulador.',
+            facts: [],
+            questions: [],
+            steps: [{ capabilityId: 'validacion', reason: '', addedByPlatform: false }],
+          },
+          stepIds: ['validacion'],
+          usedFallback: false,
+        }}
+        onStart={onStart}
+      />,
+    );
+
+    expect(skElement('sk-textarea')).toHaveAttribute(
+      'value',
+      'Quiero un simulador para el fondo voluntario',
+    );
+    expect(planStepNames()).toEqual(['Validación sintética']);
+    expect(requests).toHaveLength(0);
+
+    clickSkButton('Empezar con este plan');
+    expect(onStart).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ stepIds: ['validacion'] }),
+    );
   });
 });

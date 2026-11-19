@@ -55,6 +55,19 @@ export function createRun(catalog: CapabilityCatalog, stepIds: readonly string[]
   };
 }
 
+/**
+ * Prepares a run that was interrupted (the page was reloaded) to continue: a step that
+ * was running lost its answer, so it goes back to waiting and runs again. Everything
+ * the person already approved or decided is kept.
+ */
+export function resumeRun(run: Run): Run {
+  return {
+    steps: run.steps.map((step): StepRun =>
+      step.status === 'running' ? { ...step, status: 'pending', isDelayed: false } : step,
+    ),
+  };
+}
+
 /** Applies `change` to one step, but only if it is in the status the event expects. */
 function transition(
   run: Run,

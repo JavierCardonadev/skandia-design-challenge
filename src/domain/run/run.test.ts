@@ -6,6 +6,7 @@ import {
   createRun,
   getRunPhase,
   nextStepToRun,
+  resumeRun,
   runReducer,
   type Run,
   type RunEvent,
@@ -216,5 +217,31 @@ describe('events that do not apply', () => {
     { type: 'step-skipped', capabilityId: 'investigacion' },
   ])('ignores $type on a step that is not in the expected status', (event) => {
     expect(runReducer(run, event)).toBe(run);
+  });
+});
+
+describe('resumeRun', () => {
+  it('sends a step that was running back to wait, and keeps every decision made', () => {
+    const interrupted = play(createRun(kitCatalog, PLAN), [
+      ...finish('investigacion'),
+      { type: 'step-started', capabilityId: 'contenido' },
+      { type: 'step-delayed', capabilityId: 'contenido' },
+    ]);
+
+    const resumed = resumeRun(interrupted);
+
+    expect(statuses(resumed)).toEqual(['done', 'pending', 'pending', 'pending', 'pending']);
+    expect(step(resumed, 'contenido')).toMatchObject({ isDelayed: false, attempt: 1 });
+    expect(step(resumed, 'investigacion').result).not.toBeNull();
+    expect(nextStepToRun(resumed)?.capabilityId).toBe('contenido');
+  });
+
+  it('leaves a run waiting for a review exactly as it was', () => {
+    const waiting = play(createRun(kitCatalog, PLAN), [
+      { type: 'step-started', capabilityId: 'investigacion' },
+      { type: 'step-completed', capabilityId: 'investigacion', result: kitResult('investigacion') },
+    ]);
+
+    expect(resumeRun(waiting)).toEqual(waiting);
   });
 });

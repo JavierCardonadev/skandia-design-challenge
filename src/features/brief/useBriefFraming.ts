@@ -3,7 +3,12 @@ import { frameBriefWithFallback, type Framers } from '../../domain/brief/framing
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import { removeStep, resolvePlan } from '../../domain/plan/plan';
 import { scanSensitiveData, type SensitiveScan } from '../../domain/sensitive-data/sensitive-data';
-import { briefSessionReducer, initialBriefSession, type BriefSession } from './brief-session';
+import {
+  briefSessionReducer,
+  restoreBriefSession,
+  type BriefSession,
+  type BriefSnapshot,
+} from './brief-session';
 
 export interface BriefFraming {
   session: BriefSession;
@@ -21,8 +26,12 @@ export interface BriefFraming {
  * Owns the brief view's session: scans what the person writes, sends only the
  * redacted version to the framers and keeps the editable plan.
  */
-export function useBriefFraming(framers: Framers, catalog: CapabilityCatalog): BriefFraming {
-  const [session, dispatch] = useReducer(briefSessionReducer, initialBriefSession);
+export function useBriefFraming(
+  framers: Framers,
+  catalog: CapabilityCatalog,
+  initial?: BriefSnapshot | null,
+): BriefFraming {
+  const [session, dispatch] = useReducer(briefSessionReducer, initial, restoreBriefSession);
   const inFlight = useRef<AbortController | null>(null);
 
   const abortInFlight = useCallback(() => {

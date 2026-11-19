@@ -1,13 +1,13 @@
 import { act, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { kitCatalog } from '../../domain/capabilities/kit-catalog';
-import { completedResults, type Run } from '../../domain/run/run';
+import { completedResults, createRun, runReducer, type Run } from '../../domain/run/run';
 import type { CapabilityProvider, CapabilityRequest } from '../../domain/providers/provider';
 import {
   createSimulatedProvider,
   type SimulationScript,
 } from '../../domain/providers/simulated-provider';
-import { kitCapability } from '../../test/fixtures';
+import { kitCapability, kitResult } from '../../test/fixtures';
 import { clickSkButton, skElement, skElements, typeIntoSk } from '../../test/sk';
 import { buildSimulationScript } from '../demo/scenarios';
 import { RunView } from './RunView';
@@ -294,5 +294,67 @@ describe('RunView: failures and delays', () => {
     await answer(research.simulatedResponses.normal);
     expect(screen.getByText(AWAITING_REVIEW)).toBeInTheDocument();
     expect(screen.queryByText(/Está tardando más de lo habitual/)).not.toBeInTheDocument();
+  });
+});
+
+describe('RunView: continuing after a reload', () => {
+  it('reports every change of the run so it can be kept', async () => {
+    const onRunChange = vi.fn<(run: Run) => void>();
+    render(
+      <RunView
+        catalog={kitCatalog}
+        stepIds={['validacion']}
+        need="Quiero un simulador"
+        provider={createSimulatedProvider({ wait: () => Promise.resolve() })}
+        speedFactor={1}
+        onRunChange={onRunChange}
+        onBack={vi.fn()}
+        onFinish={vi.fn()}
+      />,
+    );
+
+    await screen.findByRole('heading', { name: 'Tu plan terminó' });
+
+    const reported = onRunChange.mock.calls.map(([run]) => run.steps[0]?.status);
+    expect(reported[0]).toBe('pending');
+    expect(reported.at(-1)).toBe('done');
+  });
+
+  it('picks up a kept run where it was: approved steps stay, the interrupted one runs again', async () => {
+    const interrupted: Run = [
+      { type: 'step-started', capabilityId: 'investigacion' } as const,
+      {
+        type: 'step-completed',
+        capabilityId: 'investigacion',
+        result: kitResult('investigacion'),
+      } as const,
+      { type: 'step-approved', capabilityId: 'investigacion' } as const,
+      { type: 'step-started', capabilityId: 'contenido' } as const,
+    ].reduce(runReducer, createRun(kitCatalog, ['investigacion', 'contenido']));
+    const requests: string[] = [];
+    const simulated = createSimulatedProvider({ wait: () => Promise.resolve() });
+
+    render(
+      <RunView
+        catalog={kitCatalog}
+        stepIds={['investigacion', 'contenido']}
+        need="Quiero un simulador"
+        provider={{
+          run: (request) => {
+            requests.push(request.capability.id);
+            return simulated.run(request);
+          },
+        }}
+        speedFactor={1}
+        initialRun={interrupted}
+        onBack={vi.fn()}
+        onFinish={vi.fn()}
+      />,
+    );
+
+    await screen.findByText(AWAITING_REVIEW);
+
+    expect(requests).toEqual(['contenido']);
+    expect(statusLines()).toEqual(['done', 'awaiting-review']);
   });
 });

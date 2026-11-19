@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SkAlert, SkButton, SkCard, SkTextarea } from '../../design-system';
 import type { FramedBrief, Framers } from '../../domain/brief/framing';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
 import type { SensitiveScan } from '../../domain/sensitive-data/sensitive-data';
+import { toBriefSnapshot, type BriefSnapshot } from './brief-session';
 import { PlanEditor } from './PlanEditor';
 import { QuestionList } from './QuestionList';
 import { SampleBriefs } from './SampleBriefs';
@@ -21,6 +22,10 @@ export interface ConfirmedBrief {
 export interface BriefViewProps {
   catalog: CapabilityCatalog;
   framers: Framers;
+  /** A brief kept from before a reload. */
+  initial?: BriefSnapshot | null;
+  /** Reports every change worth keeping between page loads. */
+  onChange?: (snapshot: BriefSnapshot) => void;
   onStart: (confirmed: ConfirmedBrief) => void;
 }
 
@@ -33,15 +38,20 @@ function describeNeed(scan: SensitiveScan | null, answers: Record<string, string
  * First view: the person writes a need once, sees what the platform understood,
  * answers only what is missing and edits the proposed plan before anything runs.
  */
-export function BriefView({ catalog, framers, onStart }: BriefViewProps) {
-  const [text, setText] = useState('');
+export function BriefView({ catalog, framers, initial, onChange, onStart }: BriefViewProps) {
+  const [text, setText] = useState(initial?.text ?? '');
   const [showEmptyError, setShowEmptyError] = useState(false);
   const { session, submit, answer, retry, removeFromPlan, addToPlan } = useBriefFraming(
     framers,
     catalog,
+    initial,
   );
   const { status, scan, brief, stepIds, usedFallback, answers } = session;
   const isFraming = status === 'framing';
+
+  useEffect(() => {
+    onChange?.(toBriefSnapshot(session));
+  }, [session, onChange]);
 
   const changeText = (value: string) => {
     setText(value);

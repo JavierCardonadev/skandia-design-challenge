@@ -7,6 +7,7 @@ import {
   createRun,
   getRunPhase,
   nextStepToRun,
+  resumeRun,
   runReducer,
   type Run,
   type RunPhase,
@@ -28,6 +29,8 @@ export interface RunExecutionOptions {
   /** The redacted need, handed to every capability as context. */
   need: string;
   provider: CapabilityProvider;
+  /** A run kept from before a reload. Without it the plan starts from the beginning. */
+  initialRun?: Run | null;
   /** Same factor the provider uses, so "longer than expected" matches its pace. */
   speedFactor: number;
 }
@@ -39,8 +42,10 @@ const MS_PER_SECOND = 1000;
  * outputs to the next capability and reports delays. All decisions stay in the reducer.
  */
 export function useRunExecution(options: RunExecutionOptions): RunExecution {
-  const { catalog, stepIds, need, provider, speedFactor } = options;
-  const [run, dispatch] = useReducer(runReducer, undefined, () => createRun(catalog, stepIds));
+  const { catalog, stepIds, need, provider, speedFactor, initialRun } = options;
+  const [run, dispatch] = useReducer(runReducer, undefined, () =>
+    initialRun ? resumeRun(initialRun) : createRun(catalog, stepIds),
+  );
 
   // Effects read the latest run without re-running every time it changes.
   const latestRun = useRef(run);

@@ -31,6 +31,39 @@ export const initialBriefSession: BriefSession = {
   usedFallback: false,
 };
 
+/** What is kept of a brief between page loads. The text is the redacted one, never the original. */
+export interface BriefSnapshot {
+  text: string;
+  answers: Record<string, string>;
+  brief: FramedBrief | null;
+  stepIds: string[];
+  usedFallback: boolean;
+}
+
+export function toBriefSnapshot(session: BriefSession): BriefSnapshot {
+  return {
+    text: session.scan?.redactedText ?? '',
+    answers: session.answers,
+    // A brief still being read, or one that failed, is not worth restoring.
+    brief: session.status === 'framed' ? session.brief : null,
+    stepIds: session.status === 'framed' ? session.stepIds : [],
+    usedFallback: session.usedFallback,
+  };
+}
+
+/** Rebuilds the session from what was kept. The text was already redacted when it was saved. */
+export function restoreBriefSession(snapshot: BriefSnapshot | null | undefined): BriefSession {
+  if (!snapshot?.brief) return initialBriefSession;
+  return {
+    status: 'framed',
+    scan: { findings: [], redactedText: snapshot.text },
+    answers: snapshot.answers,
+    brief: snapshot.brief,
+    stepIds: snapshot.stepIds,
+    usedFallback: snapshot.usedFallback,
+  };
+}
+
 export function briefSessionReducer(session: BriefSession, event: BriefEvent): BriefSession {
   switch (event.type) {
     case 'framing-started':

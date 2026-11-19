@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { SkButton } from '../../design-system';
 import { requireCapability } from '../../domain/capabilities/catalog';
 import type { CapabilityCatalog } from '../../domain/capabilities/types';
@@ -14,6 +15,10 @@ export interface RunViewProps {
   need: string;
   provider: CapabilityProvider;
   speedFactor: number;
+  /** A run kept from before a reload, to continue where the person left it. */
+  initialRun?: Run | null;
+  /** Reports every change of the run, so it can be kept between page loads. */
+  onRunChange?: (run: Run) => void;
   /** Leaves the run to change the plan. Progress is not kept. */
   onBack: () => void;
   onFinish: (run: Run) => void;
@@ -47,6 +52,8 @@ export function RunView({
   need,
   provider,
   speedFactor,
+  initialRun,
+  onRunChange,
   onBack,
   onFinish,
 }: RunViewProps) {
@@ -56,8 +63,13 @@ export function RunView({
     need,
     provider,
     speedFactor,
+    initialRun,
   });
   const isFinished = phase === 'finished';
+
+  useEffect(() => {
+    onRunChange?.(run);
+  }, [run, onRunChange]);
 
   return (
     <div className={styles.view}>

@@ -23,7 +23,7 @@ const plan = ['investigacion', 'contenido', 'estrategia', 'prototipado', 'valida
 
 /** Calls the server handlers in process, as the deployed functions would. */
 const inProcess: typeof fetch = (input, init) => {
-  const task = String(input).replace('/api/', '');
+  const task = typeof input === 'string' ? input.replace('/api/', '') : '';
   if (!isTaskName(task)) throw new Error(`Unknown task ${task}`);
   return handleTaskRequest(
     task,
